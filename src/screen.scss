@@ -11,8 +11,7 @@
 @import "partials/page";
 @import "partials/form";
 html {
-  background-color: #efefef;
-  background-image: -webkit-gradient(radial, 50% 50%, 800, 50% 50%, 600, from(#cfcfcf), to(white));
+  background-color: #fcfcfc;
   height: 100%;
 }
 body {
@@ -39,10 +38,7 @@ h2 {
 }
 #logo {
   margin-bottom: 24px;
-  text-align: center;
 }
-#contact {
-  ul {
-    list-style: none;
-  }
+ul {
+  margin-top: 24px;
 }
