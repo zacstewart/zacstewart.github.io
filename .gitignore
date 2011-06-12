@@ -1,2 +1,3 @@
+config/deploy.rb
 .sass-cache
 _site

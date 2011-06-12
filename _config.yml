@@ -1,2 +1,2 @@
-exclude:    [sass, coffeescripts]
+exclude:    [sass, coffeescripts, Capfile, config, config.rb, Guardfile]
 pygments:   true
