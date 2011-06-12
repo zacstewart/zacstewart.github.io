@@ -497,6 +497,7 @@ a:active {
   float: left;
   margin-right: 10px;
   width: 362px;
+  height: 96px;
   margin-left: -10px;
   padding-right: 10px;
 }
@@ -504,11 +505,16 @@ a:active {
 * html #container #header {
   overflow-x: hidden;
 }
-/* line 47, ../sass/screen.scss */
+/* line 48, ../sass/screen.scss */
 #container #header h1 {
   color: #7587a6;
+  font-size: 48px;
+  font-weight: normal;
+  line-height: 96px;
+  margin: 0;
+  padding: 0;
 }
-/* line 51, ../sass/screen.scss */
+/* line 57, ../sass/screen.scss */
 #container nav {
   display: inline;
   float: left;
@@ -521,37 +527,40 @@ a:active {
 * html #container nav {
   overflow-x: hidden;
 }
-/* line 55, ../sass/screen.scss */
+/* line 61, ../sass/screen.scss */
 #container nav ul {
   float: right;
+  margin: 0;
   line-height: 2em;
+  padding: 0;
 }
-/* line 58, ../sass/screen.scss */
+/* line 66, ../sass/screen.scss */
 #container nav ul li {
   display: block;
   float: left;
   font-family: Helvetica, Arial, sans-serif;
+  line-height: 96px;
   padding-left: 10px;
 }
-/* line 63, ../sass/screen.scss */
+/* line 72, ../sass/screen.scss */
 #container nav ul li:first-child:before {
   content: "{";
   margin-right: 10px;
 }
-/* line 67, ../sass/screen.scss */
+/* line 76, ../sass/screen.scss */
 #container nav ul li:after {
   content: ",";
 }
-/* line 70, ../sass/screen.scss */
+/* line 79, ../sass/screen.scss */
 #container nav ul li:last-child:after {
   content: "}";
   margin-left: 10px;
 }
-/* line 78, ../sass/screen.scss */
+/* line 87, ../sass/screen.scss */
 #container nav ul li a:link, #container nav ul li a:visited, #container nav ul li a:hover, #container nav ul li a:active {
   color: #8f9d6a;
 }
-/* line 85, ../sass/screen.scss */
+/* line 94, ../sass/screen.scss */
 #container #content {
   display: inline;
   float: left;
@@ -562,35 +571,35 @@ a:active {
 * html #container #content {
   overflow-x: hidden;
 }
-/* line 87, ../sass/screen.scss */
+/* line 96, ../sass/screen.scss */
 #container #content article {
   margin-bottom: 48px;
 }
-/* line 90, ../sass/screen.scss */
+/* line 99, ../sass/screen.scss */
 #container #content article header h2 {
   color: #9B703F;
 }
-/* line 93, ../sass/screen.scss */
+/* line 102, ../sass/screen.scss */
 #container #content article header time {
   color: #5F5A60;
   font-style: italic;
 }
-/* line 100, ../sass/screen.scss */
+/* line 109, ../sass/screen.scss */
 #container #content pre code:before {
   color: #5f5a60;
   float: right;
   font-family: Helvetica, Arial, sans-serif;
   font-size: 12px;
 }
-/* line 106, ../sass/screen.scss */
+/* line 115, ../sass/screen.scss */
 #container #content pre code.python:before {
   content: "Python";
 }
-/* line 109, ../sass/screen.scss */
+/* line 118, ../sass/screen.scss */
 #container #content pre code.ruby:before {
   content: "Ruby";
 }
-/* line 114, ../sass/screen.scss */
+/* line 123, ../sass/screen.scss */
 #container aside {
   display: inline;
   float: left;
@@ -601,12 +610,17 @@ a:active {
 * html #container aside {
   overflow-x: hidden;
 }
-/* line 116, ../sass/screen.scss */
+/* line 125, ../sass/screen.scss */
 #container aside ol {
   list-style: none;
   padding-left: 0;
 }
-/* line 123, ../sass/screen.scss */
+/* line 129, ../sass/screen.scss */
+#container aside ol li:before {
+  content: "=>";
+  margin-right: 5px;
+}
+/* line 136, ../sass/screen.scss */
 #container #footer {
   overflow: hidden;
   *zoom: 1;
