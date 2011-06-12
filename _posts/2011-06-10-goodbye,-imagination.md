@@ -1,1 +1,1 @@
-![Aloe polyphylla](/images/aloe-polyphylla.jpg)
+![Aloe polyphylla]({{ site.url }}/images/aloe-polyphylla.jpg)
