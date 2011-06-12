@@ -135,6 +135,10 @@ a {
   }
   #footer {
     @include clearfix;
+    border-top: solid 1px #5f5a60;
     clear: both;
+    font-family: Helvetica, Arial, sans-serif;
+    height: 48px;
+    line-height: 48px;
   }
 }

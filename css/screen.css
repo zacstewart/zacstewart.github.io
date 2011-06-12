@@ -624,5 +624,9 @@ a:active {
 #container #footer {
   overflow: hidden;
   *zoom: 1;
+  border-top: solid 1px #5f5a60;
   clear: both;
+  font-family: Helvetica, Arial, sans-serif;
+  height: 48px;
+  line-height: 48px;
 }
