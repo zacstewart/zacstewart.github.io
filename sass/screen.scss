@@ -1,0 +1,127 @@
+$blueprint-grid-columns:  12;
+$blueprint-grid-width:    52px;
+$blueprint-grid-margin:   10px;
+
+@import "partials/normalize";
+@import "blueprint/grid";
+
+@mixin debug($color: red) {
+  outline: 1px dashed $color;
+}
+
+body {
+  background: #141414;
+  color: #f8f8f8;
+  font-family: Georgia, serif;
+}
+
+h1,
+h2,
+h3 {
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+a {
+  &:link {
+    color: #cf6a4c;
+  }
+  &:visited {
+    color: #cf6a4c;
+  }
+  &:hover {
+    color: #cf6a4c;
+    text-decoration: none;
+  }
+  &:active {
+    color: #cf6a4c;
+  }
+}
+
+#container {
+  @include container;
+  padding: 0 10px;
+  #header {
+    @include column(6);
+    margin-left: -10px;
+    padding-right: 10px;
+    h1 {
+      color: #7587a6;
+    }
+  }
+  nav {
+    @include column(6, true);
+    margin-right: -10px;
+    padding-left: 10px;
+    ul {
+      float: right;
+      line-height: 2em;
+      li {
+        display: block;
+        float: left;
+        font-family: Helvetica, Arial, sans-serif;
+        padding-left: 10px;
+        &:first-child:before {
+          content: "{";
+          margin-right: 10px;
+        }
+        &:after {
+          content: ",";
+        }
+        &:last-child:after {
+          content: "}";
+          margin-left: 10px;
+        }
+        a {
+          &:link,
+          &:visited,
+          &:hover,
+          &:active {
+            color: #8f9d6a;
+          }
+        }
+      }
+    }
+  }
+  #content {
+    @include column(8);
+    article {
+      margin-bottom: 48px;
+      header {
+        h2 {
+          color: #9B703F;
+        }
+        time {
+          color: #5F5A60;
+          font-style: italic;
+        }
+      }
+    }
+    pre code {
+      &:before {
+        color: #5f5a60;
+        float: right;
+        font-family: Helvetica, Arial, sans-serif;
+        font-size: 12px;
+      }
+      &.python:before {
+        content: "Python";
+      }
+      &.ruby:before {
+        content: "Ruby";
+      }
+    }
+  }
+  aside {
+    @include column(4, true);
+    ol {
+      list-style: none;
+      padding-left: 0;
+      li {
+      }
+    }
+  }
+  #footer {
+    @include clearfix;
+    clear: both;
+  }
+}
