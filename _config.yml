@@ -1,2 +1,2 @@
-auto:       false
+exclude:    [sass, coffeescripts]
 pygments:   true

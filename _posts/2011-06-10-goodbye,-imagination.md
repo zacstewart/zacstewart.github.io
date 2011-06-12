@@ -1,0 +1,1 @@
+![Aloe polyphylla](/images/aloe-polyphylla.jpg)
