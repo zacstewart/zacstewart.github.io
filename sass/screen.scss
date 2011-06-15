@@ -13,6 +13,8 @@ body {
   background: #141414;
   color: #f8f8f8;
   font-family: Georgia, serif;
+  font-size: 100%;
+  line-height: 1.5;
 }
 
 h1,
@@ -20,7 +22,17 @@ h2,
 h3 {
   font-family: Helvetica, Arial, sans-serif;
 }
-
+h1 {
+  font-size: 2.11538em;
+}
+h2 {
+  font-size: 1.61538em;;
+}
+h3 {
+  font-size: 1.30769em;
+}
+p {
+}
 a {
   &:link {
     color: #cf6a4c;
@@ -35,6 +47,15 @@ a {
   &:active {
     color: #cf6a4c;
   }
+}
+hr {
+  background: #5f5a60;
+  border: 0;
+  height: 1px;
+}
+pre,
+code {
+  background: #181818;
 }
 
 #container {
