@@ -2,7 +2,6 @@
 layout: default
 title: Zac Stewart
 ---
-<div id="content">
   {% for post in site.posts %}
   <article>
     <header>
@@ -15,12 +14,3 @@ title: Zac Stewart
     </footer>
   </article>
   {% endfor %}
-</div>
-<aside>
-  <h2>Recent Posts</h2>
-  <ol>
-    {% for post in site.posts %}
-      <li><a href="{{ post.url }}">{{ post.title }}</a></li>
-    {% endfor %}
-  </ol>
-</aside>

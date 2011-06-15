@@ -1,5 +1,5 @@
 $blueprint-grid-columns:  12;
-$blueprint-grid-width:    52px;
+$blueprint-grid-width:    80px;
 $blueprint-grid-margin:   10px;
 
 @import "partials/normalize";
@@ -118,6 +118,9 @@ a {
       &.ruby:before {
         content: "Ruby";
       }
+      &.bash:before {
+        content: "Bash";
+      }
     }
   }
   aside {
@@ -140,5 +143,13 @@ a {
     font-family: Helvetica, Arial, sans-serif;
     height: 48px;
     line-height: 48px;
+    a {
+      &:link,
+      &:visited,
+      &:hover,
+      &:active {
+        color: #CDA869;
+      }
+    }
   }
 }

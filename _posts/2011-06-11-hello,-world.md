@@ -1,3 +1,6 @@
+---
+layout: post
+---
 Enjoy this Fibonacci function until I get my site finished
 {% highlight python %}
 def fib(num):

@@ -485,7 +485,7 @@ a:active {
 
 /* line 40, ../sass/screen.scss */
 #container {
-  width: 734px;
+  width: 1070px;
   margin: 0 auto;
   overflow: hidden;
   *zoom: 1;
@@ -496,7 +496,7 @@ a:active {
   display: inline;
   float: left;
   margin-right: 10px;
-  width: 362px;
+  width: 530px;
   height: 96px;
   margin-left: -10px;
   padding-right: 10px;
@@ -519,7 +519,7 @@ a:active {
   display: inline;
   float: left;
   margin-right: 0;
-  width: 362px;
+  width: 530px;
   margin-right: -10px;
   padding-left: 10px;
 }
@@ -565,7 +565,7 @@ a:active {
   display: inline;
   float: left;
   margin-right: 10px;
-  width: 486px;
+  width: 710px;
 }
 /* line 147, ../../../.rvm/gems/ruby-1.9.2-p180/gems/compass-0.11.1/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
 * html #container #content {
@@ -599,28 +599,32 @@ a:active {
 #container #content pre code.ruby:before {
   content: "Ruby";
 }
-/* line 123, ../sass/screen.scss */
+/* line 121, ../sass/screen.scss */
+#container #content pre code.bash:before {
+  content: "Bash";
+}
+/* line 126, ../sass/screen.scss */
 #container aside {
   display: inline;
   float: left;
   margin-right: 0;
-  width: 238px;
+  width: 350px;
 }
 /* line 147, ../../../.rvm/gems/ruby-1.9.2-p180/gems/compass-0.11.1/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
 * html #container aside {
   overflow-x: hidden;
 }
-/* line 125, ../sass/screen.scss */
+/* line 128, ../sass/screen.scss */
 #container aside ol {
   list-style: none;
   padding-left: 0;
 }
-/* line 129, ../sass/screen.scss */
+/* line 132, ../sass/screen.scss */
 #container aside ol li:before {
   content: "=>";
   margin-right: 5px;
 }
-/* line 136, ../sass/screen.scss */
+/* line 139, ../sass/screen.scss */
 #container #footer {
   overflow: hidden;
   *zoom: 1;
@@ -629,4 +633,8 @@ a:active {
   font-family: Helvetica, Arial, sans-serif;
   height: 48px;
   line-height: 48px;
+}
+/* line 150, ../sass/screen.scss */
+#container #footer a:link, #container #footer a:visited, #container #footer a:hover, #container #footer a:active {
+  color: #CDA869;
 }
