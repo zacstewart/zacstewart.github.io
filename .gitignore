@@ -1,4 +1,5 @@
 config/deploy.rb
+css
 .sass-cache
 _site
 server
