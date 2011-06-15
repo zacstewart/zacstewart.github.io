@@ -112,7 +112,7 @@ namespace :deploy do
   # compile compass and then jekyll
   # you need to execute absolute paths here, so `which jekyll` to figure out what exactly you should run
   task :finalize_update do
-    run "/bin/bash -c 'cd #{latest_release}; ~/.rvm/gems/ruby-1.9.2-p180/bin/compass -c config_prod.rb --force'; ~/.rvm/gems/ruby-1.9.2-p180/bin/jekyll;"
+    run "/bin/bash -c 'cd #{latest_release}; /home/zacstewart/.rvm/gems/ruby-1.9.2-p180/bin/compass compile -c config_prod.rb --force; /home/zacstewart/.rvm/gems/ruby-1.9.2-p180/bin/jekyll;"
   end
 end
 {% endhighlight %}
