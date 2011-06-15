@@ -1,1 +1,4 @@
+---
+layout: post
+---
 ![Aloe polyphylla]({{ site.url }}/images/aloe-polyphylla.jpg)
