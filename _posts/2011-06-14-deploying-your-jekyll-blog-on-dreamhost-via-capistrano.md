@@ -127,3 +127,7 @@ You should be all ready to deploy now. Commit your changes, push your repo and t
 This post is actually the first wherein I have all this set up, so I've undoubtedly made
 mistakes here. If you have something to improve, by all means, fork this blog and fix it!
 I'd love to accept a pull request.
+
+<a class="FlattrButton" style="display:none;" rev="flattr;button:compact;" href="http://zacstewart.com/2011/06/14/deploying-your-jekyll-blog-on-dreamhost-via-capistrano.html">Flatter</a>
+<noscript><a href="http://flattr.com/thing/312980/Deploying-Your-Jekyll-Blog-On-Dreamhost-Via-Capistrano" target="_blank">
+<img src="http://api.flattr.com/button/flattr-badge-large.png" alt="Flattr this" title="Flattr this" border="0" /></a></noscript>
