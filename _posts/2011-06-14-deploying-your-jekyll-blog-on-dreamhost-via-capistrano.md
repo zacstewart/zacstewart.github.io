@@ -1,5 +1,6 @@
 ---
 layout: post
+excerpt: "I've gotten Jekyll working on my shared Dreamhosting account, and not just pushing the compiled pages to my webroot: compiling my Sass stylesheets and then compiling the static HTML pages with Jekyll and even using Pygments to generate syntax-aware HTML--all server-side."
 ---
 I've finally gotten around to doing something with my domain. I'm becoming quite the Git junkie
 these days, and I prefer to spend most of my time between my text editor and a terminal, so I
@@ -127,7 +128,3 @@ You should be all ready to deploy now. Commit your changes, push your repo and t
 This post is actually the first wherein I have all this set up, so I've undoubtedly made
 mistakes here. If you have something to improve, by all means, fork this blog and fix it!
 I'd love to accept a pull request.
-
-<a class="FlattrButton" style="display:none;" rev="flattr;button:compact;" href="http://zacstewart.com/2011/06/14/deploying-your-jekyll-blog-on-dreamhost-via-capistrano.html">Flatter</a>
-<noscript><a href="http://flattr.com/thing/312980/Deploying-Your-Jekyll-Blog-On-Dreamhost-Via-Capistrano" target="_blank">
-<img src="http://api.flattr.com/button/flattr-badge-large.png" alt="Flattr this" title="Flattr this" border="0" /></a></noscript>

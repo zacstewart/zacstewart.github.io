@@ -5,12 +5,18 @@ title: Zac Stewart
   {% for post in site.posts %}
   <article>
     <header>
-      <h2>{{ post.title }}</h2>
+      <h2><a href="{{post.url}}">{{ post.title }}</a></h2>
       <time datetime="{{ post.date | date: "%Y-%m-%d" }}">{{ post.date | date_to_string }}</time>
     </header>
+    {% if post.excerpt %}
+    {{ post.excerpt }}
+    <p>
+      <a href="{{post.url}}">Read more</a>
+    </p>
+    {% else %}
     {{ post.content }}
+    {% endif %}
     <footer>
-      <a href="{{post.url}}">Permalink</a>
     </footer>
   </article>
   {% endfor %}

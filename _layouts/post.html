@@ -6,4 +6,13 @@ layout: default
     <h2>{{ page.title }}</h2>
   </header>
   {{ content }}
+  <footer>
+    <div class="flattr">
+    <a class="FlattrButton" style="display:none;"
+        title="{{ page.title }}"
+        lang="en_GB"
+        rev="flattr;uid:zacstewart;category:rest;button:compact;"
+        href="{{ site.url }}{{ page.url }}">{{ post.excerpt }}</a>
+    </div>
+  </footer>
 </article>

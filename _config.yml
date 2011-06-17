@@ -1,2 +1,4 @@
 exclude:    [sass, coffeescripts, Capfile, config, config.rb, Guardfile]
 pygments:   true
+
+url:        'http://zacstewart.com'

@@ -119,6 +119,12 @@ code {
       header {
         h2 {
           color: #9B703F;
+          a {
+            &, &:link, &:visited, &:hover, &:active {
+              color: #9B703F;
+              text-decoration: none;
+            }
+          }
         }
         time {
           color: #5F5A60;
