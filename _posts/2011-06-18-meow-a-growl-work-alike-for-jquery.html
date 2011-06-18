@@ -1,0 +1,135 @@
+---
+title: 'Meow: A Growl Work-Alike for jQuery'
+excerpt: |
+  <p>jQuery Meow mimics Growl notications. It supports all jQuery events and you can bind it to various sources for message input making it ideal for form validation, Rails flash notices, or a replacement for the alert() box.</p>
+  <p>It's under active development right now and is lacking a bunch of features that are soon to come, including sounds, callbacks, timer configurations and lot more.</p>
+  <p>If you've got something to add, please <a href="https://github.com/zacstewart/Meow">fork the project on GitHub</a>!</p>
+break: 'See a demo'
+---
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Meow: A Growl Work-Alike for jQuery</title>
+    <link rel="stylesheet" href="{{ site.url }}/css/pygment.css" type="text/css">
+    <link rel="stylesheet" href="http://zacstewart.github.com/Meow/jquery.meow.css" type="text/css" media="screen">
+    <style>
+      body {
+        background-color: #777;
+        background: -moz-linear-gradient(left, rgba(119,119,119,1) 0%, rgba(0,0,0,0.3) 100%);
+        background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(119,119,119,1)), color-stop(100%,rgba(0,0,0,0.3)));
+        background: -webkit-linear-gradient(left, rgba(119,119,119,1) 0%,rgba(0,0,0,0.3) 100%);
+        background: -o-linear-gradient(left, rgba(119,119,119,1) 0%,rgba(0,0,0,0.3) 100%);
+        background: -ms-linear-gradient(left, rgba(119,119,119,1) 0%,rgba(0,0,0,0.3) 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#777777', endColorstr='#4d000000',GradientType=1 );
+        background: linear-gradient(left, rgba(119,119,119,1) 0%,rgba(0,0,0,0.3) 100%);
+        color: #333 rgba(0,0,0,0.7);
+        margin: 48px;
+        text-shadow: 0 1px 1px rgba(255,255,255,0.3);
+        font-family: Helvetica, Arial, sans-serif;
+      }
+      a:link,
+      a:visited,
+      a:hover,
+      a:active {
+        color: #ddd;
+      }
+      textarea {
+        background: #dddddd;
+        border-radius: 10px;
+        color: #666666;
+        font-size: 24px;
+        width: 400px;
+        height: 124px;
+        padding: 10px;
+        text-shadow: 0 1px 1px rgba(255,255,255,0.3);
+      }
+    </style>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="http://zacstewart.github.com/Meow/jquery.meow.js" type="text/javascript" charset="utf-8"></script>
+    <script>
+      $(document).ready(function() {
+        $(this).meow({
+          trigger: 'ready',
+          message: $('#onready'),
+          icon: 'http://zacstewart.github.com/Meow/nyan-cat.gif'
+        });
+        $('#button').meow({
+          trigger: 'click',
+          message: $('#onclick'),
+          icon: 'http://zacstewart.github.com/Meow/nyan-cat.gif'
+        });
+        $('#onchange').meow({
+          trigger: 'change',
+          message: $('#onchange'),
+          icon: 'http://zacstewart.github.com/Meow/nyan-cat.gif'
+        });
+        $('#selectonchange').meow({
+          trigger: 'change',
+          message: $('#selectonchange'),
+          icon: 'http://zacstewart.github.com/Meow/nyan-cat.gif'
+        });
+        $('#thanks-meow').meow({
+          trigger: 'click',
+          message: 'Follow me on github!',
+          icon: 'https://secure.gravatar.com/avatar/c5e99d5ecfaab30b92d9a7cdb34e0e33?s=48'
+        });
+      });
+    </script>
+  </head>
+
+  <body>
+    <div id="meows"></div>
+
+    <h1>Meow: A Growl Work-Alike for jQuery</h1>
+
+    <p>jQuery Meow mimics Growl notications. It supports all jQuery events and you can bind it to various sources for message input making it ideal for form validation, Rails flash notices, or a replacement for the alert() box.</p>
+    <p>It's under active development right now and is lacking a bunch of features that are soon to come, including sounds, callbacks, timer configurations and lot more.</p>
+    <p>If you've got something to add, please <a href="https://github.com/zacstewart/Meow">fork the project on GitHub</a>!</p>
+
+    <h2>Demonstration</h2>
+    <h3>Ready Demo</h3>
+    <p>
+      <div id="onready">I'll meow upon ready</div>
+    </p>
+
+    <h3>Click Demo</h3>
+    <p>
+      <textarea id="onclick" title="Click Demo">I'll meow when you click the button.</textarea><br>
+      <button id="button">Click Me!</button>
+    </p>
+
+    <h3>Change Demo</h3>
+    <p>
+      <textarea id="onchange" title="Change Demo">I'll meow upon changing.</textarea>
+    </p>
+    <p>
+      <select id="selectonchange">
+        <option value="nyan-1">Nyan 1</option>
+        <option value="nyan-2">Nyan 2</option>
+        <option value="nyan-3">Nyan 3</option>
+      </select>
+    </p>
+
+    <h2>Usage</h2>
+    <p>To get awesome notifications on your website or app:
+      <ol>
+        <li>head over to the <a href="https://github.com/zacstewart/Meow">GitHub project</a> and download <code>jquery.meow.js</code> and <code>jquery.meow.css</code></li>
+        <li>Add them to the head of your page, or just hotlink them from the <a href="http://zacstewart.github.com/Meow/">GiHub demo page</a>.</li>
+        <li>Add a div with id 'meows' and now all you have to do is <code>.meow()</code>something like so:
+          {% highlight javascript %}
+$('#button').meow({
+  trigger: 'click',
+  message: $('#onclick'),
+  icon: 'http://zacstewart.github.com/Meow/nyan-cat.gif'
+});
+{% endhighlight %}
+        </li>
+      </ol>
+      <p>The jQuery element that you .meow() is your trigger element, so if you wanted the notification on page load, you'd use <code>$(document)</code>.</p>
+      <p>The <code>trigger</code> is any jQuery event (see <a href="http://api.jquery.com/bind/">.bind()</a>).</p>
+      <p><code>message</code> can be a string or (tentatively) any jQuery selected element. For form fields it will use their value, for other elements it will use their innerText</p>
+      <p>The <code>icon</code> is pretty self explanatory: you put cat pictures in it.</p>
+      <h2>Thanks!</h2>
+      I extend my most sincere <a href="javascript:;" id="thanks-meow">meow</a> to you for visiting. If you like what you see, <a href="https://github.com/zacstewart">follow me on GitHub</a> or check out the rest of <a href="{{ site.url }}">my site</a>.
+  </body>
+</html>

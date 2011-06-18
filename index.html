@@ -11,7 +11,7 @@ title: Zac Stewart
     {% if post.excerpt %}
     {{ post.excerpt }}
     <p>
-      <a href="{{post.url}}">Read more</a>
+      <a href="{{post.url}}">{% if post.break %} {{ post.break }} {% else %} Read more {% endif %}</a>
     </p>
     {% else %}
     {{ post.content }}
