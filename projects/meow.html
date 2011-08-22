@@ -7,6 +7,21 @@ title: 'Meow: A Growl Work-Alike for jQuery'
     <title>{{ page.title }}</title>
     <link rel="stylesheet" href="../css/project.css">
     <link rel="stylesheet" href="../css/pygment.css">
+    <link rel="stylesheet" href="http://zacstewart.github.com/Meow/jquery.meow.css">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+    <script src="http://zacstewart.github.com/Meow/jquery.meow.js"></script>
+    <script>
+      $(document).ready(function () {
+        $('#example-button').click(function () {
+          console.log('hey');
+          $.meow({
+            message: $('#example-input'),
+            title: 'Hello, World',
+            icon: 'http://zacstewart.github.com/Meow/nyan-cat.gif'
+          });
+        });
+      });
+    </script>
   </head>
   <body>
     <div class="page">
@@ -21,6 +36,9 @@ title: 'Meow: A Growl Work-Alike for jQuery'
       <p>
         jQuery Meow mimics Growl notications. It supports all jQuery events and you can bind it to various sources for message input making it ideal for form validation, Rails flash notices, or a replacement for the alert() box.
       </p>
+      <h2>Example</h2>
+      <textarea id="example-input">Enter a message for the global meow network</textarea>
+      <button id="example-button">Click me</button>
       <h2>Usage</h2>
       {% highlight javascript %}
       var options = {
