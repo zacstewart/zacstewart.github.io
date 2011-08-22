@@ -132,23 +132,6 @@ code {
         }
       }
     }
-    pre code {
-      &:before {
-        color: #5f5a60;
-        float: right;
-        font-family: Helvetica, Arial, sans-serif;
-        font-size: 12px;
-      }
-      &.python:before {
-        content: "Python";
-      }
-      &.ruby:before {
-        content: "Ruby";
-      }
-      &.bash:before {
-        content: "Bash";
-      }
-    }
   }
   aside {
     @include column(4, true);
