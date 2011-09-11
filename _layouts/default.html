@@ -16,6 +16,7 @@
         })();
     /* ]]> */
     </script>
+<script src="http://platform.twitter.com/widgets.js" type="text/javascript"></script>
     <script type="text/javascript">
         var _gaq = _gaq || [];
         _gaq.push(['_setAccount', 'UA-18516502-1']);
@@ -45,6 +46,12 @@
         {{ content }}
       </div>
       <aside>
+      <a href="http://twitter.com/zacstewart"
+        class="twitter-follow-button"
+        data-button="grey"
+        data-text-color="#f8f8f8"
+        data-link-color="#cf6a4c"
+        data-show-count="false">Follow @zacstewart</a>
         <h2>Recent Posts</h2>
         <ol>
           {% for post in site.posts limit:10 %}
