@@ -453,90 +453,86 @@ td {
 
 /* line 12, ../sass/screen.scss */
 body {
-  background: #141414;
   color: #f8f8f8;
   font-family: Georgia, serif;
   font-size: 100%;
   line-height: 1.5;
 }
 
-/* line 22, ../sass/screen.scss */
+/* line 21, ../sass/screen.scss */
 h1,
 h2,
 h3 {
   font-family: Helvetica, Arial, sans-serif;
 }
 
-/* line 25, ../sass/screen.scss */
+/* line 24, ../sass/screen.scss */
 h1 {
   font-size: 2.11538em;
 }
 
-/* line 28, ../sass/screen.scss */
+/* line 27, ../sass/screen.scss */
 h2 {
   font-size: 1.61538em;
 }
 
-/* line 31, ../sass/screen.scss */
+/* line 30, ../sass/screen.scss */
 h3 {
   font-size: 1.30769em;
 }
 
-/* line 37, ../sass/screen.scss */
+/* line 36, ../sass/screen.scss */
 a:link {
   color: #cf6a4c;
 }
-/* line 40, ../sass/screen.scss */
+/* line 39, ../sass/screen.scss */
 a:visited {
   color: #cf6a4c;
 }
-/* line 43, ../sass/screen.scss */
+/* line 42, ../sass/screen.scss */
 a:hover {
   color: #cf6a4c;
   text-decoration: none;
 }
-/* line 47, ../sass/screen.scss */
+/* line 46, ../sass/screen.scss */
 a:active {
   color: #cf6a4c;
 }
 
-/* line 51, ../sass/screen.scss */
+/* line 50, ../sass/screen.scss */
 hr {
   background: #5f5a60;
   border: 0;
   height: 1px;
 }
 
-/* line 57, ../sass/screen.scss */
-pre,
-code {
+/* line 55, ../sass/screen.scss */
+pre {
   background: #181818;
 }
 
-/* line 61, ../sass/screen.scss */
-#container {
+/* line 59, ../sass/screen.scss */
+.page-header {
+  color: #f8f8f8;
+  background: #141414;
+  height: 160px;
+  margin-left: -10px;
+  padding-right: 10px;
+  width: 100%;
+}
+/* line 66, ../sass/screen.scss */
+.page-header .inner {
   width: 1070px;
   margin: 0 auto;
   overflow: hidden;
   *zoom: 1;
-  padding: 0 10px;
 }
-/* line 64, ../sass/screen.scss */
-#container #header {
+/* line 68, ../sass/screen.scss */
+.page-header .inner h1.site-title {
   display: inline;
   float: left;
   margin-right: 10px;
   width: 530px;
-  height: 96px;
-  margin-left: -10px;
-  padding-right: 10px;
-}
-/* line 147, ../../../.rvm/gems/ruby-1.9.3-p0/gems/compass-0.11.6/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
-* html #container #header {
-  overflow-x: hidden;
-}
-/* line 69, ../sass/screen.scss */
-#container #header h1 {
   color: #7587a6;
   font-size: 48px;
   font-weight: normal;
@@ -544,8 +540,12 @@ code {
   margin: 0;
   padding: 0;
 }
-/* line 78, ../sass/screen.scss */
-#container nav {
+/* line 147, ../../../.rvm/gems/ruby-1.9.3-p0@zacstewart.github.com/gems/compass-0.11.6/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
+* html .page-header .inner h1.site-title {
+  overflow-x: hidden;
+}
+/* line 77, ../sass/screen.scss */
+.page-header .inner nav.site-nav {
   display: inline;
   float: left;
   margin-right: 0;
@@ -553,104 +553,123 @@ code {
   margin-right: -10px;
   padding-left: 10px;
 }
-/* line 147, ../../../.rvm/gems/ruby-1.9.3-p0/gems/compass-0.11.6/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
-* html #container nav {
+/* line 147, ../../../.rvm/gems/ruby-1.9.3-p0@zacstewart.github.com/gems/compass-0.11.6/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
+* html .page-header .inner nav.site-nav {
   overflow-x: hidden;
 }
-/* line 82, ../sass/screen.scss */
-#container nav ul {
+/* line 81, ../sass/screen.scss */
+.page-header .inner nav.site-nav ul {
   float: right;
   margin: 0;
   line-height: 2em;
   padding: 0;
 }
-/* line 87, ../sass/screen.scss */
-#container nav ul li {
+/* line 86, ../sass/screen.scss */
+.page-header .inner nav.site-nav ul li {
   display: block;
   float: left;
   font-family: Helvetica, Arial, sans-serif;
   line-height: 96px;
   padding-left: 10px;
 }
-/* line 93, ../sass/screen.scss */
-#container nav ul li:first-child:before {
+/* line 92, ../sass/screen.scss */
+.page-header .inner nav.site-nav ul li:first-child:before {
   content: "{";
   margin-right: 10px;
 }
-/* line 97, ../sass/screen.scss */
-#container nav ul li:after {
+/* line 96, ../sass/screen.scss */
+.page-header .inner nav.site-nav ul li:after {
   content: ",";
 }
-/* line 100, ../sass/screen.scss */
-#container nav ul li:last-child:after {
+/* line 99, ../sass/screen.scss */
+.page-header .inner nav.site-nav ul li:last-child:after {
   content: "}";
   margin-left: 10px;
 }
-/* line 108, ../sass/screen.scss */
-#container nav ul li a:link, #container nav ul li a:visited, #container nav ul li a:hover, #container nav ul li a:active {
+/* line 107, ../sass/screen.scss */
+.page-header .inner nav.site-nav ul li a:link, .page-header .inner nav.site-nav ul li a:visited, .page-header .inner nav.site-nav ul li a:hover, .page-header .inner nav.site-nav ul li a:active {
   color: #8f9d6a;
 }
-/* line 115, ../sass/screen.scss */
-#container #content {
+
+/* line 116, ../sass/screen.scss */
+.page-body {
+  color: #141414;
+}
+/* line 118, ../sass/screen.scss */
+.page-body .inner {
+  width: 1070px;
+  margin: 0 auto;
+  overflow: hidden;
+  *zoom: 1;
+}
+/* line 120, ../sass/screen.scss */
+.page-body .inner .content {
   display: inline;
   float: left;
   margin-right: 10px;
   width: 710px;
 }
-/* line 147, ../../../.rvm/gems/ruby-1.9.3-p0/gems/compass-0.11.6/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
-* html #container #content {
+/* line 147, ../../../.rvm/gems/ruby-1.9.3-p0@zacstewart.github.com/gems/compass-0.11.6/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
+* html .page-body .inner .content {
   overflow-x: hidden;
 }
-/* line 117, ../sass/screen.scss */
-#container #content article {
+/* line 122, ../sass/screen.scss */
+.page-body .inner .content article {
   margin-bottom: 48px;
 }
-/* line 120, ../sass/screen.scss */
-#container #content article header h2 {
+/* line 125, ../sass/screen.scss */
+.page-body .inner .content article header h2 {
   color: #9B703F;
 }
-/* line 123, ../sass/screen.scss */
-#container #content article header h2 a, #container #content article header h2 a:link, #container #content article header h2 a:visited, #container #content article header h2 a:hover, #container #content article header h2 a:active {
+/* line 128, ../sass/screen.scss */
+.page-body .inner .content article header h2 a, .page-body .inner .content article header h2 a:link, .page-body .inner .content article header h2 a:visited, .page-body .inner .content article header h2 a:hover, .page-body .inner .content article header h2 a:active {
   color: #9B703F;
   text-decoration: none;
 }
-/* line 129, ../sass/screen.scss */
-#container #content article header time {
+/* line 134, ../sass/screen.scss */
+.page-body .inner .content article header time {
   color: #5F5A60;
   font-style: italic;
 }
-/* line 136, ../sass/screen.scss */
-#container aside {
+/* line 141, ../sass/screen.scss */
+.page-body .inner .sidebar {
   display: inline;
   float: left;
   margin-right: 0;
   width: 350px;
 }
-/* line 147, ../../../.rvm/gems/ruby-1.9.3-p0/gems/compass-0.11.6/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
-* html #container aside {
+/* line 147, ../../../.rvm/gems/ruby-1.9.3-p0@zacstewart.github.com/gems/compass-0.11.6/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
+* html .page-body .inner .sidebar {
   overflow-x: hidden;
 }
-/* line 138, ../sass/screen.scss */
-#container aside ol {
+/* line 143, ../sass/screen.scss */
+.page-body .inner .sidebar ol {
   list-style: none;
   padding-left: 0;
 }
-/* line 142, ../sass/screen.scss */
-#container aside ol li:before {
+/* line 147, ../sass/screen.scss */
+.page-body .inner .sidebar ol li:before {
   content: "=>";
   margin-right: 5px;
 }
-/* line 149, ../sass/screen.scss */
-#container #footer {
+
+/* line 156, ../sass/screen.scss */
+.page-footer {
   overflow: hidden;
   *zoom: 1;
-  border-top: solid 1px #5f5a60;
+}
+/* line 158, ../sass/screen.scss */
+.page-footer .inner {
+  width: 1070px;
+  margin: 0 auto;
+  overflow: hidden;
+  *zoom: 1;
   clear: both;
   font-family: Helvetica, Arial, sans-serif;
   height: 48px;
   line-height: 48px;
 }
-/* line 160, ../sass/screen.scss */
-#container #footer a:link, #container #footer a:visited, #container #footer a:hover, #container #footer a:active {
+/* line 168, ../sass/screen.scss */
+.page-footer .inner a:link, .page-footer .inner a:visited, .page-footer .inner a:hover, .page-footer .inner a:active {
   color: #CDA869;
 }

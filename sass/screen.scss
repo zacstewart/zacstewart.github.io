@@ -10,7 +10,6 @@ $blueprint-grid-margin:   10px;
 }
 
 body {
-  background: #141414;
   color: #f8f8f8;
   font-family: Georgia, serif;
   font-size: 100%;
@@ -53,20 +52,21 @@ hr {
   border: 0;
   height: 1px;
 }
-pre,
-code {
+pre {
   background: #181818;
 }
 
-#container {
-  @include container;
-  padding: 0 10px;
-  #header {
-    @include column(6);
-    height: 96px;
-    margin-left: -10px;
-    padding-right: 10px;
-    h1 {
+.page-header {
+  color: #f8f8f8;
+  background: #141414;
+  height: 160px;
+  margin-left: -10px;
+  padding-right: 10px;
+  width: 100%;
+  .inner {
+    @include container;
+    h1.site-title {
+      @include column(6);
       color: #7587a6;
       font-size: 48px;
       font-weight: normal;
@@ -74,81 +74,89 @@ code {
       margin: 0;
       padding: 0;
     }
-  }
-  nav {
-    @include column(6, true);
-    margin-right: -10px;
-    padding-left: 10px;
-    ul {
-      float: right;
-      margin: 0;
-      line-height: 2em;
-      padding: 0;
-      li {
-        display: block;
-        float: left;
-        font-family: Helvetica, Arial, sans-serif;
-        line-height: 96px;
-        padding-left: 10px;
-        &:first-child:before {
-          content: "{";
-          margin-right: 10px;
-        }
-        &:after {
-          content: ",";
-        }
-        &:last-child:after {
-          content: "}";
-          margin-left: 10px;
-        }
-        a {
-          &:link,
-          &:visited,
-          &:hover,
-          &:active {
-            color: #8f9d6a;
+    nav.site-nav {
+      @include column(6, true);
+      margin-right: -10px;
+      padding-left: 10px;
+      ul {
+        float: right;
+        margin: 0;
+        line-height: 2em;
+        padding: 0;
+        li {
+          display: block;
+          float: left;
+          font-family: Helvetica, Arial, sans-serif;
+          line-height: 96px;
+          padding-left: 10px;
+          &:first-child:before {
+            content: "{";
+            margin-right: 10px;
           }
-        }
-      }
-    }
-  }
-  #content {
-    @include column(8);
-    article {
-      margin-bottom: 48px;
-      header {
-        h2 {
-          color: #9B703F;
+          &:after {
+            content: ",";
+          }
+          &:last-child:after {
+            content: "}";
+            margin-left: 10px;
+          }
           a {
-            &, &:link, &:visited, &:hover, &:active {
-              color: #9B703F;
-              text-decoration: none;
+            &:link,
+            &:visited,
+            &:hover,
+            &:active {
+              color: #8f9d6a;
             }
           }
         }
-        time {
-          color: #5F5A60;
-          font-style: italic;
+      }
+    }
+  }
+}
+.page-body {
+  color: #141414;
+  .inner {
+    @include container;
+    .content {
+      @include column(8);
+      article {
+        margin-bottom: 48px;
+        header {
+          h2 {
+            color: #9B703F;
+            a {
+              &, &:link, &:visited, &:hover, &:active {
+                color: #9B703F;
+                text-decoration: none;
+              }
+            }
+          }
+          time {
+            color: #5F5A60;
+            font-style: italic;
+          }
+        }
+      }
+    }
+    .sidebar {
+      @include column(4, true);
+      ol {
+        list-style: none;
+        padding-left: 0;
+        li {
+          &:before {
+            content: "=>";
+            margin-right: 5px;
+          }
         }
       }
     }
   }
-  aside {
-    @include column(4, true);
-    ol {
-      list-style: none;
-      padding-left: 0;
-      li {
-        &:before {
-          content: "=>";
-          margin-right: 5px;
-        }
-      }
-    }
-  }
-  #footer {
-    @include clearfix;
-    border-top: solid 1px #5f5a60;
+}
+.page-footer {
+  @include clearfix;
+  .inner {
+    @include container;
     clear: both;
     font-family: Helvetica, Arial, sans-serif;
     height: 48px;
