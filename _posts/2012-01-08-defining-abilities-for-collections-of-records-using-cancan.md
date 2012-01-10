@@ -1,5 +1,6 @@
 ---
 layout: post
+title: Defining Abilities for Collections of Records Using CanCan
 ---
 I've been using [CanCan](https://github.com/ryanb/cancan) for managing
 role-based authorization in [Rstrnt](http://rstrnt.net), my restaurant
