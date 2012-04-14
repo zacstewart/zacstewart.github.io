@@ -1,6 +1,6 @@
 ---
 layout: post
-title: The HTTP OPTIONS method and potential for self-describing APIs
+title: The HTTP OPTIONS method and potential for self-describing RESTful APIs
 ---
 The OPTIONS method is a somewhat obscure part of the HTTP standard that could be used today with a strong impact on the interconnectedness of the interwebs while requiring minimal effort. It's role is well defined in [RFC2616](http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html), yet no web services that I can find are taking advantage of it.
 
