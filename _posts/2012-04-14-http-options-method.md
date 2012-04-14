@@ -2,7 +2,7 @@
 layout: post
 title: The HTTP OPTIONS method
 ---
-The OPTIONS method is a somewhat obscure part of the HTTP standard that I believe could be used today with little effort but could have a strong impact on the interconnectedness of the interwebs. It's role is well defined in [RFC2616](http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html), yet no web services that I can find are taking advantage of it.
+The OPTIONS method is a somewhat obscure part of the HTTP standard that could be used today with a strong impact on the interconnectedness of the interwebs while requiring minimal effort. It's role is well defined in [RFC2616](http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html), yet no web services that I can find are taking advantage of it.
 
 ## What is the HTTP OPTIONS method?
 
@@ -10,7 +10,7 @@ To quote the spec:
 
 > This method allows the client to determine the options and/or requirements associated with a resource, or the capabilities of a server, without implying a resource action or initiating a resource retrieval.
 
-The response should be a 200 OK and have an `Allows` header with a list of HTTP methods that may be used on this resource. So, as an authorized user on an API, if you were to request `OPTIONS /users/me`, you should receive something like 
+Minimally, the response should be a `200 OK` and have an `Allows` header with a list of HTTP methods that may be used on this resource. As an authorized user on an API, if you were to request `OPTIONS /users/me`, you should receive something like...
 
     200 OK
     Allows: HEAD,GET,PUT,DELETE,OPTIONS
@@ -33,7 +33,7 @@ GitHub (to pick on someone specific. Not because I don't love you!) could be usi
 
 > The response body, if any, SHOULD also include information about the communication options. The format for such a body is not defined by this specification, but might be defined by future extensions to HTTP.
 
-It could be an HTML page with documentation, but that's sort of unpractical, because users don't click the "get options" button in their browsers before visiting a page. Machines may though.
+It could be an HTML page with documentation, but that's sort of unpractical because users don't click the "get options" button in their browsers before visiting a page. Machines may though.
 
 APIs should be taking advantage of this. There are many benefits to be gained from producing machine readable docs at every endpoint. It would boon for automatic client generation for web services. Communication between web services could be much more resilient if they had a codified way to check their abilities against each other.
 
