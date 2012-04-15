@@ -35,7 +35,7 @@ GitHub (to pick on someone specific. Not because I don't love you!) could be usi
 
 It could be an HTML page with documentation, but that's sort of unpractical because users don't click the "get options" button in their browsers before visiting a page. Machines may though.
 
-APIs should be taking advantage of this. There are many benefits to be gained from producing machine readable docs at every endpoint. It would boon for automatic client generation for web services. Communication between web services could be much more resilient if they had a codified way to check their abilities against each other.
+APIs should be taking advantage of this. There are many benefits to be gained from producing machine readable docs at every endpoint. It would be a boon for automatic client generation for web services. Communication between web services could be much more resilient if they had a codified way to check their abilities against each other.
 
 At the very least, services should be responding with a 200 and the Allows header. That's just correct web server behavior. But there's really no excuse for JSON APIs not to be returning a documentation object. To use GitHub as example again, on the issues endpoint, a request like `OPTIONS /repos/:user/:repo/issues` should respond with a body like...
 
