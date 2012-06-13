@@ -10,10 +10,10 @@ To quote the spec:
 
 > This method allows the client to determine the options and/or requirements associated with a resource, or the capabilities of a server, without implying a resource action or initiating a resource retrieval.
 
-Minimally, the response should be a `200 OK` and have an `Allows` header with a list of HTTP methods that may be used on this resource. As an authorized user on an API, if you were to request `OPTIONS /users/me`, you should receive something like...
+Minimally, the response should be a `200 OK` and have an `Allow` header with a list of HTTP methods that may be used on this resource. As an authorized user on an API, if you were to request `OPTIONS /users/me`, you should receive something like...
 
     200 OK
-    Allows: HEAD,GET,PUT,DELETE,OPTIONS
+    Allow: HEAD,GET,PUT,DELETE,OPTIONS
 
 ## (Almost) no one uses it
 
@@ -37,7 +37,7 @@ It could be an HTML page with documentation, but that's sort of unpractical beca
 
 APIs should be taking advantage of this. There are many benefits to be gained from producing machine readable docs at every endpoint. It would be a boon for automatic client generation for web services. Communication between web services could be much more resilient if they had a codified way to check their abilities against each other.
 
-At the very least, services should be responding with a 200 and the Allows header. That's just correct web server behavior. But there's really no excuse for JSON APIs not to be returning a documentation object. To use GitHub as example again, on the issues endpoint, a request like `OPTIONS /repos/:user/:repo/issues` should respond with a body like...
+At the very least, services should be responding with a 200 and the Allow header. That's just correct web server behavior. But there's really no excuse for JSON APIs not to be returning a documentation object. To use GitHub as example again, on the issues endpoint, a request like `OPTIONS /repos/:user/:repo/issues` should respond with a body like...
 
 {% highlight javascript %}
   {
@@ -83,6 +83,6 @@ At the very least, services should be responding with a 200 and the Allows heade
 Of course, it'd show more than just the paramters for the POST method. I'd like to see a standardized format for documentation like this, but developing that is not the point of this post.
 
 ## Advancing our tools
-I'm currently working on a small, one page Sinatra, MongoDB, Backbone.js app. Every endpoint will respond to the OPTIONS method. As I go, I'm extracting it into a gem to make self-explaining Sinatra APIs easy. I'd like to participate in disucssion about this being added to Rails routing. At least responding with a proper Allows header would be a start. I'm also interested in exploring the automatically generated client idea via Backbone apps.
+I'm currently working on a small, one page Sinatra, MongoDB, Backbone.js app. Every endpoint will respond to the OPTIONS method. As I go, I'm extracting it into a gem to make self-explaining Sinatra APIs easy. I'd like to participate in disucssion about this being added to Rails routing. At least responding with a proper Allow header would be a start. I'm also interested in exploring the automatically generated client idea via Backbone apps.
 
 In the mean time, I just want to get the discussion started because I think there's a lot of potential here and I'm surprised that no one has tapped into it yet. As _RESTful Web Services_ puts it, "OPTIONS is a promising idea that nobody uses."
