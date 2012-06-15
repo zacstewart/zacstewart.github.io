@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Slides From my Presentation on the HTTP OPTSION Method
+title: Slides From my Presentation on the HTTP OPTIONS Method
 ---
 I gave a talk to the Atlanta Ruby Users Group on using the HTTP OPTIONS method as outlined in my previous post. The slides aren't super great without me talking to explain them, but they may be of some use.
 
