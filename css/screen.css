@@ -540,7 +540,7 @@ pre {
   margin: 0;
   padding: 0;
 }
-/* line 147, ../../../.rvm/gems/ruby-1.9.3-p0@zacstewart.github.com/gems/compass-0.11.6/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
+/* line 147, ../../../.rvm/gems/ruby-1.9.3-p194@zacstewart.github.com/gems/compass-0.11.6/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
 * html .page-header .inner h1.site-title {
   overflow-x: hidden;
 }
@@ -553,7 +553,7 @@ pre {
   margin-right: -10px;
   padding-left: 10px;
 }
-/* line 147, ../../../.rvm/gems/ruby-1.9.3-p0@zacstewart.github.com/gems/compass-0.11.6/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
+/* line 147, ../../../.rvm/gems/ruby-1.9.3-p194@zacstewart.github.com/gems/compass-0.11.6/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
 * html .page-header .inner nav.site-nav {
   overflow-x: hidden;
 }
@@ -609,7 +609,7 @@ pre {
   margin-right: 10px;
   width: 710px;
 }
-/* line 147, ../../../.rvm/gems/ruby-1.9.3-p0@zacstewart.github.com/gems/compass-0.11.6/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
+/* line 147, ../../../.rvm/gems/ruby-1.9.3-p194@zacstewart.github.com/gems/compass-0.11.6/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
 * html .page-body .inner .content {
   overflow-x: hidden;
 }
@@ -631,34 +631,38 @@ pre {
   color: #5F5A60;
   font-style: italic;
 }
-/* line 141, ../sass/screen.scss */
+/* line 139, ../sass/screen.scss */
+.page-body .inner .content article img {
+  max-width: 100%;
+}
+/* line 144, ../sass/screen.scss */
 .page-body .inner .sidebar {
   display: inline;
   float: left;
   margin-right: 0;
   width: 350px;
 }
-/* line 147, ../../../.rvm/gems/ruby-1.9.3-p0@zacstewart.github.com/gems/compass-0.11.6/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
+/* line 147, ../../../.rvm/gems/ruby-1.9.3-p194@zacstewart.github.com/gems/compass-0.11.6/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
 * html .page-body .inner .sidebar {
   overflow-x: hidden;
 }
-/* line 143, ../sass/screen.scss */
+/* line 146, ../sass/screen.scss */
 .page-body .inner .sidebar ol {
   list-style: none;
   padding-left: 0;
 }
-/* line 147, ../sass/screen.scss */
+/* line 150, ../sass/screen.scss */
 .page-body .inner .sidebar ol li:before {
   content: "=>";
   margin-right: 5px;
 }
 
-/* line 156, ../sass/screen.scss */
+/* line 159, ../sass/screen.scss */
 .page-footer {
   overflow: hidden;
   *zoom: 1;
 }
-/* line 158, ../sass/screen.scss */
+/* line 161, ../sass/screen.scss */
 .page-footer .inner {
   width: 1070px;
   margin: 0 auto;
@@ -669,7 +673,7 @@ pre {
   height: 48px;
   line-height: 48px;
 }
-/* line 168, ../sass/screen.scss */
+/* line 171, ../sass/screen.scss */
 .page-footer .inner a:link, .page-footer .inner a:visited, .page-footer .inner a:hover, .page-footer .inner a:active {
   color: #CDA869;
 }
