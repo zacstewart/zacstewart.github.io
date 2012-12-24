@@ -1,1 +1,1 @@
-rvm 1.9.3@zacstewart.github.com
+rvm --create 1.9.3@zacstewart.github.com
