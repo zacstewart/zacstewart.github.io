@@ -1,2 +1,0 @@
-guard 'jekyll' do
-end
