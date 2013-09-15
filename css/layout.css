@@ -71,6 +71,11 @@ pre code.javascript:before {
 }
 
 /* line 67, ../sass/layout.scss */
+time {
+  line-height: 40px;
+}
+
+/* line 71, ../sass/layout.scss */
 #logo {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 28px;
@@ -79,7 +84,7 @@ pre code.javascript:before {
   text-align: center;
 }
 
-/* line 75, ../sass/layout.scss */
+/* line 79, ../sass/layout.scss */
 #avatar {
   border-radius: 50%;
   box-shadow: 0 0 1px 1px #333;
