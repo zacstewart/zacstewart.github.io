@@ -26,9 +26,7 @@
 /* line 27, ../sass/layout.scss */
 #avatar {
   border-radius: 50%;
-  border-width: 2px;
-  border-style: solid;
-  border-color: #333;
+  box-shadow: 0 0 1px 1px #333;
   display: block;
   margin-bottom: 10px;
   margin-left: auto;
@@ -36,12 +34,12 @@
   margin-top: 0;
 }
 
-/* line 40, ../sass/layout.scss */
+/* line 38, ../sass/layout.scss */
 h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
   text-decoration: none;
 }
 
-/* line 45, ../sass/layout.scss */
+/* line 43, ../sass/layout.scss */
 body {
   margin-top: 40px;
   margin-bottom: 40px;
