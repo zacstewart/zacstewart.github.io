@@ -18,14 +18,15 @@
 body {
   margin-top: 40px;
   margin-bottom: 40px;
+  text-rendering: optimizeLegibility;
 }
 
-/* line 25, ../sass/layout.scss */
+/* line 26, ../sass/layout.scss */
 h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
   text-decoration: none;
 }
 
-/* line 30, ../sass/layout.scss */
+/* line 31, ../sass/layout.scss */
 code {
   font-family: Consolas, Monaco, "Lucida Console", monospace;
   background-color: #eee;
@@ -34,48 +35,48 @@ code {
   padding-right: 4px;
 }
 
-/* line 38, ../sass/layout.scss */
+/* line 39, ../sass/layout.scss */
 pre {
   overflow-x: scroll;
 }
 
-/* line 42, ../sass/layout.scss */
+/* line 43, ../sass/layout.scss */
 pre code {
   background: none;
   border-radius: 0;
   font-size: 14px;
   padding: 0;
 }
-/* line 47, ../sass/layout.scss */
+/* line 48, ../sass/layout.scss */
 pre code:before {
   color: #5f5a60;
   float: right;
   font-family: Helvetica, Arial, sans-serif;
   font-size: 12px;
 }
-/* line 53, ../sass/layout.scss */
+/* line 54, ../sass/layout.scss */
 pre code.python:before {
   content: "Python";
 }
-/* line 56, ../sass/layout.scss */
+/* line 57, ../sass/layout.scss */
 pre code.ruby:before {
   content: "Ruby";
 }
-/* line 59, ../sass/layout.scss */
+/* line 60, ../sass/layout.scss */
 pre code.bash:before {
   content: "Bash";
 }
-/* line 62, ../sass/layout.scss */
+/* line 63, ../sass/layout.scss */
 pre code.javascript:before {
   content: "JavaScript";
 }
 
-/* line 67, ../sass/layout.scss */
+/* line 68, ../sass/layout.scss */
 time {
   line-height: 40px;
 }
 
-/* line 71, ../sass/layout.scss */
+/* line 72, ../sass/layout.scss */
 #logo {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 28px;
@@ -84,7 +85,7 @@ time {
   text-align: center;
 }
 
-/* line 79, ../sass/layout.scss */
+/* line 80, ../sass/layout.scss */
 #avatar {
   border-radius: 50%;
   box-shadow: 1px 0 0 #333, -1px 0 0 #333, 0 1px 0 #333, 0 -1px 0 #333;
