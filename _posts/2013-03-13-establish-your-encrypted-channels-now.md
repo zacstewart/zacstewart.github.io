@@ -25,7 +25,7 @@ If the top man at the CIA having his private communications breached isn't
 enough motivation to take good look at your own privacy, then nothing I can say
 is. So, put away your tinfoil hats and lets go!
 
-## Off-the-Record Instant Messaging
+# Off-the-Record Instant Messaging
 
 [OTR][1] is probably the easiest one and there is absolutely _no_ reason you
 shouldn't be able to do this one now–right now. As soon as you finish this
@@ -42,7 +42,7 @@ that you're sure it's them). And next time you need to converse privately,
 the clear. If you want to see one, sign in with another client while in an OTR
 session and look at the messages coming from your partner.
 
-## GPG Encrypted Email
+# GPG Encrypted Email
 
 Your email is not private. At all. There's not even a paper envelope
 surrounding it to shield it from prying eyes, making "mail" a misnomer. For now
@@ -71,7 +71,7 @@ You can use it to encrypt any data, and since it can be used like any other UNIX
 utility, you can incorporate it into larger, more complex workflows with a little
 shell fu. Check out this [more detailed guide][8] by Paul Heinlein.
 
-## Private Browsing
+# Private Browsing
 
 I don't recommend that you–nor do I myself–use Tor or a VPN on a constant
 basis, but these should be two tools that you have at your disposal and are
@@ -96,7 +96,7 @@ nameless, shady drifter, but it gives you access to a darknet–a shadowy place
 not accessible from the normal internet. You're on your own here; explore at
 your own peril. The downside to Tor is that it's very slow.
 
-## Donate to the EFF
+# Donate to the EFF
 
 These tools are all bandaids for a bigger problem we have: the corrosion of
 civil liberties. They are priceless, but we need to put up more than a technical

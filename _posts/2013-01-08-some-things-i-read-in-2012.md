@@ -10,7 +10,7 @@ I thought I'd give a quick run down of the ones that I liked best, in no particu
 order. I don't mean to provide a synopsis; you can read those all you like on
 Amazon or Goodreads. Instead, I just want to share a bit about why I liked them.
 
-## [My Inventions: The Autobiography of Nikola Tesla][1]
+# [My Inventions: The Autobiography of Nikola Tesla][1]
 
 A pretty short read–around 80 pages–but despite its brevity, Tesla reveals some
 incredible details about the nature of his genius.
@@ -24,7 +24,7 @@ I thoroughly enjoyed the anecdotes of his development as an engineer as well as
 his focus on introspection and personal fulfillment and think it's a valuable
 read for anyone, technical or not.
 
-## [The Consolations of Philosophy][2]
+# [The Consolations of Philosophy][2]
 This one is a journey across philosophies, including those of Socrates,
 Epicurus, Seneca, Montaigne, Schopenhauer, and Nietzsche. It covers many topics
 ranging from sexual inadequacy to social conformity.
@@ -39,7 +39,7 @@ It piqued my interest in both Nietzsche and Montaigne so that I bought a book
 by each.
 
 
-## [On Solitude][3]
+# [On Solitude][3]
 
 Montaigne proves to have been incredibly forward thinking for his time. Once
 well into the book, I actually had to check Wikipedia for the time period
@@ -63,7 +63,7 @@ After reading this book, my lasting impression of Montaigne is that he was an
 incredibly honest man. Honest with himself, and diligently practiced
 introspection as a means to correct his thought.
 
-## [Thus Spoke Zarathustra][4] and [Why I am so Wise][5]
+# [Thus Spoke Zarathustra][4] and [Why I am so Wise][5]
 
 Nietzsche is one of those philosophers whom I always assumed I would like. I was
 interested in his ideas of the Übermensch and eternal recurrence, his atheism,
@@ -94,7 +94,7 @@ vitriol toward all things German:
 It's hard for me to believe he would have been enthusiastic about Nazis
 adopting some of his ideas.
 
-## [Accelerando][6]
+# [Accelerando][6]
 
 This one follows the story of one family across three generations as they cross
 the threshold into the technological singularity.
@@ -104,7 +104,7 @@ augmented reality, uploading, artificial intelligence, solar sails and
 interstellar travel.
 
 
-## [RESTful Web Services][7]
+# [RESTful Web Services][7]
 
 Want to become the HTTP wizard around the office? This book is invaluable if you
 spend a lot of time designing APIs.
@@ -120,7 +120,7 @@ The rest of it was definitely rewarding. I no longer have to skip a beat
 wondering which response code is right in a given situation or which method a
 resource should should expose.
 
-## [The Bogleheads' Guide to Investing][8]
+# [The Bogleheads' Guide to Investing][8]
 
 This one wasn't exactly a thriller, but it did give me a lot of knowledge for
 planning my financial future. Knowing how to tax-shelter your nest egg, or whether
@@ -132,7 +132,7 @@ in your tax-sheltered account (e.g., Roth IRA), asset allocation is everything
 and rebalance your portfolio at regular intervals to maintain your desired
 allocation.
 
-## [Planning for Freedom][9]
+# [Planning for Freedom][9]
 
 This last one is a little obscure. Von Mises is the name behind the Ludwig von
 Mises Institute, a popular, libertarian, Austrian economics think tank. The printing

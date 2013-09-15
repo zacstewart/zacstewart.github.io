@@ -41,7 +41,7 @@ else
 end
 ```
 
-# `Authorize!` those records!
+# `authorize!` those records!
 Usually you do something like `authorize! :read, @time_off_request` to
 make sure a user can indeed read the time off request in question.
 However, with an array of time off requests, it gets tricky. Your first

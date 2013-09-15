@@ -4,7 +4,7 @@ title: The HTTP OPTIONS method and potential for self-describing RESTful APIs
 ---
 The OPTIONS method is a somewhat obscure part of the HTTP standard that could be used today with a strong impact on the interconnectedness of the interwebs while requiring minimal effort. It's role is well defined in [RFC2616](http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html), yet no web services that I can find are taking advantage of it.
 
-## What is the HTTP OPTIONS method?
+# What is the HTTP OPTIONS method?
 
 To quote the spec:
 
@@ -15,7 +15,7 @@ Minimally, the response should be a `200 OK` and have an `Allow` header with a l
     200 OK
     Allow: HEAD,GET,PUT,DELETE,OPTIONS
 
-## (Almost) no one uses it
+# (Almost) no one uses it
 
 I've tested quite a few sites and APIs and so far, the only resources I've found that respond properly are default Apache pages. Specifically, directory indices. If you try it on apache.org/dist/httpd, for example, you'll get a response like this:
 
@@ -29,7 +29,7 @@ GitHub responds with a 500, Reddit with `501 Not Implemented`, Google maps with 
 
 GitHub (to pick on someone specific. Not because I don't love you!) could be using this to tell me what I am allowed to do with each resource exposed by their endpoints. And before you tell me "meh, it's just a list of HTTP verbs you can use on a resource. Who cares?" let me throw some more of the RFC your way.
 
-## The response body and API documentation
+# The response body and API documentation
 
 > The response body, if any, SHOULD also include information about the communication options. The format for such a body is not defined by this specification, but might be defined by future extensions to HTTP.
 
@@ -82,7 +82,7 @@ At the very least, services should be responding with a 200 and the Allow header
 
 Of course, it'd show more than just the paramters for the POST method. I'd like to see a standardized format for documentation like this, but developing that is not the point of this post.
 
-## Advancing our tools
+# Advancing our tools
 I'm currently working on a small, one page Sinatra, MongoDB, Backbone.js app. Every endpoint will respond to the OPTIONS method. As I go, I'm extracting it into a gem to make self-explaining Sinatra APIs easy. I'd like to participate in disucssion about this being added to Rails routing. At least responding with a proper Allow header would be a start. I'm also interested in exploring the automatically generated client idea via Backbone apps.
 
 In the mean time, I just want to get the discussion started because I think there's a lot of potential here and I'm surprised that no one has tapped into it yet. As _RESTful Web Services_ puts it, "OPTIONS is a promising idea that nobody uses."
