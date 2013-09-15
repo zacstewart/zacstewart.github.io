@@ -11,5 +11,4 @@ lsi: false
 pygments: true
 safe: true
 url: 'http://zacstewart.com'
-excerpt_separator: ''
 markdown: redcarpet
