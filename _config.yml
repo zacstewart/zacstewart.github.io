@@ -13,3 +13,6 @@ pygments: true
 safe: true
 url: 'http://zacstewart.com'
 markdown: redcarpet
+redcarpet:
+  extensions:
+    - tables
