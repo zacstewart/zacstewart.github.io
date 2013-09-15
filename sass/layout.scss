@@ -42,7 +42,26 @@ pre {
 pre code {
   background: none;
   border-radius: 0;
+  font-size: 14px;
   padding: 0;
+  &:before {
+    color: #5f5a60;
+    float: right;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 12px;
+  }
+  &.python:before {
+    content: "Python";
+  }
+  &.ruby:before {
+    content: "Ruby";
+  }
+  &.bash:before {
+    content: "Bash";
+  }
+  &.javascript:before {
+    content: "JavaScript";
+  }
 }
 
 #logo {

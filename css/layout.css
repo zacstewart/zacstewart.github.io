@@ -43,10 +43,34 @@ pre {
 pre code {
   background: none;
   border-radius: 0;
+  font-size: 14px;
   padding: 0;
 }
+/* line 47, ../sass/layout.scss */
+pre code:before {
+  color: #5f5a60;
+  float: right;
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 12px;
+}
+/* line 53, ../sass/layout.scss */
+pre code.python:before {
+  content: "Python";
+}
+/* line 56, ../sass/layout.scss */
+pre code.ruby:before {
+  content: "Ruby";
+}
+/* line 59, ../sass/layout.scss */
+pre code.bash:before {
+  content: "Bash";
+}
+/* line 62, ../sass/layout.scss */
+pre code.javascript:before {
+  content: "JavaScript";
+}
 
-/* line 48, ../sass/layout.scss */
+/* line 67, ../sass/layout.scss */
 #logo {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 28px;
@@ -55,7 +79,7 @@ pre code {
   text-align: center;
 }
 
-/* line 56, ../sass/layout.scss */
+/* line 75, ../sass/layout.scss */
 #avatar {
   border-radius: 50%;
   box-shadow: 0 0 1px 1px #333;
