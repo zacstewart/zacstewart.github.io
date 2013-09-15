@@ -1,5 +1,7 @@
 exclude:
   - Capfile
+  - Gemfile
+  - Gemfile.lock
   - Guardfile
   - config
   - config.rb
