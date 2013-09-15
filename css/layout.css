@@ -15,15 +15,42 @@
 /* #Site Styles
 ================================================== */
 /* line 19, ../sass/layout.scss */
+body {
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+/* line 25, ../sass/layout.scss */
+h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
+  text-decoration: none;
+}
+
+/* line 30, ../sass/layout.scss */
+code {
+  font-family: Consolas, Monaco, "Lucida Console", monospace;
+  background-color: #eee;
+  border-radius: 4px;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+/* line 38, ../sass/layout.scss */
+pre code {
+  background: none;
+  border-radius: 0;
+  padding: 0;
+}
+
+/* line 44, ../sass/layout.scss */
 #logo {
-  font-family: 'Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif';
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 28px;
   font-weight: bold;
   letter-spacing: -1px;
   text-align: center;
 }
 
-/* line 27, ../sass/layout.scss */
+/* line 52, ../sass/layout.scss */
 #avatar {
   border-radius: 50%;
   box-shadow: 0 0 1px 1px #333;
@@ -32,17 +59,6 @@
   margin-left: auto;
   margin-right: auto;
   margin-top: 0;
-}
-
-/* line 38, ../sass/layout.scss */
-h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
-  text-decoration: none;
-}
-
-/* line 43, ../sass/layout.scss */
-body {
-  margin-top: 40px;
-  margin-bottom: 40px;
 }
 
 /* #Page Styles
