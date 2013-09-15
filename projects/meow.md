@@ -5,17 +5,7 @@ title: 'Meow: A Growl Work-Alike for jQuery'
 <link rel="stylesheet" href="http://zacstewart.github.com/Meow/jquery.meow.css">
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
 <script src="http://zacstewart.github.com/Meow/jquery.meow.js"></script>
-<script>
-  $(document).ready(function () {
-    $('#example-button').click(function () {
-      $.meow({
-        message: $('#example-input'),
-        title: 'Hello, World',
-        icon: 'http://zacstewart.github.com/Meow/nyan-cat.gif'
-      });
-    });
-  });
-</script>
+<script src="meow_demo.js"></script>
 
 # jQuery Meow
 
