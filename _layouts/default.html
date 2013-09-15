@@ -1,14 +1,23 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>{{ page.title }} | zacstewart.com</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+
+    <title>{{ page.title }} | zacstewart.com</title>
+
     <link rel="alternate" type="application/rss+xml" title="Zac Stewart" href="http://zacstewart.com/feed.xml">
-    <link rel="stylesheet" href="/css/screen.css" type="text/css" media="screen, projection">
+
+    <link rel="stylesheet" href="/css/base.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="/css/skeleton.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="/css/layout.css" type="text/css" media="screen, projection">
     <link rel="stylesheet" href="/css/pygment.css" type="text/css" media="screen, projection">
+
     <link href='http://fonts.googleapis.com/css?family=Droid+Sans:regular,bold' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Droid+Serif:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
-    <link rel="icon" href="/images/favicon.png" type="image/png">
+
+    <link rel="shortcut icon" href="/images/favicon.png" type="image/png">
+
     <script type="text/javascript">
     /* <![CDATA[ */
         (function() {
@@ -35,10 +44,15 @@
   </head>
 
   <body>
-    <header class="page-header">
-      <div class="inner">
-        <h1 class="site-title">Zac Stewart</h1>
-        <nav class="site-nav">
+    <div class="container">
+      <div class="three columns">
+        <a href="/">
+          <img src="http://gravatar.com/avatar/c5e99d5ecfaab30b92d9a7cdb34e0e33?s=140" alt="Zac Stewart" id="avatar">
+        </a>
+        <h1 id="logo" class="remove-bottom">
+          <a href="/">Zac Stewart</a>
+        </h1>
+        <nav>
           <ul>
             <li><a href="/">Blog</a></li>
             <li><a href="/projects.html">Projects</a></li>
@@ -46,31 +60,17 @@
           </ul>
         </nav>
       </div>
-    </header>
-    <div class="page-body">
-      <div class="inner">
-        <div class="content">
-          {{ content }}
-        </div>
-        <div class="sidebar">
-          <h2>Recent Posts</h2>
-          <ol>
-            {% for post in site.posts limit:10 %}
-              <li><a href="{{ post.url }}">{{ post.title }}</a></li>
-            {% endfor %}
-          </ol>
-          <a href="http://twitter.com/zacstewart"
-            class="twitter-follow-button"
-            data-button="grey"
-            data-text-color="#f8f8f8"
-            data-link-color="#cf6a4c"
-            data-show-count="false">Follow @zacstewart</a>
-        </div>
+      <div class="twelve columns offset-by-one">
+        {{ content }}
       </div>
+      <footer class="page-footer">
+        <a href="http://twitter.com/zacstewart"
+          class="twitter-follow-button"
+          data-button="grey"
+          data-text-color="#f8f8f8"
+          data-link-color="#cf6a4c"
+          data-show-count="false">Follow @zacstewart</a>
+      </footer>
     </div>
-    <footer class="page-footer">
-      <div class="inner">
-      </div>
-    </footer>
   </body>
 </html>
