@@ -25,7 +25,7 @@
 
 /* line 27, ../sass/layout.scss */
 #avatar {
-  border-radius: 72px;
+  border-radius: 50%;
   border-width: 2px;
   border-style: solid;
   border-color: #333;
