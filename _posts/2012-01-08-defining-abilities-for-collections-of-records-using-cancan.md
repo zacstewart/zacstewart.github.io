@@ -32,14 +32,14 @@ complex and I want to make sure that at no point in the future I do
 something that accidentally gives access to someone undeserving. Having
 all that bottleneck through the Ability model helps me sleep at night.
 
-{% highlight ruby %}
-  # time_off_requests_controller.rb
-  if current_membership.has_any_role?(:admin, :manager)
-    @time_off_requests = @restaurant.time_off_requests
-  else
-    @time_off_requests = current_membership.time_off_requests
-  end
-{% endhighlight %}
+```ruby
+# time_off_requests_controller.rb
+if current_membership.has_any_role?(:admin, :manager)
+  @time_off_requests = @restaurant.time_off_requests
+else
+  @time_off_requests = current_membership.time_off_requests
+end
+```
 
 # `Authorize!` those records!
 Usually you do something like `authorize! :read, @time_off_request` to
@@ -61,25 +61,25 @@ In the example below, the asterisk in `*time_off_requests` means that
 the block will accept N number of arguments and will squish them back
 into an array, letting me use an iterative method on it, in this case `all?`.
 
-{% highlight ruby %}
-  # Ability.rb
-  can :manage, TimeOffRequest do |*time_off_requests|
-    membership.has_any_role?(:admin, :manager) ||
-      time_off_requests.all? { |tor| membership.id == tor.employee_id }
-  end
-{% endhighlight %}
+```ruby
+# ability.rb
+can :manage, TimeOffRequest do |*time_off_requests|
+  membership.has_any_role?(:admin, :manager) ||
+    time_off_requests.all? { |tor| membership.id == tor.employee_id }
+end
+```
 
 ## Back in the controller...
 Now I just need to call `authorize!` properly. The splat operator also lets
 you pass the contents of an array as arguments. If you're from the PHP
 world you may recognize the similarity of `call_user_func_array`.
 
-{% highlight ruby %}
-  foo = [:a, :b, :c]
-  bar(*foo)
-  # is the same as
-  bar(:a, :b, :c)
-{% endhighlight %}
+```ruby
+foo = [:a, :b, :c]
+bar(*foo)
+# is the same as
+bar(:a, :b, :c)
+```
 
 There is one bit of inelegance that I don't like here. As I said
 earlier, CanCan needs the argument following the access method to be an
@@ -91,26 +91,24 @@ instance.
 
 # The Code
 
-{% highlight ruby %}
-  # time_off_requests_controller.rb
-  def index
-    if current_membership.has_any_role?(:admin, :manager)
-      @time_off_requests = @restaurant.time_off_requests
-    else
-      @time_off_requests = current_membership.time_off_requests
-    end
-
-    authorize! :read, *(@time_off_requests.any? ? @time_off_requests : current_membership.time_off_requests.new)
-    respond_to do |format|
-      format.html
-    end
+```ruby
+# time_off_requests_controller.rb
+def index
+  if current_membership.has_any_role?(:admin, :manager)
+    @time_off_requests = @restaurant.time_off_requests
+  else
+    @time_off_requests = current_membership.time_off_requests
   end
-{% endhighlight %}
 
-{% highlight ruby %}
-  # Ability.rb
-  can :manage, TimeOffRequest do |*time_off_requests|
-    membership.has_any_role?(:admin, :manager) ||
-      time_off_requests.all? { |tor| membership.id == tor.employee_id }
+  authorize! :read, *(@time_off_requests.any? ? @time_off_requests : current_membership.time_off_requests.new)
+  respond_to do |format|
+    format.html
   end
-{% endhighlight %}
+end
+
+# ability.rb
+can :manage, TimeOffRequest do |*time_off_requests|
+  membership.has_any_role?(:admin, :manager) ||
+    time_off_requests.all? { |tor| membership.id == tor.employee_id }
+end
+```

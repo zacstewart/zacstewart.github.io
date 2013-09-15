@@ -28,13 +28,13 @@ got reported.
 There's more detailed instructions at the [RVM installation](http://beginrescueend.com/rvm/install/ "RVM installation")
 page, but this is the gist:
 
-{% highlight bash %}
-  $ bash < <(curl -s https://rvm.beginrescueend.com/install/rv m)
-  $ echo '[[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm" # Load RVM function' >> ~/.bash_profile
-  $ source .bash_profile
-  $ rvm install 1.9.2 # or any other current version
-  $ rvm use 1.9.2 --default
-{% endhighlight %}
+```bash
+$ bash < <(curl -s https://rvm.beginrescueend.com/install/rv m)
+$ echo '[[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm" # Load RVM function' >> ~/.bash_profile
+$ source .bash_profile
+$ rvm install 1.9.2 # or any other current version
+$ rvm use 1.9.2 --default
+```
 
 You can test that it's working with `ruby -v`, which should yield something like `ruby 1.9.2p180 (2011-02-18 revision 30909) [x86_64-linux]`.
 
@@ -45,20 +45,22 @@ you need to do a little more work, though. `easy_install Pygments` won't work. I
 but updated it for a more recent version of Pygments.
 
 ## Configure your Python Environment
-{% highlight bash %}
-  $ mkdir ~/lib/python
-  $ echo 'export PYTHONPATH="$HOME/lib/python:/usr/lib/python2.3"' >> ~/.bash_profile
-  $ source ~/.bash_profile
-{% endhighlight %}
+
+```bash
+$ mkdir ~/lib/python
+$ echo 'export PYTHONPATH="$HOME/lib/python:/usr/lib/python2.3"' >> ~/.bash_profile
+$ source ~/.bash_profile
+```
 
 ## Get and Build Pygments
-{% highlight bash %}
-  $ cd ~/src
-  $ wget http://pypi.python.org/packages/source/P/Pygments/Pygments-1.4.tar.gz
-  $ tar -xvzf Pygments-1.4.tar.gz
-  $ cd Pygments-1.4
-  $ python setup.py install --home=$HOME
-{% endhighlight %}
+
+```bash
+$ cd ~/src
+$ wget http://pypi.python.org/packages/source/P/Pygments/Pygments-1.4.tar.gz
+$ tar -xvzf Pygments-1.4.tar.gz
+$ cd Pygments-1.4
+$ python setup.py install --home=$HOME
+```
 
 Make sure `PATH=$PATH:~/packages/bin/:~/bin` is in your .bash_profile, if not, add it
 and then run `source ~/.bash_profile`. Check that it's working be running `pygmentize`.
@@ -72,7 +74,8 @@ I found this [Simple Capistrano recipe for Jekyll](https://gist.github.com/28629
 little work on it. Especially since I'm using [Compass](http://compass-style.org) on my blog.
 
 ## config/deploy.rb
-{% highlight ruby %}
+
+```ruby
 set :application,       'zacstewart.com'
 set :repository,        'git@github.com:zacstewart/zacstewart.com.git'
 set :scm,               :git
@@ -115,7 +118,7 @@ namespace :deploy do
     run "/bin/bash -c 'source ~/.bash_profile; cd #{latest_release}; compass compile -c config_prod.rb --force; jekyll;'"
   end
 end
-{% endhighlight %}
+```
 
 Of course, you'll need to configure it with your credentials and if you, like me, are using
 compass, you'll need to change your compile task. Add ` ~/.rvm/gems/ruby-1.9.2-p180/bin/compass';`

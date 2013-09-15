@@ -39,46 +39,46 @@ APIs should be taking advantage of this. There are many benefits to be gained fr
 
 At the very least, services should be responding with a 200 and the Allow header. That's just correct web server behavior. But there's really no excuse for JSON APIs not to be returning a documentation object. To use GitHub as example again, on the issues endpoint, a request like `OPTIONS /repos/:user/:repo/issues` should respond with a body like...
 
-{% highlight javascript %}
-  {
-    "POST": {
-      "description": "Create an issue",
-      "parameters": {
-        "title": {
-          "type": "string"
-          "description": "Issue title.",
-          "required": true
-        },
-        "body": {
-          "type": "string",
-          "description": "Issue body.",
-        },
-        "assignee": {
-          "type": "string",
-          "description" "Login for the user that this issue should be assigned to."
-        },
-        "milestone": {
-          "type": "number",
-          "description": "Milestone to associate this issue with."
-        },
-        "labels": {
-          "type": "array/string"
-          "description": "Labels to associate with this issue."
-        }
+```json
+{
+  "POST": {
+    "description": "Create an issue",
+    "parameters": {
+      "title": {
+        "type": "string"
+        "description": "Issue title.",
+        "required": true
       },
-      "example": {
-        "title": "Found a bug",
-        "body": "I'm having a problem with this.",
-        "assignee": "octocat",
-        "milestone": 1,
-        "labels": [
-          "Label1",
-          "Label2"
-        ]
+      "body": {
+        "type": "string",
+        "description": "Issue body.",
+      },
+      "assignee": {
+        "type": "string",
+        "description" "Login for the user that this issue should be assigned to."
+      },
+      "milestone": {
+        "type": "number",
+        "description": "Milestone to associate this issue with."
+      },
+      "labels": {
+        "type": "array/string"
+        "description": "Labels to associate with this issue."
       }
+    },
+    "example": {
+      "title": "Found a bug",
+      "body": "I'm having a problem with this.",
+      "assignee": "octocat",
+      "milestone": 1,
+      "labels": [
+        "Label1",
+        "Label2"
+      ]
     }
   }
-{% endhighlight %}
+}
+```
 
 Of course, it'd show more than just the paramters for the POST method. I'd like to see a standardized format for documentation like this, but developing that is not the point of this post.
 

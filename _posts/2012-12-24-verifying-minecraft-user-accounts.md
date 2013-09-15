@@ -48,7 +48,7 @@ a timestamp, username, and a session id.
 For my purposes, I just needed to ensure that they can get a successful
 response and that the username matches the one they're signing up with.
 
-{% highlight ruby %}
+```ruby
 class MinecraftAccountVerifier
   require 'net/http'
   require 'uri'
@@ -104,7 +104,7 @@ class MinecraftAccountVerifier
     http.request(request)
   end
 end
-{% endhighlight %}
+```
 
 This has the obvious downside that you're asking your users for their credentials
 to a third party. They should never have to just trust you. I posted what I had
@@ -124,7 +124,7 @@ customize your character by uploading a skin. A skin is just a tiny,
 verification skin to their profile. Then I just have to diff the image against
 the original.
 
-{% highlight ruby %}
+```ruby
 class MinecraftAccountVerifier
   require 'net/http'
   require 'uri'
@@ -179,7 +179,7 @@ class MinecraftAccountVerifier
       ChunkyPNG::Image.from_file(Rails.root.join('public/verification_skin.png'))
   end
 end
-{% endhighlight %}
+```
 
 Luckily, there's nothing fancy about getting a player's skin: they're just stored in
 an S3 bucket with a filename matching their username. All I have to do is
