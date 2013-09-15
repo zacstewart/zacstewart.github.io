@@ -35,6 +35,10 @@ code {
   padding-right: 4px;
 }
 
+pre {
+  overflow-x: scroll;
+}
+
 pre code {
   background: none;
   border-radius: 0;

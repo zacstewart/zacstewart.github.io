@@ -35,13 +35,18 @@ code {
 }
 
 /* line 38, ../sass/layout.scss */
+pre {
+  overflow-x: scroll;
+}
+
+/* line 42, ../sass/layout.scss */
 pre code {
   background: none;
   border-radius: 0;
   padding: 0;
 }
 
-/* line 44, ../sass/layout.scss */
+/* line 48, ../sass/layout.scss */
 #logo {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 28px;
@@ -50,7 +55,7 @@ pre code {
   text-align: center;
 }
 
-/* line 52, ../sass/layout.scss */
+/* line 56, ../sass/layout.scss */
 #avatar {
   border-radius: 50%;
   box-shadow: 0 0 1px 1px #333;
