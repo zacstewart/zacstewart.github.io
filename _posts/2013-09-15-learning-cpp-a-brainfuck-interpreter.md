@@ -3,6 +3,12 @@ layout: post
 title: 'Learning C++: A brainfuck Interpreter'
 ---
 
+```brainfuck
+>+++++++++[<++++++++>-]<.>+++++++[<++++>-]<+.+++++++..+++.>>>
+++++++++[<++++>-]<.>>>++++++++++[<+++++++++>-]<---.<<<<.+++.------.--------.>>+.
+```
+Hello, World!
+
 As I try to steer my career away from generic application building and into
 scientific computing, I find myself wanting to learn C++. This is an odd
 admission for a Rubyist, as I usually see movement in the opposite direction,
@@ -36,11 +42,8 @@ language with only eight instructions:
 * `[` Jump past the matching ] if the cell under the pointer is 0
 * `]` Jump back to the matching [ if the cell under the pointer is nonzero
 
-```brainfuck
->+++++++++[<++++++++>-]<.>+++++++[<++++>-]<+.+++++++..+++.>>>++++++++[<++++>-]
-<.>>>++++++++++[<+++++++++>-]<---.<<<<.+++.------.--------.>>+.
-```
-Hello, World!
+This yields very cryptic programs, like the "Hello, World!" at the top of this
+post.
 
 # First, just make it work
 
