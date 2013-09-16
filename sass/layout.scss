@@ -63,6 +63,12 @@ pre code {
   &.javascript:before {
     content: "JavaScript";
   }
+  &.cpp:before {
+    content: "C++";
+  }
+  &.brainfuck:before {
+    content: "brainfuck";
+  }
 }
 
 time {

@@ -70,13 +70,21 @@ pre code.bash:before {
 pre code.javascript:before {
   content: "JavaScript";
 }
+/* line 66, ../sass/layout.scss */
+pre code.cpp:before {
+  content: "C++";
+}
+/* line 69, ../sass/layout.scss */
+pre code.brainfuck:before {
+  content: "brainfuck";
+}
 
-/* line 68, ../sass/layout.scss */
+/* line 74, ../sass/layout.scss */
 time {
   line-height: 40px;
 }
 
-/* line 72, ../sass/layout.scss */
+/* line 78, ../sass/layout.scss */
 #logo {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 28px;
@@ -85,7 +93,7 @@ time {
   text-align: center;
 }
 
-/* line 80, ../sass/layout.scss */
+/* line 86, ../sass/layout.scss */
 #avatar {
   border-radius: 50%;
   box-shadow: 1px 0 0 #333, -1px 0 0 #333, 0 1px 0 #333, 0 -1px 0 #333;
