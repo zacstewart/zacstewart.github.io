@@ -1,6 +1,12 @@
 ---
 layout: post
 title: 'Learning C++: A brainfuck Interpreter'
+excerpt: |
+  As I try to steer my career away from generic application building and into
+  scientific computing, I find myself wanting to learn C++. This is an odd
+  admission for a Rubyist, as I usually see movement in the opposite direction,
+  with tired C programmers washing up on the sweet shores of Ruby, sighing,
+  with relief, that it just feels so right.
 ---
 
 ```brainfuck
