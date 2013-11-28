@@ -3,7 +3,7 @@ layout: post
 title: 'Kaggle See Click Fix competition postmortem'
 excerpt: |
   This challenge was to predict the number of votes, comments, and views that
-  issues created on [See Click Fix][1] would get. The provided datasets included
+  issues created on See Click Fix would get. The provided datasets included
   the latitude and longitude, summary and description (both text fields), a
   source (mobile client, API, city-initiated, etc…), a created timestamp, and a
   category tag. Of course, the training dataset included the three items to be
