@@ -5,6 +5,9 @@ title: Projects
 {{ page.title }}
 ====
 
+* ### [PySpec](https://github.com/zacstewart/pyspec)
+  An RSpec-inspired behavior-driven development framework for Python.
+
 * ### [Numericis](https://github.com/zacstewart/redis)
   A fork of Redis for linear algebra.
 
