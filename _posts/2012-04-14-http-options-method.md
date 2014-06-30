@@ -85,4 +85,6 @@ Of course, it'd show more than just the paramters for the POST method. I'd like 
 # Advancing our tools
 I'm currently working on a small, one page Sinatra, MongoDB, Backbone.js app. Every endpoint will respond to the OPTIONS method. As I go, I'm extracting it into a gem to make self-explaining Sinatra APIs easy. I'd like to participate in disucssion about this being added to Rails routing. At least responding with a proper Allow header would be a start. I'm also interested in exploring the automatically generated client idea via Backbone apps.
 
-In the mean time, I just want to get the discussion started because I think there's a lot of potential here and I'm surprised that no one has tapped into it yet. As _RESTful Web Services_ puts it, "OPTIONS is a promising idea that nobody uses."
+In the mean time, I just want to get the discussion started because I think there's a lot of potential here and I'm surprised that no one has tapped into it yet. As [_RESTful Web Services_][1] puts it, "OPTIONS is a promising idea that nobody uses."
+
+[1]: http://amzn.to/ZYpK2B "RESTful Web Services"
