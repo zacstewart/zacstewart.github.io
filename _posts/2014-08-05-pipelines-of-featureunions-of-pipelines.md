@@ -55,9 +55,7 @@ This pipeline has what I think of as a linear shape. The data flows straight thr
 
 # FeatureUnions
 
-Like I said before, I usually want to extract more features, and that means parallel processes that need to be performed with the data before putting the results together:
-
-Using a FeatureUnion, you can model these parallel processes, which are often Pipelines themselves:
+Like I said before, I usually want to extract more features, and that means parallel processes that need to be performed with the data before putting the results together. Using a FeatureUnion, you can model these parallel processes, which are often Pipelines themselves:
 
 ```python
 pipeline = Pipeline([
