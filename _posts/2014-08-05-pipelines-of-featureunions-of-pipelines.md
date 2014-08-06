@@ -5,7 +5,7 @@ title: "Pipelines of FeatureUnions of Pipelines"
 
 A powerful feature of scikit-learn is the ability to chain transformers and estimators together in such a way that you can use them as a single unit. This comes in very handy when you need to jump through a few hoops of data extraction, transformation, normalization, and finally train your model (or use it to generate predictions). 
 
-When I first started out competing in Kaggle competitions, I would invariably get started with some code that look similar to this:
+When I first started participating in Kaggle competitions, I would invariably get started with some code that looked similar to this:
 
 ```python
 train = read_file('data/train.tsv')
@@ -49,7 +49,7 @@ train_idx, cv_idx in KFold():
 print("Score: {}".format(np.mean(scores)))
 ```
 
-This pipeline currently has what I think of as a linear shape. The data flows straight throw each step, until it reaches the classifier.
+This pipeline has what I think of as a linear shape. The data flows straight through each step, until it reaches the classifier.
 
 ![Simple scikit-learn Pipeline](/images/pipelines-of-featureunions-of-pipelines/simple-pipeline.svg)
 
@@ -178,7 +178,7 @@ The pipeline treats these objects like any of the built-in transformers and `fit
 
 # Final Thoughts
 
-While the initial investment is higher, designing my projects this way ensures that I can continue to adapt and improve it without pulling my hair out keeping all the steps straight. It really starts to pay off when you get into tuning hyperparamers, but I'll save that for another post.
+While the initial investment is higher, designing my projects this way ensures that I can continue to adapt and improve it without pulling my hair out keeping all the steps straight. It really starts to pay off when you get into hyperparamer tuning, but I'll save that for another post.
 
 If I could add one enhancement to this design, it would be a way to add post-processing steps to the pipeline. I usually end up needing to take a few final steps like setting all negative predictions to `0.0`. The last step in the pipeline is assumed to be the final estimator, and as such the pipeline calls `predict` on it instead of `transform`. Because of this limitation, I end up having to do my post-processing outside of the pipeline:
 
