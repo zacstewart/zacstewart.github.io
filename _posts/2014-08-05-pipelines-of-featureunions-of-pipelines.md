@@ -124,7 +124,7 @@ pipeline = Pipeline([
 
 # Custom Transformers
 
-Many of the steps in the previous examples include transformers that don't come with scikit-learn. The ColumnExtractor, DenseTransformer, and ModelTransformer, to name a few, are all custom transformers that I wrote. A custom transformer is just an object that responds to `fit`, `transform`, and `fit_transform`.
+Many of the steps in the previous examples include transformers that don't come with scikit-learn. The ColumnExtractor, DenseTransformer, and ModelTransformer, to name a few, are all custom transformers that I wrote. A transformer is just an object that responds to `fit`, `transform`, and `fit_transform`. This includes built-in transformers (like MinMaxScaler), Pipelines, FeatureUnions, and of course, plain old Python objects that implement those methods. Inheriting from TransformerMixin is not required, but helps to communicate intent, and gets you `fit_transform` for free.
 
 Sometimes these transformers are very simple, like HourOfDayTransformer, which just extracts the hour components out of a vector of datetime objects. In this case, the transformer is "stateless" (it doesn't need to be fitted) and `fit` is a no-op:
 
