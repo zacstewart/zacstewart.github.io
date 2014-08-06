@@ -29,7 +29,7 @@ Next, I'd find myself normalizing or scaling features, and then realizing that I
 
 # Pipelines
 
-Using a Pipeline simplifies this process. Instead of manually running through each of these steps, and then tediously repeating them on the test set, you get a nice, declarative interface where it's easy to see the entire model. This example extracts the text documents, tokenizes them, counts the tokens, and then performs a tf-idf transformation before passing the resulting features along to a multinomial naive Bayes classifier:
+Using a [Pipeline][2] simplifies this process. Instead of manually running through each of these steps, and then tediously repeating them on the test set, you get a nice, declarative interface where it's easy to see the entire model. This example extracts the text documents, tokenizes them, counts the tokens, and then performs a tf-idf transformation before passing the resulting features along to a multinomial naive Bayes classifier:
 
 ```python
 pipeline = Pipeline([
@@ -55,7 +55,7 @@ This pipeline has what I think of as a linear shape. The data flows straight thr
 
 # FeatureUnions
 
-Like I said before, I usually want to extract more features, and that means parallel processes that need to be performed with the data before putting the results together. Using a FeatureUnion, you can model these parallel processes, which are often Pipelines themselves:
+Like I said before, I usually want to extract more features, and that means parallel processes that need to be performed with the data before putting the results together. Using a [FeatureUnion][3], you can model these parallel processes, which are often Pipelines themselves:
 
 ```python
 pipeline = Pipeline([
@@ -180,3 +180,5 @@ predicted[predicted < 0] = 0.0
 This usually isn't a big problem, but it does make cross-validation a little trickier. Overall, I don't find this very limiting, and I love using pipelines to organize my models.
 
 [1]: http://en.wikipedia.org/wiki/Tf%E2%80%93idf
+[2]: http://scikit-learn.org/stable/modules/generated/sklearn.pipeline.Pipeline.html
+[3]: http://scikit-learn.org/stable/modules/generated/sklearn.pipeline.FeatureUnion.html
