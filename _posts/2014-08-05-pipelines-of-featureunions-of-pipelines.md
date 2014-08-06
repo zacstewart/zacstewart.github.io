@@ -135,12 +135,8 @@ class HourOfDayTransformer(TransformerMixin):
         hours = DataFrame(X['datetime'].apply(lambda x: x.hour))
         return hours
 
-    def fit_transform(self, X, y=None, **fit_params):
-        self.fit(X, y, **fit_params)
-        return self.transform(X)
-
     def fit(self, X, y=None, **fit_params):
-        pass
+        return self
 ```
 
 However, sometimes these transformers do need to be fitted. Let's take a look at my ModelTransformer. I use this one to wrap a scikit-learn model and make it behave like a transformer. I find these useful when I want to use something like a KMeans clustering model to generate features for another model. It needs to be fitted in order to train the model it wraps.
@@ -154,13 +150,10 @@ class ModelTransformer(TransformerMixin):
 
     def fit(self, *args, **kwargs):
         self.model.fit(*args, **kwargs)
+        return self
 
     def transform(self, X, **transform_params):
         return DataFrame(self.model.predict(X))
-
-    def fit_transform(self, X, y=None, **fit_params):
-        self.fit(X, y, **fit_params)
-        return self.transform(X)
 ```
 
 The pipeline treats these objects like any of the built-in transformers and `fit`s them during the training phase, and `transform`s the data using each one when predicting.
