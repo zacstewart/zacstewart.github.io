@@ -70,15 +70,6 @@ pipeline = Pipeline([
   ])),
   ('classifier', MultinomialNB())
 ])
-
-train = read_file('data/train.tsv')
-train_y = extract_targets(train)
-scores = []
-train_idx, cv_idx in KFold():
-  model.fit(train[train_idx], train_y[train_idx])
-  scores.append(model.score(train[cv_idx], train_y[cv_idx]))
-
-print("Score: {}".format(np.mean(scores)))
 ```
 
 This example feeds the output of the `extract_essays` step into each of the `ngram_tf_idf`, `essay_length`, and `misspellings` steps and concatenates their outputs (along axis 1) before feeding it into the classifier.
