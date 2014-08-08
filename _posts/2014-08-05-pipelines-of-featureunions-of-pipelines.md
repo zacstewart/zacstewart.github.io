@@ -162,6 +162,8 @@ The pipeline treats these objects like any of the built-in transformers and `fit
 
 While the initial investment is higher, designing my projects this way ensures that I can continue to adapt and improve it without pulling my hair out keeping all the steps straight. It really starts to pay off when you get into hyperparamer tuning, but I'll save that for another post.
 
+Pipelines unfortunately do not support the `fit_partial` API for out-of-core training. This makes them less useful for large scale or online learning models. I addressed some of this in [my talk on building a language idenfier][langue], wherein I trained a model on entire Wikipedia dumps. Unfortunately, it's not as easy as it sounds to make Pipelines support it. The scikit-learn team will probably have to come up with a different pipelining scheme for incremental learning.
+
 If I could add one enhancement to this design, it would be a way to add post-processing steps to the pipeline. I usually end up needing to take a few final steps like setting all negative predictions to `0.0`. The last step in the pipeline is assumed to be the final estimator, and as such the pipeline calls `predict` on it instead of `transform`. Because of this limitation, I end up having to do my post-processing outside of the pipeline:
 
 ```python
