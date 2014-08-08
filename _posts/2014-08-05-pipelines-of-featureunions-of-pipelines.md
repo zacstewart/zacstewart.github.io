@@ -24,9 +24,9 @@ train_idx, cv_idx in KFold():
 print("Score: {}".format(np.mean(scores)))
 ```
 
-Often, this would yield a pretty decent score for a first submission. Then I'd want to try engineering some more features. Let's say in instead of text n-gram counts, I want [tf–idf][1], and in addition, I want to include overall essay length, and then misspelling counts. Well, I can just tack those into the implementation of `extract_features`. I'd extract a matrix of features for each of those ideas and then concatenate them along axis 1. Easy.
+Often, this would yield a pretty decent score for a first submission. To improve my ranking on the leaderboard, I would try extracting some more features from the data. Let's say in instead of text n-gram counts, I wanted [tf–idf][tfidf]. In addition, I wanted to include overall essay length. I might as well throw in misspelling counts while I'm at it. Well, I can just tack those into the implementation of `extract_features`. I'd extract three matrices of features–one for each of those ideas and then concatenate them along axis 1. Easy.
 
-Next, I'd find myself normalizing or scaling features, and then realizing that I want to scale some features and normalize others. Before I'd realize it, it would be 2am and I'd be trying to keep track of matrix column indices by hand so that I can try something out real quick. I'd cross validate my model again, only to realize that it hurt my score, so never mind. Maybe I should fiddle with some of the model hyperparameters or something, until finally I `git commit -am "WIP going to bed"`.
+After exhausting all the ideas I had for extracting features, I'd find myself normalizing or scaling them, and then realizing that I want to scale some features and normalize others. Before long, it would be 2am and I'd be trying to keep track of matrix column indices by hand so that I can try something out real quick. My code would be a big ball of spaghetti, but somehow I could still understand it, so long as it was all loaded into working memory. I'd cross validate my model again, only to realize that it hurt my score, so never mind on that last idea. Maybe I should fiddle with some of the hyperparameters or something, until finally I `git commit -am "WIP going to bed"`.
 
 # Pipelines
 
@@ -127,7 +127,9 @@ pipeline = Pipeline([
 
 Many of the steps in the previous examples include transformers that don't come with scikit-learn. The ColumnExtractor, DenseTransformer, and ModelTransformer, to name a few, are all custom transformers that I wrote. A transformer is just an object that responds to `fit`, `transform`, and `fit_transform`. This includes built-in transformers (like MinMaxScaler), Pipelines, FeatureUnions, and of course, plain old Python objects that implement those methods. Inheriting from TransformerMixin is not required, but helps to communicate intent, and gets you `fit_transform` for free.
 
-Sometimes these transformers are very simple, like HourOfDayTransformer, which just extracts the hour components out of a vector of datetime objects. In this case, the transformer is "stateless" (it doesn't need to be fitted) and `fit` is a no-op:
+A transformer can be thought of as a data in, data out black box. Generally, they accept a matrix as input and return a matrix of the shame shape as output. That makes it easy to reorder and remix them at will. However, I often use [Pandas][pandas] DataFrames, and expect one as input to a transformer. For example, the ColumnExtractor is for extracting columns from a DataFrame.
+
+Sometimes transformers are very simple, like HourOfDayTransformer, which just extracts the hour components out of a vector of datetime objects. Such transformers are "stateless"–they don't need to be fitted, so `fit` is a no-op:
 
 ```python
 class HourOfDayTransformer(TransformerMixin):
@@ -140,7 +142,7 @@ class HourOfDayTransformer(TransformerMixin):
         return self
 ```
 
-However, sometimes these transformers do need to be fitted. Let's take a look at my ModelTransformer. I use this one to wrap a scikit-learn model and make it behave like a transformer. I find these useful when I want to use something like a KMeans clustering model to generate features for another model. It needs to be fitted in order to train the model it wraps.
+However, sometimes transformers do need to be fitted. Let's take a look at my ModelTransformer. I use this one to wrap a scikit-learn model and make it behave like a transformer. I find these useful when I want to use something like a KMeans clustering model to generate features for another model. It needs to be fitted in order to train the model it wraps.
 
 
 ```python
@@ -175,8 +177,10 @@ predicted[predicted < 0] = 0.0
 
 This usually isn't a big problem, but it does make cross-validation a little trickier. Overall, I don't find this very limiting, and I love using pipelines to organize my models.
 
-[1]: http://en.wikipedia.org/wiki/Tf%E2%80%93idf
 [postmortem]: http://zacstewart.com/2013/11/27/kaggle-see-click-predict-fix-postmortem.html
 [sklearn]: http://scikit-learn.org/stable/
+[tfidf]: http://en.wikipedia.org/wiki/Tf%E2%80%93idf
 [pipeline]: http://scikit-learn.org/stable/modules/generated/sklearn.pipeline.Pipeline.html
 [featureunion]: http://scikit-learn.org/stable/modules/generated/sklearn.pipeline.FeatureUnion.html
+[pandas]: http://pandas.pydata.org
+[langue]: http://zacstewart.com/2014/01/10/building-a-language-identifier.html
