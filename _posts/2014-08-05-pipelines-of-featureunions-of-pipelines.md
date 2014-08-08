@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Pipelines of FeatureUnions of Pipelines"
+title: "Using scikit-learn Pipelines and FeatureUnions"
 ---
 Since I posted a [postmortem][postmortem] of my entry to Kaggle's See Click Fix competition, I've meant to keep sharing things that I learn as I improve my machine learning skills. One that I've been meaning to share is [scikit-learn][sklearn]'s pipeline module. The following is a moderately detailed explanation and a few examples of how I use pipelining when I work on competitions.
 
