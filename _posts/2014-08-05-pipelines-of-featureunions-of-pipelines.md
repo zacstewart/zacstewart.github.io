@@ -2,8 +2,9 @@
 layout: post
 title: "Pipelines of FeatureUnions of Pipelines"
 ---
+Since I posted a [postmortem][postmortem] of my entry to Kaggle's See Click Fix competition, I've meant to keep sharing things that I learn as I improve my machine learning skills. One that I've been meaning to share is [scikit-learn][sklearn]'s pipeline module. The following is a moderately detailed explanation and a few examples of how I use pipelining when I work on competitions.
 
-A powerful feature of scikit-learn is the ability to chain transformers and estimators together in such a way that you can use them as a single unit. This comes in very handy when you need to jump through a few hoops of data extraction, transformation, normalization, and finally train your model (or use it to generate predictions). 
+The pipeline module of scikit-learn allows you to chain transformers and estimators together in such a way that you can use them as a single unit. This comes in very handy when you need to jump through a few hoops of data extraction, transformation, normalization, and finally train your model (or use it to generate predictions). 
 
 When I first started participating in Kaggle competitions, I would invariably get started with some code that looked similar to this:
 
@@ -177,3 +178,5 @@ This usually isn't a big problem, but it does make cross-validation a little tri
 [1]: http://en.wikipedia.org/wiki/Tf%E2%80%93idf
 [2]: http://scikit-learn.org/stable/modules/generated/sklearn.pipeline.Pipeline.html
 [3]: http://scikit-learn.org/stable/modules/generated/sklearn.pipeline.FeatureUnion.html
+[postmortem]: http://zacstewart.com/2013/11/27/kaggle-see-click-predict-fix-postmortem.html
+[sklearn]: http://scikit-learn.org/stable/
