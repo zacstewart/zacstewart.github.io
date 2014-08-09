@@ -5,8 +5,8 @@ excerpt: "I recently gave a talk on language identification at Big Nerd Ranch. T
 
 I recently gave a talk on language identification at Big Nerd Ranch. The gist
 of it was extracting text from Wikipedia and training a naive Bayes classifier
-to predict the language of text. You can check out the resulting classifier
-[running on Heroku](http://langue.herokuapp.com).
+to predict the language of text. You can check out the resulting
+language identification service, [Langue](http://langue.io).
 
 <iframe src="//player.vimeo.com/video/83696500" width="500" height="375" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
 
