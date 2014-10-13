@@ -127,7 +127,7 @@ pipeline = Pipeline([
 
 Many of the steps in the previous examples include transformers that don't come with scikit-learn. The ColumnExtractor, DenseTransformer, and ModelTransformer, to name a few, are all custom transformers that I wrote. A transformer is just an object that responds to `fit`, `transform`, and `fit_transform`. This includes built-in transformers (like MinMaxScaler), Pipelines, FeatureUnions, and of course, plain old Python objects that implement those methods. Inheriting from TransformerMixin is not required, but helps to communicate intent, and gets you `fit_transform` for free.
 
-A transformer can be thought of as a data in, data out black box. Generally, they accept a matrix as input and return a matrix of the shame shape as output. That makes it easy to reorder and remix them at will. However, I often use [Pandas][pandas] DataFrames, and expect one as input to a transformer. For example, the ColumnExtractor is for extracting columns from a DataFrame.
+A transformer can be thought of as a data in, data out black box. Generally, they accept a matrix as input and return a matrix of the same shape as output. That makes it easy to reorder and remix them at will. However, I often use [Pandas][pandas] DataFrames, and expect one as input to a transformer. For example, the ColumnExtractor is for extracting columns from a DataFrame.
 
 Sometimes transformers are very simple, like HourOfDayTransformer, which just extracts the hour components out of a vector of datetime objects. Such transformers are "stateless"–they don't need to be fitted, so `fit` is a no-op:
 
