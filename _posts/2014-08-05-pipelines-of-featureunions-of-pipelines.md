@@ -163,7 +163,7 @@ The pipeline treats these objects like any of the built-in transformers and `fit
 
 # Final Thoughts
 
-While the initial investment is higher, designing my projects this way ensures that I can continue to adapt and improve it without pulling my hair out keeping all the steps straight. It really starts to pay off when you get into hyperparamer tuning, but I'll save that for another post.
+While the initial investment is higher, designing my projects this way ensures that I can continue to adapt and improve it without pulling my hair out keeping all the steps straight. It really starts to pay off when you get into hyperparameter tuning, but I'll save that for another post.
 
 Pipelines unfortunately do not support the `fit_partial` API for out-of-core training. This makes them less useful for large scale or online learning models. I addressed some of this in [my talk on building a language identifier][langue], wherein I trained a model on entire Wikipedia dumps. Unfortunately, it's not as easy as it sounds to make Pipelines support it. The scikit-learn team will probably have to come up with a different pipelining scheme for incremental learning.
 
