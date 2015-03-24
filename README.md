@@ -1,7 +1,7 @@
 # zacstewart.com
 
 This is the source that generates my site. If you're here because you found a
-typo, error, or other discrepency in my writing, please open an issue or,
+typo, error, or other discrepancy in my writing, please open an issue or,
 better yet, send me a pull request.
 
 # Writing
