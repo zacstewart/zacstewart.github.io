@@ -38,14 +38,14 @@ def read_files(path):
                 file_path = os.path.join(root, file_name)
                 if os.path.isfile(file_path):
                     past_header, lines = False, []
-                    f = open(file_path)
+                    f = open(file_path, encoding="latin-1")
                     for line in f:
                         if past_header:
                             lines.append(line)
                         elif line == NEWLINE:
                             past_header = True
                     f.close()
-                    content = NEWLINE.join(lines).decode('cp1252', 'ignore')
+                    content = NEWLINE.join(lines)
                     yield file_path, content
 
 
@@ -88,7 +88,7 @@ for train_indices, test_indices in k_fold:
     score = pipeline.score(test_text, test_y)
     scores.append(score)
 
-print 'Total emails classified: ' + str(len(data))
-print 'Score: ' + str(sum(scores)/len(scores))
-print 'False positives: ' + str(false_positives)
-print 'False negatives: ' + str(false_negatives)
+print('Total emails classified:', len(data))
+print('Score:', sum(scores)/len(scores))
+print('False positives:', false_positives)
+print('False negatives:', false_negatives)
