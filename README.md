@@ -196,9 +196,14 @@ defined for SPAM and HAM.
 
 Still, doing each one of those steps one-at-a-time was pretty tedious. We can
 package it all up using a construct provided by scikit-learn called a Pipeline.
-It does exactly what it sounds like: pipelines a series of steps into one
-object which you train and then use to make predictions. We can use it to merge
-our feature extraction and classification into one operation:
+
+# Pipelining
+
+A pipeline does exactly what it sounds like: connects a series of steps into one
+object which you train and then use to make predictions. I've written about [using
+scikit-learn pipelines][pipelines] in detail, so I won't redo that here. In short, we can
+use a pipeline to merge our feature extraction and classification into one
+operation:
 
 ```python
 from sklearn.pipeline import Pipeline
@@ -404,3 +409,4 @@ according to the sender and seeing if you can accurately identify the authors.
 
 [enron-spam]: http://www.aueb.gr/users/ion/data/enron-spam/
 [spamassassin]: https://spamassassin.apache.org/publiccorpus/
+[pipelines]: http://zacstewart.com/2014/08/05/pipelines-of-featureunions-of-pipelines.html
