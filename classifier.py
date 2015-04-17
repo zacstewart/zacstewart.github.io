@@ -68,14 +68,14 @@ pipeline = Pipeline([
     ('count_vectorizer', CountVectorizer(ngram_range=(1, 2))),
     ('classifier',       MultinomialNB(binarize=0.0))])
 
-k_fold = KFold(n=len(data), n_folds=6, indices=False)
+k_fold = KFold(n=len(data), n_folds=6)
 scores, false_positives, false_negatives = [], 0, 0
 for train_indices, test_indices in k_fold:
-    train_text = numpy.asarray(data[train_indices]['text'])
-    train_y = numpy.asarray(data[train_indices]['class'])
+    train_text = numpy.asarray(data.iloc[train_indices]['text'])
+    train_y = numpy.asarray(data.iloc[train_indices]['class'])
 
-    test_text = numpy.asarray(data[test_indices]['text'])
-    test_y = numpy.asarray(data[test_indices]['class'])
+    test_text = numpy.asarray(data.iloc[test_indices]['text'])
+    test_y = numpy.asarray(data.iloc[test_indices]['class'])
 
     pipeline.fit(train_text, train_y)
     predictions = pipeline.predict(test_text)
