@@ -123,7 +123,7 @@ text into useful features.
 
 Before we can train an algorithm to classify a document, we have to extract
 features from it. In general terms, that means to reduce the mass of
-unstructured data into some uniform set of features that our algorithm can
+unstructured data into some uniform set of attributes that our algorithm can
 learn from. For text classification, that can mean word counts. We produce a
 table of each word mentioned in the corpus (that is, the unioned collection of
 emails) and its corresponding frequency for each class of email. A contrived
@@ -349,7 +349,7 @@ documents, so if we wanted to filter forum spam or tweets, it would probably be
 the one to use.
 
 We don't have to change any of our feature extraction pipeline (except that
-we're reversing on the TfidfTransformer step and just using the CountVectorizer
+we're removing the TfidfTransformer step and just using the CountVectorizer
 again). BernoulliNB has `binarize` parameter which lets set a threshold for
 converting numeric values to booleans. We'll use 0.0, which will convert words
 which are not present in a document to `False` and words which are present any
