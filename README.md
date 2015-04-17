@@ -277,10 +277,10 @@ filter?
 
 ## Improving Results
 
-In order to get better results, there's a few things we can change. For
-starters, we can try to extract more features from the emails, we can try
-different kinds of features, we can tune the parameters of the naïve Bayes
-classifier, or try another classifier all together.
+In order to get better results, there's a few things we can change. We can try
+to extract more features from the emails, we can try different kinds of
+features, we can tune the parameters of the naïve Bayes classifier, or try
+another classifier all together.
 
 One way to get more features is to use n-gram counts instead of just word
 counts. So far we've relied upon what's known as "bag of words" features. It's
