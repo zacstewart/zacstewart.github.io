@@ -116,9 +116,12 @@ with an applicable class. The last thing we do is use DataFrame's `reindex` to
 shuffle our whole dataset. Otherwise, we'd have contiguous blocks of examples
 from each source. This is important for validating our results later.
 
+Now that the data is in a usable format, let's talk about how to turn raw email
+text into useful features.
+
 ## Extracting Features
 
-Now we have our data in a shape we can use. The next thing to do is to extract
+Before we can train an algorithm to classify a document, we have to extract
 features from it. In general terms, that means to reduce the mass of
 unstructured data into some uniform set of features that our algorithm can
 learn from. For text classification, that can mean word counts. We produce a
@@ -151,17 +154,19 @@ count_vectorizer = CountVectorizer()
 counts = count_vectorizer.fit_transform(numpy.asarray(data['text']))
 ```
 
+With these counts as features, we can go to the next steps: training a
+classifier and classifying individual emails.
+
 ## Classifying Emails
 
-With these counts as features, we can go to the next steps: training a
-classifier and classifying individual emails. We'll use a naïve Bayes
-classifier to do so. A naïve Bayes classifier applies the Bayes theorem with
-naïve independence assumptions. That is, each feature (in this case word
-counts) is independent from every other one and each one contributes to the
-probability that an example belongs to a particular class. Using our contrive
-table above, a super spammy word like "Free" contributes to the probability
-that an email containing it is spam, however, a non-spam email could also
-contain "Free," balanced out with non-spammy words like "Linux" and "tomorrow."
+We're going to use a naïve Bayes classifier to learn from the features. A naïve
+Bayes classifier applies the Bayes theorem with naïve independence assumptions.
+That is, each feature (in this case word counts) is independent from every
+other one and each one contributes to the probability that an example belongs
+to a particular class. Using our contrive table above, a super spammy word like
+"Free" contributes to the probability that an email containing it is spam,
+however, a non-spam email could also contain "Free," balanced out with
+non-spammy words like "Linux" and "tomorrow."
 
 We instantiate a new MultinomialNB and train it by calling `fit`, passing in
 our feature vector and target vector (the classes that each example belongs
