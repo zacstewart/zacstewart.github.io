@@ -243,10 +243,10 @@ you average the score measured for each fold to get a more accurate
 estimation of your model's performance.
 
 While the process sounds complicated, scikit-learn makes it really easy. We'll
-split our data set into 6 folds and cross-validate on them. scikit-learn's KFold
-can be used to generate k pairs of _bitmasks_ –vectors of booleans which we can
-use to select out randomized portions of the dataset for our train and
-cross-validation sets.
+split our data set into 6 folds and cross-validate on them. scikit-learn's
+KFold can be used to generate k pairs of index vectors. Each pair contains a
+list of indices to select a training subset of the data and a list of indices
+to select a validation subset of the data.
 
 ```python
 from sklearn.cross_validation import KFold
