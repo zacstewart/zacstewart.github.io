@@ -11,9 +11,9 @@ be using supports multi-class classification, which opens up vast opportunities
 like author identification, support email routing, etc… However, in this
 example we'll just stick to two classes: SPAM and HAM.
 
-For this exercise, we'll be using a combination of the [Enron-Spam (in raw
-form)][enron-spam] data sets and the [SpamAssassin public
-corpus][spamassassin]. Both are publicly available for download.
+We'll use a combination of the [Enron-Spam (in raw form)][enron-spam] data
+sets and the [SpamAssassin public corpus][spamassassin]. Both are publicly
+available for download.
 
 ## Loading Examples
 
