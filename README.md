@@ -199,11 +199,11 @@ package it all up using a construct provided by scikit-learn called a `Pipeline`
 
 # Pipelining
 
-A pipeline does exactly what it sounds like: connects a series of steps into one
-object which you train and then use to make predictions. I've written about [using
-scikit-learn pipelines][pipelines] in detail, so I won't redo that here. In short, we can
-use a pipeline to merge our feature extraction and classification into one
-operation:
+A pipeline does exactly what it sounds like: connects a series of steps into
+one object which you train and then use to make predictions. I've written about
+[using scikit-learn pipelines][pipelines] in detail, so I won't redo that here.
+In short, we can use a pipeline to merge our feature extraction and
+classification into one operation:
 
 ```python
 from sklearn.pipeline import Pipeline
@@ -229,11 +229,11 @@ like the examples we trained on.
 To validate our classifier against unseen data, we can just split our training
 set into two parts with a ratio of 2:8 or so. Given that our dataset has been
 shuffled, each portion should contain an equal distribution of example types.
-We hold out the smaller portion (the cross-validation set), train the classifier
-on the larger part, predict on the cross-validation set, and compare the predictions to the
-examples' already-known classes. This method works very well, but it has the disadvantage
-of your classifier not getting trained and validated on all examples in the
-data set.
+We hold out the smaller portion (the cross-validation set), train the
+classifier on the larger part, predict on the cross-validation set, and compare
+the predictions to the examples' already-known classes. This method works very
+well, but it has the disadvantage of your classifier not getting trained and
+validated on all examples in the data set.
 
 A more sophisticated method is known as _k-fold cross-validation_. Using this
 method, we split the data set into k parts, hold out one, combine the others
@@ -293,13 +293,13 @@ called that because we simply toss all the words of a document into a "bag" and
 count them, disregarding any meaning that could locked up in the _ordering_ of
 words.
 
-An n-gram can be thought of as a phrase that is _n_ words long. For example, in the
-sentence "Don't tase me, bro" we have the 1-grams, "don't," "tase," "me," and
-"bro." The same sentence also has the 2-grams (or bigrams) "don't tase", "tase
-me", and "me bro." We can tell `CountVectorizer` to include any order of n-grams
-by giving it a range. For this data set, unigrams and bigrams seem to work
-well. 3-grams add a tiny bit more accuracy, but for the computation time they
-incur, it's probably not worth the marginal increase.
+An n-gram can be thought of as a phrase that is _n_ words long. For example, in
+the sentence "Don't tase me, bro" we have the 1-grams, "don't," "tase," "me,"
+and "bro." The same sentence also has the 2-grams (or bigrams) "don't tase",
+"tase me", and "me bro." We can tell `CountVectorizer` to include any order of
+n-grams by giving it a range. For this data set, unigrams and bigrams seem to
+work well. 3-grams add a tiny bit more accuracy, but for the computation time
+they incur, it's probably not worth the marginal increase.
 
 ```python
 pipeline = Pipeline([
