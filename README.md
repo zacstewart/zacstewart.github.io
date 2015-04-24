@@ -1,19 +1,32 @@
 # Text Classification
 
-To demonstrate text classification with scikit-learn, we'll build a simple spam
-filter. While the filters in production for services like Gmail will obviously
-be vastly more sophisticated, the model we'll have by the end of this tutorial
-is effective and surprisingly accurate.
+Document classification is a fundamental machine learning task. It is used for
+all kinds of applications, like filtering spam, routing support request to the
+right support rep, [language detection][language-identification], genre
+classification, sentiment analysis, and many more. To demonstrate text
+classification with scikit-learn, we're going to build a simple spam filter.
+While the filters in production for services like Gmail will obviously be
+vastly more sophisticated, the model we'll have by the end of this tutorial is
+effective and surprisingly accurate.
 
-Spam filtering is the "hello world" of document classification, but something
-to be aware of is that we aren't limited to two classes. The classifier we will
-be using supports multi-class classification, which opens up vast opportunities
-like author identification, support email routing, etc… However, in this
-example we'll just stick to two classes: SPAM and HAM.
+Spam filtering is kind of like the "Hello world" of document classification.
+It's a binary classification problem: either spam, or not spam (a.k.a ham).
+However, something to be aware of is that you aren't limited to two classes.
+The classifier we will be using supports multi-class classification. All that
+is required is to include examples from more classes in the training set. In
+this example, we'll just stick to two classes: spam and ham.
 
-We'll use a combination of the [Enron-Spam (in raw form)][enron-spam] data
-sets and the [SpamAssassin public corpus][spamassassin]. Both are publicly
-available for download.
+We're going to use a combination of the [Enron-Spam (in raw form)][enron-spam]
+data sets and the [SpamAssassin public corpus][spamassassin]. Both are publicly
+available for download. We're going to start with raw, labeled emails, and end
+with a working, reasonable accurate spam filter. We'll work through to following
+tasks to get there:
+
+* Loading raw email data into a workable format
+* Extracting features from the raw data that an algorithm can learn from
+* Training a classifier
+* Evaluating accuracy by cross-validation
+* Improving upon initial accuracy
 
 ## Loading Examples
 
@@ -407,6 +420,7 @@ we've done a pretty good job at classifying some documents. A fun exercise
 might be to dump your email archives into the example data and label it
 according to the sender and seeing if you can accurately identify the authors.
 
+[language-identification]: http://zacstewart.com/2014/01/10/building-a-language-identifier.html
 [enron-spam]: http://www.aueb.gr/users/ion/data/enron-spam/
 [spamassassin]: https://spamassassin.apache.org/publiccorpus/
 [pipelines]: http://zacstewart.com/2014/08/05/pipelines-of-featureunions-of-pipelines.html
