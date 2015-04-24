@@ -30,15 +30,15 @@ tasks to get there:
 
 ## Loading Examples
 
-Before we can train a classifier, we need to load our example data in a format
-we can feed to our algorithm. scikit-learn typically likes things to be in a
+Before we can train a classifier, we need to load example data in a format
+we can feed to the learning algorithm. scikit-learn typically likes things to be in a
 Numpy array-like structure. For a spam classifier, it would be useful to have a
 2-dimensional array containing email bodies in one column and a class (also
 called a label), i.e. spam or ham, for the document in another.
 
 A good starting place is a generator function that will take a file path,
 iterate recursively through all files in said path or its subpaths, and yield
-each email body contained therein. This allows us to dump our example data into
+each email body contained therein. This allows us to dump the example data into
 directories without meticulously organizing it.
 
 ```python
@@ -94,7 +94,7 @@ DataFrame to another DataFrame. It's really more of a concatenation than an
 append like Python's `list.append()`, so instead of just adding a new row to
 the DataFrame, we construct a new one and append it to the prior repeatedly.
 
-Using these two functions, it's really easy for us to build and add to our
+Using these two functions, it's really easy for us to build and add to the
 dataset:
 
 ```python
@@ -123,11 +123,11 @@ for path, classification in SOURCES:
 data = data.reindex(numpy.random.permutation(data.index))
 ```
 
-As you can see, increasing the size of our training set is just a matter of
+As you can see, increasing the size of the training set is just a matter of
 dumping a collection of emails into a directory and then adding it to `SOURCES`
 with an applicable class. The last thing we do is use DataFrame's `reindex` to
-shuffle our whole dataset. Otherwise, we'd have contiguous blocks of examples
-from each source. This is important for validating our results later.
+shuffle the whole dataset. Otherwise, we'd have contiguous blocks of examples
+from each source. This is important for validating prediction accuracy later.
 
 Now that the data is in a usable format, let's talk about how to turn raw email
 text into useful features.
@@ -136,7 +136,7 @@ text into useful features.
 
 Before we can train an algorithm to classify a document, we have to extract
 features from it. In general terms, that means to reduce the mass of
-unstructured data into some uniform set of attributes that our algorithm can
+unstructured data into some uniform set of attributes that an algorithm can
 learn from. For text classification, that can mean word counts. We produce a
 table of each word mentioned in the corpus (that is, the unioned collection of
 emails) and its corresponding frequency for each class of email. A contrived
@@ -149,14 +149,14 @@ visualization might look like this:
 
 The code to do this using scikit-learn's `feature_extraction` module is pretty
 minimal. We'll instantiate a `CountVectorizer` and then call its instance method
-`fit_transform`, which does two things: it learns the vocabulary of our corpus
-and extracts our word count features. This method is an efficient way to do
+`fit_transform`, which does two things: it learns the vocabulary of the corpus
+and extracts word count features. This method is an efficient way to do
 both steps and for us it does the job, but in some cases you may want to use a
 different vocabulary than the one inherent in the raw data. For this reason,
 `CountVectorizer` provides `fit` and `transform` methods to do them separately.
 Additionally, you can provide a vocabulary in the constructor.
 
-To get the text from our DataFrame, you just access it like a dictionary and it
+To get the text from the DataFrame, you just access it like a dictionary and it
 returns a vector of email bodies, which we convert to a Numpy array.
 
 ```python
@@ -176,13 +176,13 @@ We're going to use a naïve Bayes classifier to learn from the features. A naïv
 Bayes classifier applies the Bayes theorem with naïve independence assumptions.
 That is, each feature (in this case word counts) is independent from every
 other one and each one contributes to the probability that an example belongs
-to a particular class. Using our contrive table above, a super spammy word like
+to a particular class. Using the contrived table above, a super spammy word like
 "Free" contributes to the probability that an email containing it is spam,
 however, a non-spam email could also contain "Free," balanced out with
 non-spammy words like "Linux" and "tomorrow."
 
 We instantiate a new `MultinomialNB` and train it by calling `fit`, passing in
-our feature vector and target vector (the classes that each example belongs
+the feature vector and the target vector (the classes that each example belongs
 to). The indices of each vector must be aligned, but luckily Pandas keeps that
 straight for us.
 
@@ -215,7 +215,7 @@ package it all up using a construct provided by scikit-learn called a `Pipeline`
 A pipeline does exactly what it sounds like: connects a series of steps into
 one object which you train and then use to make predictions. I've written about
 [using scikit-learn pipelines][pipelines] in detail, so I won't redo that here.
-In short, we can use a pipeline to merge our feature extraction and
+In short, we can use a pipeline to merge the feature extraction and
 classification into one operation:
 
 ```python
@@ -239,8 +239,8 @@ like the examples we trained on.
 
 ## Cross-Validating
 
-To validate our classifier against unseen data, we can just split our training
-set into two parts with a ratio of 2:8 or so. Given that our dataset has been
+To validate the classifier against unseen data, we can just split the training
+set into two parts with a ratio of 2:8 or so. Given that the dataset has been
 shuffled, each portion should contain an equal distribution of example types.
 We hold out the smaller portion (the cross-validation set), train the
 classifier on the larger part, predict on the cross-validation set, and compare
@@ -256,7 +256,7 @@ you average the score measured for each fold to get a more accurate
 estimation of your model's performance.
 
 While the process sounds complicated, scikit-learn makes it really easy. We'll
-split our data set into 6 folds and cross-validate on them. scikit-learn's
+split the data set into 6 folds and cross-validate on them. scikit-learn's
 `KFold` can be used to generate k pairs of index vectors. Each pair contains a
 list of indices to select a training subset of the data and a list of indices
 to select a validation subset of the data.
@@ -320,12 +320,12 @@ pipeline = Pipeline([
   ('classifier',         MultinomialNB()) ])
 ```
 
-That boosts our model up to almost 93% accuracy. As before, it's a good idea to
+That boosts the model up to almost 93% accuracy. As before, it's a good idea to
 keep an eye on how it's doing for individual classes and not just the set as a
 whole. Luckily this increase represents an increase for both spam and ham
 classification accuracy.
 
-Another way to improve our results is to use different kinds of features.
+Another way to improve accuracy is to use different kinds of features.
 N-gram counts have the disadvantage of unfairly weighting longer documents. A
 six-word spammy message and a five-page, heartfelt letter with six "spammy"
 words could potentially receive the same "spamminess" probability. To counter
@@ -334,14 +334,14 @@ how much of the document is made up of a particular word, instead of how many
 times the word appears in the document. This kind of feature set is known as
 _term frequencies_.
 
-In addition to converting counts to frequencies, we can reduce noise in our
+In addition to converting counts to frequencies, we can reduce noise in the
 features by reducing the weight for words that are common across the entire
 corpus. For example, words like "and," "the," and "but" probably don't contain
 a lot of information about the topic of the document, even though they will
 have high counts and frequencies across both ham and spam. To remedy that, we
 can use what's known as _inverse document frequency_ or IDF.
 
-Adding another vectorizer to our pipeline will convert the term counts to term
+Adding another vectorizer to the pipeline will convert the term counts to term
 frequencies and apply the IDF transformation:
 
 ```python
@@ -366,7 +366,7 @@ uses a vector a booleans. In general, this model performs better on shorter
 documents, so if we wanted to filter forum spam or tweets, it would probably be
 the one to use.
 
-We don't have to change any of our feature extraction pipeline (except that
+We don't have to change any of the feature extraction pipeline (except that
 we're removing the `TfidfTransformer` step and just using the `CountVectorizer`
 again). BernoulliNB has a `binarize` parameter for setting the threshold for
 converting numeric values to booleans. We'll use 0.0, which will convert words
@@ -385,7 +385,7 @@ This model does pretty poorly, but in a different way than the previous models.
 It allows a lot more spam to slip through, but there's potential for it to
 improve if we could find the right `binarize` threshold.
 
-For anyone keeping count, out of 55,326 emails (21,838 ham, 33,488 spam), our
+For anyone keeping count, out of 55,326 emails (21,838 ham, 33,488 spam), the
 models have performed this well so far:
 
 | Features            | Classifier    | False spams    | False hams      | General accuracy |
@@ -402,10 +402,10 @@ Something you should be asking yourself by this time is, "Why all the arbitrary
 parameters?" Why did we binarize at a threshold of 0.0? Why unigrams and
 bigrams? We were particular in the way we went about evaluating the accuracy of
 the models, namely k-folding, yet we didn't really apply the same rigor when we
-configured our classifiers. How do we know if we're doing the best we can?
+configured the classifiers. How do we know if we're doing the best we can?
 
 The answer is, those parameters are arbitrary are are very likely _not_ the
-optimal configuration. However, considering that our classifier takes several
+optimal configuration. However, considering that the classifier takes several
 minutes to train and validate, it would take forever for us to exhaustively
 fine-tune, re-run, and test each change we could make.
 
