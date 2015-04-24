@@ -135,12 +135,12 @@ visualization might look like this:
 | SPAM | 233 | 3     | 42       | 432   | 291    | 534  |
 
 The code to do this using scikit-learn's `feature_extraction` module is pretty
-minimal. We'll instantiate a CountVectorizer and then call its instance method
+minimal. We'll instantiate a `CountVectorizer` and then call its instance method
 `fit_transform`, which does two things: it learns the vocabulary of our corpus
 and extracts our word count features. This method is an efficient way to do
 both steps and for us it does the job, but in some cases you may want to use a
 different vocabulary than the one inherent in the raw data. For this reason,
-CountVectorizer provides `fit` and `transform` methods to do them separately.
+`CountVectorizer` provides `fit` and `transform` methods to do them separately.
 Additionally, you can provide a vocabulary in the constructor.
 
 To get the text from our DataFrame, you just access it like a dictionary and it
@@ -168,7 +168,7 @@ to a particular class. Using our contrive table above, a super spammy word like
 however, a non-spam email could also contain "Free," balanced out with
 non-spammy words like "Linux" and "tomorrow."
 
-We instantiate a new MultinomialNB and train it by calling `fit`, passing in
+We instantiate a new `MultinomialNB` and train it by calling `fit`, passing in
 our feature vector and target vector (the classes that each example belongs
 to). The indices of each vector must be aligned, but luckily Pandas keeps that
 straight for us.
@@ -192,10 +192,10 @@ predictions # [1, 0]
 ```
 
 Our predictions vector should be `[1, 0]`, corresponding to the constants we
-defined for SPAM and HAM.
+defined for `SPAM` and `HAM`.
 
 Still, doing each one of those steps one-at-a-time was pretty tedious. We can
-package it all up using a construct provided by scikit-learn called a Pipeline.
+package it all up using a construct provided by scikit-learn called a `Pipeline`.
 
 # Pipelining
 
@@ -244,7 +244,7 @@ estimation of your model's performance.
 
 While the process sounds complicated, scikit-learn makes it really easy. We'll
 split our data set into 6 folds and cross-validate on them. scikit-learn's
-KFold can be used to generate k pairs of index vectors. Each pair contains a
+`KFold` can be used to generate k pairs of index vectors. Each pair contains a
 list of indices to select a training subset of the data and a list of indices
 to select a validation subset of the data.
 
@@ -296,7 +296,7 @@ words.
 An n-gram can be thought of as a phrase that is _n_ words long. For example, in the
 sentence "Don't tase me, bro" we have the 1-grams, "don't," "tase," "me," and
 "bro." The same sentence also has the 2-grams (or bigrams) "don't tase", "tase
-me", and "me bro." We can tell CountVectorizer to include any order of n-grams
+me", and "me bro." We can tell `CountVectorizer` to include any order of n-grams
 by giving it a range. For this data set, unigrams and bigrams seem to work
 well. 3-grams add a tiny bit more accuracy, but for the computation time they
 incur, it's probably not worth the marginal increase.
@@ -354,8 +354,8 @@ documents, so if we wanted to filter forum spam or tweets, it would probably be
 the one to use.
 
 We don't have to change any of our feature extraction pipeline (except that
-we're removing the TfidfTransformer step and just using the CountVectorizer
-again). BernoulliNB has `binarize` parameter which lets set a threshold for
+we're removing the `TfidfTransformer` step and just using the `CountVectorizer`
+again). BernoulliNB has a `binarize` parameter for setting the threshold for
 converting numeric values to booleans. We'll use 0.0, which will convert words
 which are not present in a document to `False` and words which are present any
 number of times to `True`.
@@ -382,7 +382,7 @@ models have performed this well so far:
 | Bigram frequencies  | MultinomialNB | 2629 (0.07851) | 139 (0.00584)   | 0.94997          |
 | Bigram occurrences  | BernoulliNB   | 53 (0.00158)   | 14881 (0.62478) | 0.73007          |
 
-The best solution we've encountered has been to train a MultinomialNB using
+The best solution we've encountered has been to train a `MultinomialNB` using
 either bigram counts or frequencies.
 
 Something you should be asking yourself by this time is, "Why all the arbitrary
