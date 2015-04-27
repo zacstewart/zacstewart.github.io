@@ -8,8 +8,8 @@ from sklearn.cross_validation import KFold
 
 NEWLINE = '\n'
 
-HAM = 0
-SPAM = 1
+HAM = 'ham'
+SPAM = 'spam'
 
 SOURCES = [
     ('data/spam',        SPAM),

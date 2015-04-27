@@ -99,8 +99,8 @@ Using these two functions, it's really easy for us to build and add to the
 dataset:
 
 ```python
-HAM = 0
-SPAM = 1
+HAM = 'ham'
+SPAM = 'spam'
 
 SOURCES = [
     ('data/spam',         SPAM),
@@ -227,7 +227,7 @@ pipeline = Pipeline([
   ('classifier',  MultinomialNB()) ])
 
 pipeline.fit(numpy.asarray(data['text']), numpy.asarray(data['class']))
-pipeline.predict(examples) # [1, 0]
+pipeline.predict(examples) # ['spam', 'ham']
 ```
 
 The first element of each tuple in the pipeline, 'vectorizer', and
