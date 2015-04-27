@@ -233,7 +233,7 @@ pipeline = Pipeline([
     ('vectorizer',  CountVectorizer()),
     ('classifier',  MultinomialNB()) ])
 
-pipeline.fit(numpy.asarray(data['text']), numpy.asarray(data['class']))
+pipeline.fit(data['text'].values, data['class'].values.astype(str))
 pipeline.predict(examples) # ['spam', 'ham']
 ```
 
