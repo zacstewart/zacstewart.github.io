@@ -230,8 +230,8 @@ classification into one operation:
 from sklearn.pipeline import Pipeline
 
 pipeline = Pipeline([
-  ('vectorizer',  CountVectorizer()),
-  ('classifier',  MultinomialNB()) ])
+    ('vectorizer',  CountVectorizer()),
+    ('classifier',  MultinomialNB()) ])
 
 pipeline.fit(numpy.asarray(data['text']), numpy.asarray(data['class']))
 pipeline.predict(examples) # ['spam', 'ham']
