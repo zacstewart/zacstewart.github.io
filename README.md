@@ -45,7 +45,8 @@ directories without meticulously organizing it.
 import os
 
 NEWLINE = '\n'
-SKIP_FILES = set(['cmds'])
+SKIP_FILES = {'cmds'}
+
 
 def read_files(path):
   for root, dir_names, file_names in os.walk(path):

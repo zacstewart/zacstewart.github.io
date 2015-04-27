@@ -26,7 +26,7 @@ SOURCES = [
     ('data/SH',          SPAM)
     ]
 
-SKIP_FILES = set(['cmds'])
+SKIP_FILES = {'cmds'}
 
 
 def read_files(path):
