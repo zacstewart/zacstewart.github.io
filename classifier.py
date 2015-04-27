@@ -50,12 +50,13 @@ def read_files(path):
 
 
 def build_data_frame(path, classification):
-    data_frame = DataFrame({'text': [], 'class': []})
+    rows = []
+    index = []
     for file_name, text in read_files(path):
-        data_frame = data_frame.append(
-            DataFrame(
-                {'text': [text], 'class': [classification]},
-                index=[file_name]))
+        rows.append({'text': text, 'class': classification})
+        index.append(file_name)
+
+    data_frame = DataFrame(rows, index=index)
     return data_frame
 
 data = DataFrame({'text': [], 'class': []})

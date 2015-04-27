@@ -80,12 +80,16 @@ then convert it to a Numpy array when we need to send it to our classifier.
 ```python
 from pandas import DataFrame
 
+
 def build_data_frame(path, classification):
-  data_frame = DataFrame({'text': [], 'class': []})
-  for file_name, text in read_files(path):
-    data_frame = data_frame.append(
-        DataFrame({'text': [text], 'class': [classification]}, index=[file_name]))
-  return data_frame
+    rows = []
+    index = []
+    for file_name, text in read_files(path):
+        rows.append({'text': text, 'class': classification})
+        index.append(file_name)
+
+    data_frame = DataFrame(rows, index=index)
+    return data_frame
 ```
 
 This function will build us a DataFrame from all the files in `path`. It will
