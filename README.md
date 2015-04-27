@@ -359,13 +359,13 @@ larger quantity of legitimate emails being caught in the filter, which in
 practice would be less desirable than having to manually delete the occasional
 spam.
 
-To wrap up this tutorial, we'll try one more thing: using a different
+To wrap up this tutorial, let's try one more thing: using a different
 classifier. The Bernouli naïve Bayes classifier differs in a few ways, but in
-our case, the important difference is that it operates on n-gram occurrences
+this case, the important difference is that it operates on n-gram occurrences
 rather than counts. Instead of a numeric vector representing n-gram counts, it
-uses a vector a booleans. In general, this model performs better on shorter
-documents, so if we wanted to filter forum spam or tweets, it would probably be
-the one to use.
+uses a vector a booleans representing the presence of absence of an n-gram. In
+general, this model performs better on shorter documents, so if we wanted to
+filter forum spam or tweets, it would probably be the one to use.
 
 We don't have to change any of the feature extraction pipeline (except that
 we're removing the `TfidfTransformer` step and just using the `CountVectorizer`
