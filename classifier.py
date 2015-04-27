@@ -24,7 +24,7 @@ SOURCES = [
     ('data/BG',          SPAM),
     ('data/GP',          SPAM),
     ('data/SH',          SPAM)
-    ]
+]
 
 SKIP_FILES = {'cmds'}
 
