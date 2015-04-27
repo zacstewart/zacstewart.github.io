@@ -49,33 +49,36 @@ SKIP_FILES = {'cmds'}
 
 
 def read_files(path):
-  for root, dir_names, file_names in os.walk(path):
-    for path in dir_names:
-      read_files(os.path.join(root, path))
-    for file_name in file_names:
-      if file_name not in SKIP_FILES:
-        file_path = os.path.join(root, file_name)
-        if os.path.isfile(file_path):
-          past_header, lines = False, []
-          f = open(file_path)
-          for line in f:
-            if past_header:
-              lines.append(line)
-            elif line == NEWLINE:
-              past_header = True
-          f.close()
-          yield file_path, NEWLINE.join(lines).decode('cp1252', 'ignore')
+    for root, dir_names, file_names in os.walk(path):
+        for path in dir_names:
+            read_files(os.path.join(root, path))
+        for file_name in file_names:
+            if file_name not in SKIP_FILES:
+                file_path = os.path.join(root, file_name)
+                if os.path.isfile(file_path):
+                    past_header, lines = False, []
+                    f = open(file_path, encoding="latin-1")
+                    for line in f:
+                        if past_header:
+                            lines.append(line)
+                        elif line == NEWLINE:
+                            past_header = True
+                    f.close()
+                    content = NEWLINE.join(lines)
+                    yield file_path, content
 ```
 
 According to protocol, email headers and bodies are separated by a blank line
 (`NEWLINE`), so we simply ignore all lines before that and then yield the rest
-of the email. You'll also notice the `decode('cp1252', 'ignore')` bit. This is
-necessary to decode the provided dataset into Unicode, which we need to work
-with scikit-learn.
+of the email. You'll also notice the `encoding="latin-1"` bit. Some of the corpus
+is not in Unicode, so this makes a "best effort" attempt to decode the files
+correctly. A little corruption here and there (accented characters and such) won't
+stop the show. It might just reduce accuracy a tiny bit. Read more about [processing
+text files with Python 3][processing-text-files].
 
-Now we need a way to build our dataset from all these email bodies. The Python
-library Pandas makes it easy to munge our data into shape as a DataFrame and
-then convert it to a Numpy array when we need to send it to our classifier.
+Now we need to build a dataset from all these email bodies. The Python
+library Pandas makes it easy to munge the data into shape as a DataFrame and
+then convert it to a Numpy array when we need to send it to the classifier.
 
 ```python
 from pandas import DataFrame
@@ -428,4 +431,5 @@ according to the sender and seeing if you can accurately identify the authors.
 [language-identification]: http://zacstewart.com/2014/01/10/building-a-language-identifier.html
 [enron-spam]: http://www.aueb.gr/users/ion/data/enron-spam/
 [spamassassin]: https://spamassassin.apache.org/publiccorpus/
+[processing-text-files]: http://python-notes.curiousefficiency.org/en/latest/python3/text_file_processing.html
 [pipelines]: http://zacstewart.com/2014/08/05/pipelines-of-featureunions-of-pipelines.html
