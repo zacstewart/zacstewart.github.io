@@ -66,7 +66,8 @@ data = data.reindex(numpy.random.permutation(data.index))
 
 pipeline = Pipeline([
     ('count_vectorizer', CountVectorizer(ngram_range=(1, 2))),
-    ('classifier',       MultinomialNB(binarize=0.0))])
+    ('classifier',       MultinomialNB())
+])
 
 k_fold = KFold(n=len(data), n_folds=6)
 scores, false_positives, false_negatives = [], 0, 0
