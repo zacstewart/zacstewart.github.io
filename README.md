@@ -271,28 +271,43 @@ to select a validation subset of the data.
 
 ```python
 from sklearn.cross_validation import KFold
+from sklearn.metrics import confusion_matrix, f1_score
 
-k_fold = KFold(n=len(data), n_folds=6, indices=False)
+k_fold = KFold(n=len(data), n_folds=6)
 scores = []
+confusion = numpy.array([[0, 0], [0, 0]])
 for train_indices, test_indices in k_fold:
-  train_text = numpy.asarray(data[train_indices]['text'])
-  train_y    = numpy.asarray(data[train_indices]['class'])
+    train_text = data.iloc[train_indices]['text'].values
+    train_y = data.iloc[train_indices]['class'].values.astype(str)
 
-  test_text  = numpy.asarray(data[test_indices]['text'])
-  test_y     = numpy.asarray(data[test_indices]['class'])
+    test_text = data.iloc[test_indices]['text'].values
+    test_y = data.iloc[test_indices]['class'].values.astype(str)
 
-  pipeline.fit(train_text, train_y)
-  score = pipeline.score(test_text, test_y)
-  scores.append(score)
+    pipeline.fit(train_text, train_y)
+    predictions = pipeline.predict(test_text)
 
-score = sum(scores) / len(scores)
+    confusion += confusion_matrix(test_y, predictions)
+    score = f1_score(test_y, predictions, pos_label=SPAM)
+    scores.append(score)
+
+print('Total emails classified:', len(data))
+print('Score:', sum(scores)/len(scores))
+print('Confusion matrix:')
+print(confusion)
+
+# Total emails classified: 55326
+# Score: 0.942661080942
+# Confusion matrix:
+# [[21660   178]
+#  [ 3473 30015]]
 ```
 
-scikit-learn models provide a `score` method, which gives us the mean accuracy
-of the model on each fold, which we then average together for a mean accuracy
-on the entire set. Using the model we just built and the example data sets
-mentioned in the beginning of this tutorial, we get about 90% accuracy. Out of
-55,326 examples, we get about 2,454 false spams, and 2,894 false hams. I say
+scikit-learn provides various functions for evaluating the accuracy of a model.
+We're using the F1 score for each fold, which we then average together for a
+mean accuracy on the entire set. Using the model we just built and the example
+data sets mentioned in the beginning of this tutorial, we get about 0.94. A
+confusion matrix helps elucidate how the model did for individual classes. Out
+of 55,326 examples, we get about 178 false spams, and 3,473 false hams. I say
 "about" because by shuffling the data as we did, these numbers will vary each
 time we run the model.
 
@@ -324,14 +339,21 @@ they incur, it's probably not worth the marginal increase.
 
 ```python
 pipeline = Pipeline([
-  ('count_vectorizer',   CountVectorizer(ngram_range=(1, 2))),
-  ('classifier',         MultinomialNB()) ])
+    ('count_vectorizer', CountVectorizer(ngram_range=(1, 2))),
+    ('classifier',       MultinomialNB())
+])
+
+# Total emails classified: 55326
+# Score: 0.978154601119
+# Confusion matrix:
+# [[21745    93]
+#  [ 1343 32145]]
 ```
 
-That boosts the model up to almost 93% accuracy. As before, it's a good idea to
-keep an eye on how it's doing for individual classes and not just the set as a
-whole. Luckily this increase represents an increase for both spam and ham
-classification accuracy.
+That boosts the model up to an F1 score of about 0.98. As before, it's a good
+idea to keep an eye on how it's doing for individual classes and not just the
+set as a whole. Luckily this increase represents an increase for both spam and
+ham classification accuracy.
 
 Another way to improve accuracy is to use different kinds of features.
 N-gram counts have the disadvantage of unfairly weighting longer documents. A
@@ -353,10 +375,19 @@ Adding another vectorizer to the pipeline will convert the term counts to term
 frequencies and apply the IDF transformation:
 
 ```python
+from sklearn.feature_extraction.text import TfidfTransformer
+
 pipeline = Pipeline([
-  ('count_vectorizer',   CountVectorizer(ngram_range=(1, 2))),
-  ('tfidf_transformer',  TfidfTransformer()),
-  ('classifier',         MultinomialNB()) ])
+    ('count_vectorizer',   CountVectorizer(ngram_range=(1,  2))),
+    ('tfidf_transformer',  TfidfTransformer()),
+    ('classifier',         MultinomialNB())
+])
+
+# Total emails classified: 55326
+# Score: 0.992183969741
+# Confusion matrix:
+# [[21338   500]
+#  [   27 33461]]
 ```
 
 Unfortunately, with this particular data set, using TF-IDF features results in
@@ -385,8 +416,14 @@ number of times to `True`.
 from sklearn.naive_bayes import BernoulliNB
 
 pipeline = Pipeline([
-  ('count_vectorizer',   CountVectorizer(ngram_range=(1, 2))),
-  ('classifier',         BernoulliNB(binarize=0.0)) ])
+    ('count_vectorizer',   CountVectorizer(ngram_range=(1, 2))),
+    ('classifier',         BernoulliNB(binarize=0.0)) ])
+
+# Total emails classified: 55326
+# Score: 0.965959861719
+# Confusion matrix:
+# [[21785    53]
+#  [ 2155 31333]]
 ```
 
 This model does pretty poorly, but in a different way than the previous models.
@@ -396,12 +433,12 @@ improve if we could find the right `binarize` threshold.
 For anyone keeping count, out of 55,326 emails (21,838 ham, 33,488 spam), the
 models have performed this well so far:
 
-| Features            | Classifier    | False spams    | False hams      | General accuracy |
-|---------------------|---------------|----------------|-----------------|------------------|
-| Bag of words counts | MultinomialNB | 2454 (0.07328) | 2894 (0.12150)  | 0.90334          |
-| Bigram counts       | MultinomialNB | 2399 (0.07164) | 1466 (0.06155)  | 0.93014          |
-| Bigram frequencies  | MultinomialNB | 2629 (0.07851) | 139 (0.00584)   | 0.94997          |
-| Bigram occurrences  | BernoulliNB   | 53 (0.00158)   | 14881 (0.62478) | 0.73007          |
+| Features             | Classifier     | False spams  | False hams  | F1 score        |
+| -------------------- | -------------- | ------------ | ----------- | --------------- |
+| Bag of words counts  | MultinomialNB  | 178          | 3473        | 0.942661080942  |
+| Bigram counts        | MultinomialNB  | 93           | 1343        | 0.978154601119  |
+| Bigram frequencies   | MultinomialNB  | 500          | 27          | 0.992183969741  |
+| Bigram occurrences   | BernoulliNB    | 53           | 2155        | 0.965959861719  |
 
 The best solution we've encountered has been to train a `MultinomialNB` using
 either bigram counts or frequencies.
