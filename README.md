@@ -218,7 +218,7 @@ defined for `SPAM` and `HAM`.
 Still, doing each one of those steps one-at-a-time was pretty tedious. We can
 package it all up using a construct provided by scikit-learn called a `Pipeline`.
 
-# Pipelining
+## Pipelining
 
 A pipeline does exactly what it sounds like: connects a series of steps into
 one object which you train and then use to make predictions. I've written about
