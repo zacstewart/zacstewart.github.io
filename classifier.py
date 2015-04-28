@@ -66,8 +66,8 @@ for path, classification in SOURCES:
 data = data.reindex(numpy.random.permutation(data.index))
 
 pipeline = Pipeline([
-    ('count_vectorizer', CountVectorizer(ngram_range=(1, 2))),
-    ('classifier',       MultinomialNB())
+    ('count_vectorizer',   CountVectorizer(ngram_range=(1, 2))),
+    ('classifier',         MultinomialNB())
 ])
 
 k_fold = KFold(n=len(data), n_folds=6)
