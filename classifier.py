@@ -5,6 +5,7 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.pipeline import Pipeline
 from sklearn.cross_validation import KFold
+from sklearn.metrics import confusion_matrix, f1_score
 
 NEWLINE = '\n'
 
@@ -71,26 +72,23 @@ pipeline = Pipeline([
 ])
 
 k_fold = KFold(n=len(data), n_folds=6)
-scores, false_positives, false_negatives = [], 0, 0
+scores = []
+confusion = numpy.array([[0, 0], [0, 0]])
 for train_indices, test_indices in k_fold:
-    train_text = numpy.asarray(data.iloc[train_indices]['text'])
-    train_y = numpy.asarray(data.iloc[train_indices]['class'])
+    train_text = data.iloc[train_indices]['text'].values
+    train_y = data.iloc[train_indices]['class'].values.astype(str)
 
-    test_text = numpy.asarray(data.iloc[test_indices]['text'])
-    test_y = numpy.asarray(data.iloc[test_indices]['class'])
+    test_text = data.iloc[test_indices]['text'].values
+    test_y = data.iloc[test_indices]['class'].values.astype(str)
 
     pipeline.fit(train_text, train_y)
     predictions = pipeline.predict(test_text)
 
-    incorrect_indices = (predictions != test_y)
-
-    false_positives += sum(predictions[incorrect_indices])
-    false_negatives += sum(test_y[incorrect_indices])
-
-    score = pipeline.score(test_text, test_y)
+    confusion += confusion_matrix(test_y, predictions)
+    score = f1_score(test_y, predictions, pos_label=SPAM)
     scores.append(score)
 
 print('Total emails classified:', len(data))
 print('Score:', sum(scores)/len(scores))
-print('False positives:', false_positives)
-print('False negatives:', false_negatives)
+print('Confusion matrix:')
+print(confusion)
