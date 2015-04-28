@@ -475,9 +475,12 @@ classifying some documents. A fun exercise might be to dump your email archives
 into the example data and label it according to the sender and seeing if you
 can accurately identify the authors.
 
+You can get the complete source code for the classifier in [this gist][code].
+
 [language-identification]: http://zacstewart.com/2014/01/10/building-a-language-identifier.html
 [enron-spam]: http://www.aueb.gr/users/ion/data/enron-spam/
 [spamassassin]: https://spamassassin.apache.org/publiccorpus/
 [processing-text-files]: http://python-notes.curiousefficiency.org/en/latest/python3/text_file_processing.html
 [pipelines]: http://zacstewart.com/2014/08/05/pipelines-of-featureunions-of-pipelines.html
 [f1-score]: http://en.wikipedia.org/wiki/F1_score
+[code]: https://gist.github.com/zacstewart/5978000
