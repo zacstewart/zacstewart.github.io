@@ -5,9 +5,9 @@ all kinds of applications, like filtering spam, routing support request to the
 right support rep, [language detection][language-identification], genre
 classification, sentiment analysis, and many more. To demonstrate text
 classification with scikit-learn, we're going to build a simple spam filter.
-While the filters in production for services like Gmail will obviously be
-vastly more sophisticated, the model we'll have by the end of this tutorial is
-effective and surprisingly accurate.
+While the filters in production for services like Gmail are vastly more
+sophisticated, the model we'll have by the end of this tutorial is effective,
+and surprisingly accurate.
 
 Spam filtering is kind of like the "Hello world" of document classification.
 It's a binary classification problem: either spam, or not spam (a.k.a ham).
@@ -102,8 +102,8 @@ DataFrame to another DataFrame. It's really more of a concatenation than an
 append like Python's `list.append()`, so instead of just adding a new row to
 the DataFrame, we construct a new one and append it to the prior repeatedly.
 
-Using these two functions, it's really easy for us to build and add to the
-dataset:
+Using `read_files` and `build_data_frame`, it's really easy for us to build and
+add to the dataset:
 
 ```python
 HAM = 'ham'
@@ -145,7 +145,7 @@ text into useful features.
 Before we can train an algorithm to classify a document, we have to extract
 features from it. In general terms, that means to reduce the mass of
 unstructured data into some uniform set of attributes that an algorithm can
-learn from. For text classification, that can mean word counts. We produce a
+learn from. For text classification, that can mean word counts. We'll produce a
 table of each word mentioned in the corpus (that is, the unioned collection of
 emails) and its corresponding frequency for each class of email. A contrived
 visualization might look like this:
@@ -159,13 +159,14 @@ The code to do this using scikit-learn's `feature_extraction` module is pretty
 minimal. We'll instantiate a `CountVectorizer` and then call its instance method
 `fit_transform`, which does two things: it learns the vocabulary of the corpus
 and extracts word count features. This method is an efficient way to do
-both steps and for us it does the job, but in some cases you may want to use a
-different vocabulary than the one inherent in the raw data. For this reason,
-`CountVectorizer` provides `fit` and `transform` methods to do them separately.
-Additionally, you can provide a vocabulary in the constructor.
+both steps, and for us it does the job. However, in some cases you may want to
+use a different vocabulary than the one inherent in the raw data. For this
+reason, `CountVectorizer` provides `fit` and `transform` methods to do them
+separately.  Additionally, you can provide a vocabulary in the constructor.
 
 To get the text from the DataFrame, you just access it like a dictionary and it
-returns a vector of email bodies, which we convert to a Numpy array.
+returns a vector of email bodies, and then use its `values` attribute to get
+the underlying Numpy array.
 
 ```python
 import numpy
@@ -239,7 +240,7 @@ pipeline.predict(examples) # ['spam', 'ham']
 
 The first element of each tuple in the pipeline, 'vectorizer', and
 'classifier', are arbitrary names. Pipelining simplifies things a lot
-when you start tweaking your model to improve your results, and we'll see why
+when you start tweaking your model to improve your results, and you'll see why
 later. First, we need to get some real performance metrics. Classifying two
 short, imaginary messages isn't a very rigorous test. We need to
 _cross-validate_ with some real emails which we already have labels for, much
@@ -443,6 +444,14 @@ models have performed this well so far:
 The best solution we've encountered has been to train a `MultinomialNB` using
 either bigram counts or frequencies.
 
+## Final Thoughts
+
+There you have it! In what I hope was minimally painful reading, you've seen
+how to build a spam classifier from start to finish. There's still a lot of
+engineering work to be done if you wanted to put this thing into production,
+but that's another blog post for another day. Aside from that, there are
+many more avenues to explore, especially regarding improving accuracy.
+
 Something you should be asking yourself by this time is, "Why all the arbitrary
 parameters?" Why did we binarize at a threshold of 0.0? Why unigrams and
 bigrams? We were particular in the way we went about evaluating the accuracy of
@@ -459,11 +468,12 @@ performed very poorly, it seemed to have some value in that it got fewer false
 spams than any of the others.
 
 Luckily, there are ways to automate the fine-tuning process as well as combine
-the predictions of multiple classifiers. Grid search parameter tuning and
-multi-model _ensemble learning_ will be explained in a later tutorial. For now,
-we've done a pretty good job at classifying some documents. A fun exercise
-might be to dump your email archives into the example data and label it
-according to the sender and seeing if you can accurately identify the authors.
+the predictions of multiple classifiers. Grid search _hyperparameter tuning_
+and multi-model _ensemble learning_ are interesting topics, and maybe I'll
+write about them in the future. For now, we've done a pretty good job at
+classifying some documents. A fun exercise might be to dump your email archives
+into the example data and label it according to the sender and seeing if you
+can accurately identify the authors.
 
 [language-identification]: http://zacstewart.com/2014/01/10/building-a-language-identifier.html
 [enron-spam]: http://www.aueb.gr/users/ion/data/enron-spam/
