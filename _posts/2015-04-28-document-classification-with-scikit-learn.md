@@ -1,4 +1,7 @@
-# Document Classification with scikit-learn
+---
+layout: post
+title: "Document Classification with scikit-learn"
+---
 
 Document classification is a fundamental machine learning task. It is used for
 all kinds of applications, like filtering spam, routing support request to the
@@ -28,7 +31,7 @@ tasks to get there:
 * Evaluating accuracy by cross-validation
 * Improving upon initial accuracy
 
-## Loading Examples
+# Loading Examples
 
 Before we can train a classifier, we need to load example data in a format
 we can feed to the learning algorithm. scikit-learn typically likes things to be in a
@@ -140,7 +143,7 @@ from each source. This is important for validating prediction accuracy later.
 Now that the data is in a usable format, let's talk about how to turn raw email
 text into useful features.
 
-## Extracting Features
+# Extracting Features
 
 Before we can train an algorithm to classify a document, we have to extract
 features from it. In general terms, that means to reduce the mass of
@@ -179,7 +182,7 @@ counts = count_vectorizer.fit_transform(data['text'].values)
 With these counts as features, we can go to the next steps: training a
 classifier and classifying individual emails.
 
-## Classifying Emails
+# Classifying Emails
 
 We're going to use a naïve Bayes classifier to learn from the features. A naïve
 Bayes classifier applies the Bayes theorem with naïve independence assumptions.
@@ -219,7 +222,7 @@ defined for `SPAM` and `HAM`.
 Still, doing each one of those steps one-at-a-time was pretty tedious. We can
 package it all up using a construct provided by scikit-learn called a `Pipeline`.
 
-## Pipelining
+# Pipelining
 
 A pipeline does exactly what it sounds like: connects a series of steps into
 one object which you train and then use to make predictions. I've written about
@@ -246,7 +249,7 @@ short, imaginary messages isn't a very rigorous test. We need to
 _cross-validate_ with some real emails which we already have labels for, much
 like the examples we trained on.
 
-## Cross-Validating
+# Cross-Validating
 
 To validate the classifier against unseen data, we can just split the training
 set into two parts with a ratio of 2:8 or so. Given that the dataset has been
@@ -317,7 +320,7 @@ if we don't consider the scaling issues. Consumers demand accuracy, especially
 regarding false spams. Who doesn't hate to lose something important to the spam
 filter?
 
-## Improving Results
+# Improving Results
 
 In order to get better results, there's a few things we can change. We can try
 to extract more features from the emails, we can try different kinds of
@@ -444,7 +447,7 @@ models have performed this well so far:
 The best solution we've encountered has been to train a `MultinomialNB` using
 either bigram counts or frequencies.
 
-## Final Thoughts
+# Final Thoughts
 
 There you have it! In what I hope was minimally painful reading, you've seen
 how to build a spam classifier from start to finish. There's still a lot of
