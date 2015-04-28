@@ -1,4 +1,4 @@
-# Text Classification
+# Document Classification with scikit-learn
 
 Document classification is a fundamental machine learning task. It is used for
 all kinds of applications, like filtering spam, routing support request to the
