@@ -172,7 +172,7 @@ import numpy
 from sklearn.feature_extraction.text import CountVectorizer
 
 count_vectorizer = CountVectorizer()
-counts = count_vectorizer.fit_transform(numpy.asarray(data['text']))
+counts = count_vectorizer.fit_transform(data['text'].values)
 ```
 
 With these counts as features, we can go to the next steps: training a
@@ -198,7 +198,7 @@ straight for us.
 from sklearn.naive_bayes import MultinomialNB
 
 classifier = MultinomialNB()
-targets = numpy.asarray(data['class'])
+targets = data['class'].values
 classifier.fit(counts, targets)
 ```
 
@@ -233,7 +233,7 @@ pipeline = Pipeline([
     ('vectorizer',  CountVectorizer()),
     ('classifier',  MultinomialNB()) ])
 
-pipeline.fit(data['text'].values, data['class'].values.astype(str))
+pipeline.fit(data['text'].values, data['class'].values
 pipeline.predict(examples) # ['spam', 'ham']
 ```
 
@@ -278,10 +278,10 @@ scores = []
 confusion = numpy.array([[0, 0], [0, 0]])
 for train_indices, test_indices in k_fold:
     train_text = data.iloc[train_indices]['text'].values
-    train_y = data.iloc[train_indices]['class'].values.astype(str)
+    train_y = data.iloc[train_indices]['class'].values
 
     test_text = data.iloc[test_indices]['text'].values
-    test_y = data.iloc[test_indices]['class'].values.astype(str)
+    test_y = data.iloc[test_indices]['class'].values
 
     pipeline.fit(train_text, train_y)
     predictions = pipeline.predict(test_text)
