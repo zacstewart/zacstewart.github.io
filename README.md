@@ -152,8 +152,8 @@ visualization might look like this:
 
 |      | I   | Linux | tomorrow | today | Viagra | Free |
 |------|-----|-------|----------|-------|--------|------|
-| HAM  | 319 | 619   | 123      | 67    | 0      | 50   |
-| SPAM | 233 | 3     | 42       | 432   | 291    | 534  |
+| ham  | 319 | 619   | 123      | 67    | 0      | 50   |
+| spam | 233 | 3     | 42       | 432   | 291    | 534  |
 
 The code to do this using scikit-learn's `feature_extraction` module is pretty
 minimal. We'll instantiate a `CountVectorizer` and then call its instance method
