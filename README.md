@@ -303,13 +303,13 @@ print(confusion)
 ```
 
 scikit-learn provides various functions for evaluating the accuracy of a model.
-We're using the F1 score for each fold, which we then average together for a
-mean accuracy on the entire set. Using the model we just built and the example
-data sets mentioned in the beginning of this tutorial, we get about 0.94. A
-confusion matrix helps elucidate how the model did for individual classes. Out
-of 55,326 examples, we get about 178 false spams, and 3,473 false hams. I say
-"about" because by shuffling the data as we did, these numbers will vary each
-time we run the model.
+We're using the [F1 score][f1-score] for each fold, which we then average
+together for a mean accuracy on the entire set. Using the model we just built
+and the example data sets mentioned in the beginning of this tutorial, we get
+about 0.94. A confusion matrix helps elucidate how the model did for individual
+classes. Out of 55,326 examples, we get about 178 false spams, and 3,473 false
+hams. I say "about" because by shuffling the data as we did, these numbers will
+vary each time we run the model.
 
 That's really not bad for a first run. Obviously it's not production-ready even
 if we don't consider the scaling issues. Consumers demand accuracy, especially
@@ -470,3 +470,4 @@ according to the sender and seeing if you can accurately identify the authors.
 [spamassassin]: https://spamassassin.apache.org/publiccorpus/
 [processing-text-files]: http://python-notes.curiousefficiency.org/en/latest/python3/text_file_processing.html
 [pipelines]: http://zacstewart.com/2014/08/05/pipelines-of-featureunions-of-pipelines.html
+[f1-score]: http://en.wikipedia.org/wiki/F1_score
