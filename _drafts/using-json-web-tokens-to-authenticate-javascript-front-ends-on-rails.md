@@ -157,7 +157,7 @@ the strategy should be used for any request. My implementation means that this
 strategy will only be active for requests with an `Authorization` HTTP header.
 The `authenticate!` method decrypts the JWT, and finds the corresponding user.
 The result is that without any mess in the application code, we end up with
-a `current_user` just like you're used to any time a request with a valid JWT
+a `current_user`, just like you're used to, any time a request with a valid JWT
 comes in.
 
 To support cross-site requests, I used Rack CORS. This enabled the front-end to
@@ -281,9 +281,9 @@ var Controller = function () {
 };
 ```
 
-The last bit of polish I needed for signing in, was a link to the sign in Devise
-and a little code to redirect back to the front-end appropriately. This is
-literally the whole `ApplicationController`:
+The last bit of polish I needed for signing in was a link to the sign in page
+of Devise and a little code to redirect back to the front-end appropriately.
+This is literally the whole `ApplicationController`:
 
 ```ruby
 class ApplicationController < ActionController::Base
