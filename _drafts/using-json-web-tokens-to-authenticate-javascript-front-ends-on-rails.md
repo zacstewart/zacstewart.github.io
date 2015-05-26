@@ -160,6 +160,16 @@ The result is that without any mess in the application code, we end up with
 a `current_user`, just like you're used to, any time a request with a valid JWT
 comes in.
 
+To inject the above strategy into the stack you need to add this bit to the
+_devise.rb_ initializer:
+
+```ruby
+config.warden do |manager|
+  manager.strategies.add(:jwt, Devise::Strategies::JsonWebToken)
+  manager.default_strategies(scope: :user).unshift :jwt
+end
+```
+
 To support cross-site requests, I used Rack CORS. This enabled the front-end to
 make, requests for session tokens, and then later to make requests for the
 resources, from domains other than the one hosting the API.
