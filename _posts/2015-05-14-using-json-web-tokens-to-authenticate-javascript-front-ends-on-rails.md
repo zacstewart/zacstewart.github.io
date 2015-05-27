@@ -1,6 +1,10 @@
 ---
 layout: post
 title: "Using JSON Web Tokens to Authenticate JavaScript Front-Ends on Rails"
+tags:
+  - ruby
+  - rails
+  - javascript
 ---
 
 While working on a project recently, I encountered a problem I haven't had to

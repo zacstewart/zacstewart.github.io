@@ -1,6 +1,10 @@
 ---
 layout: post
 title: "Document Classification with scikit-learn"
+tags:
+  - python
+  - machine learning
+  - data science
 ---
 
 Document classification is a fundamental machine learning task. It is used for
