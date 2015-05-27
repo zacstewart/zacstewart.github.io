@@ -110,6 +110,12 @@ class SessionTokensController < ApplicationController
       format.json { render json: {'token' => token}, status: :created }
     end
   end
+
+  def show
+    respond_to do |format|
+      format.json { render json: {'logged_in' => true} }
+    end
+  end
 end
 ```
 
