@@ -2,32 +2,33 @@
 
 While working on a project recently, I encountered a problem I haven't had to
 tangle with in a while: authenticating front-end applications against a Rails
-API. The last time I was even dabbling in this realm, CORS was still in its
-infancy. JSONP was still a thing (that's not a thing anymore, right?). The only
-way I ever managed to scrape by in this hostile environment was to let Rails'
-asset pipeline serve up the front-end app and rely on same-origin requests and
-regular ol' cookies to handle authentication. I didn't like it, but I got on
-with my work, quietly brooding, and muttering, "one day…"
+API. The last time I was even dabbling in this realm, jQuery was everything,
+CORS was still in its infancy, and JSONP was still a thing (that's not a thing
+anymore, right?). The only way I ever managed to scrape by in this hostile
+environment was to let Rails' asset pipeline serve up the front-end app and
+rely on same-origin requests and regular ol' cookies to handle authentication.
+I didn't like it, but I survived. Eventually, I got away from front-end
+concerns almost completely.
 
 Since those dark times, a few tools have cropped up and improved the landscape.
 As I mentioned before, I have recently been working on a project that I wanted
 to have a stand-alone front-end app for (inb4 single page apps don't work). I
 wanted to avoid the messes I've encountered with JavaScript-heavy Rails apps
-and keep Rails as API-centered as possible. I knocked together a rudimentary
-app with React using Bower to manage dependencies and Jekyll to compile it all
-down to a static page.
+and keep Rails as API-centered as possible. Once I had a functioning back-end,
+I knocked together a rudimentary front-end with React using Bower to manage
+dependencies and Jekyll to compile it all down to a static page.
 
 At first, I got started by symlinking the front-end to _public/_ in my Rails
 app and setting `protect_from_forgery with: :null_session`. That was good
 enough for me to get my feet wet with React and get back into the swing of
-things with JavaScript (which I hadn't really done anything of consequence with
-since before ES5). However, this setup was clearly deficient for even a
-development deploy to Heroku. When I got to that point, I had to give though
+things with JavaScript (with which I hadn't really done anything of consequence
+with since before ES5). However, this setup was clearly deficient for even a
+development deploy to Heroku. When I got to that point, I had to give thought
 to where I'd host the front-end and how I'd manage authentication.
 
 There were a few other, related problems to solve, but I want to focus on how
-I did authentication for the rest of this post. I had a few requirements that
-I wanted to reserve:
+I did authentication for the rest of this post. I had a few characteristics
+that I wanted to satisfy:
 
 * Let Devise do the heavy lifting
 * Not require the front-end and back-ends to be on the same hostname
@@ -54,11 +55,11 @@ have no idea about. I probably shouldn't recreate each of those defects on my
 own.
 
 JWT was vaguely on my radar after it came up during the Q&A of talk by Lance
-Gleason at the Atlanta Ruby Users Group. They pretty neat, but nothing too
+Gleason at the Atlanta Ruby Users Group. They are pretty neat, but nothing too
 special. Essentially, they are an encrypted JSON object that can contain
 arbitrary claims, like a user id. The entire claim object can be decrypted and
 inspected by anyone with the secret key. This is useful, because instead of storing
-a session token server-side, looking it up and verifying it every request, the
+a session token server-side, looking it up, and verifying it every request, the
 token can be verified by anyone with the secret. Since the claims are arbitrary,
 you could store a user's name or any other information in there. That's great for
 distributed systems where not every service needs to have access to the "truth"
@@ -93,8 +94,8 @@ I wanted to imitate Heroku's ID service with my Rails app. I didn't want my
 front-end handling usernames and passwords at any point. I just wanted to
 redirect the user to the back-end to sign in, but then be able to acquire
 session tokens thereafter. To that end, I left the Devise sign-in/-up
-controllers and forms all as the normally are, and created a session tokens
-resource for issuing a JWT for the `current_user`:
+controllers and forms all as the normally are on the back-end, and created a
+session tokens resource for issuing a JWT for the `current_user`:
 
 ```ruby
 require 'json_web_token'
@@ -119,7 +120,7 @@ class SessionTokensController < ApplicationController
 end
 ```
 
-So far, my approach has been very similar to that of Nebulab's, but here's where
+So far, my approach was very similar to that of Nebulab's, but here's where
 things start to diverge. I didn't want all the authentication goop cluttering
 up my `ApplicationController`. Since I'm using Devise, I'm already using Warden.
 Warden allows you to specify a cascade of [strategies][warden-strategies] for
@@ -188,7 +189,7 @@ regular ol' cookie (normal Devise-auth'd ajax at that point). It stores JWTs
 in `localStorage`. It can check the status of a token, and it can delete the
 token from `localStorage` and send the browser to Devise's sign-out endpoint.
 I'm slightly dissatisfied with this part. It makes a GET request to log you
-out, but it seems like that's what Heroku uses so I'll go with it for now.
+out, but it seems like that's what Heroku uses, so I'll go with it for now.
 
 ```javascript
 var Session = function () {
