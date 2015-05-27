@@ -116,9 +116,10 @@ end
 So far, my approach has been very similar to that of Nebulab's, but here's where
 things start to diverge. I didn't want all the authentication goop cluttering
 up my `ApplicationController`. Since I'm using Devise, I'm already using Warden.
-Warden allows you to specify a cascade of strategies for authenticating a request.
-By default, Devise uses the username/password strategy, but you can layer
-multiple together. I just wanted to add another strategy to the stack.
+Warden allows you to specify a cascade of [strategies][warden-strategies] for
+authenticating a request.  By default, Devise uses the username/password
+strategy, but you can layer multiple together. I just wanted to add another
+strategy to the stack.
 
 ```ruby
 require 'json_web_token'
@@ -170,7 +171,7 @@ config.warden do |manager|
 end
 ```
 
-To support cross-site requests, I used Rack CORS. This enabled the front-end to
+To support cross-site requests, I used [Rack CORS][rack-cors]. This enabled the front-end to
 make, requests for session tokens, and then later to make requests for the
 resources, from domains other than the one hosting the API.
 
@@ -329,3 +330,5 @@ app into different services that could independently verify the JWTs.
 
 [nebulab-post]: http://nebulab.it/blog/authentication-with-rails-jwt-and-react
 [jwt-ruby]: https://github.com/progrium/ruby-jwt
+[warden-strategies]: https://github.com/hassox/warden/wiki/Strategies
+[rack-cors]: https://github.com/cyu/rack-cors
