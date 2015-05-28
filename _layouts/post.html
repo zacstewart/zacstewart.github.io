@@ -8,7 +8,9 @@ layout: default
   <hr>
   {{ content }}
   <footer>
-  <div id="disqus_thread"></div>
+    {% include short-bio.html %}
+
+    <div id="disqus_thread"></div>
     <script type="text/javascript">
         var disqus_shortname = 'zacstewart';
 
