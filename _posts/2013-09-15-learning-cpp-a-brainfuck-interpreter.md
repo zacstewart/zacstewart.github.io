@@ -239,7 +239,10 @@ implementation. I know I shouldn't have to incrementally rewind to the opening
 bracket for each iteration, and next I'm going to work on achieving it using
 the `std::stack`.
 
+You can check out the finished code [here][code].
+
 [1]: http://blog.bignerdranch.com/2650-clash-of-the-coders-2013/
 [2]: http://esolangs.org/wiki/Brainfuck
 [3]: http://alumni.cs.ucr.edu/~pdiloren/C++_Pointers/index.htm
 [4]: http://esoteric.sange.fi/brainfuck/bf-source/prog/BOTTLES.BF
+[code]: https://github.com/zacstewart/brainfuck-pp
