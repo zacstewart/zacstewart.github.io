@@ -142,6 +142,8 @@ pointers point to.
 ```cpp
 #include <iostream>
 
+using namespace std;
+
 class Brainfuck {
   public:
     char data[30000];
@@ -174,8 +176,7 @@ class Brainfuck {
     }
 
     void gets() {
-      char input;
-      std::cin >> input;
+      std::cin >> *d;
     }
 
     void bropen() {
