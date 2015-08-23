@@ -1,0 +1,71 @@
+==================================================================
+https://keybase.io/zacstewart
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of https://zacstewart.com
+  * I am zacstewart (https://keybase.io/zacstewart) on keybase.
+  * I have a public key with fingerprint D831 13A7 6C15 9404 1A93  3690 3CDB F390 49AE 85B6
+
+To do so, I am signing this object:
+
+{
+    "body": {
+        "key": {
+            "fingerprint": "d83113a76c1594041a9336903cdbf39049ae85b6",
+            "host": "keybase.io",
+            "key_id": "3cdbf39049ae85b6",
+            "kid": "01016e30b796efba2a626c2318b17fe78ebcbfc8907f625cdf921cdf13d9907656180a",
+            "uid": "1dd8a6404ec6a7acda9e441a4e461700",
+            "username": "zacstewart"
+        },
+        "service": {
+            "hostname": "zacstewart.com",
+            "protocol": "https:"
+        },
+        "type": "web_service_binding",
+        "version": 1
+    },
+    "ctime": 1440348285,
+    "expire_in": 157680000,
+    "prev": "43dd8943f33f0c0201962a92518fb4c35a6d7d92813f05e690a085a7fe348edf",
+    "seqno": 37,
+    "tag": "signature"
+}
+
+which yields the signature:
+
+-----BEGIN PGP MESSAGE-----
+Version: GnuPG v1
+
+owFtUm1QVFUY3kVpE+OjmCDlo7qaE7jIPff7roGBEi0SSRPlMCrcj3OXK7C77F7A
+LxIMZZYJQe0HETkOFYhjAYIrKAw5fUg5WFhjw6BjoIGINchHAVPUuUz9qvPjnDnP
++zzPed/3vDX+yww+xheGpmusnx72Gq+Oi4aMwbnS/ZjokPdilv1YLlw6FNVugy6n
+S7VrmAWTORIAUmAZCdA8hVNA4EmS4XFSkkWF5HGKFyBHiwxmxnIcbl2BbETBDTeo
+DoShS5YqI/R/+LlLARzggIEkLrI8AxVRIASGYCSCBJwIWAWyHBQlUZE4HmcVhqAl
+WeEJgHZAyjzCGJoBHC4gu8IlOyDLnMCgRKHECKwgyQIPKZQ1BSkGsDiuE93QZRfy
+IWLvEyS3BosFl4aVmDGEF6kS1Jug1/IfzgbJkY/0TpdDc0iOPBTL0TSn26Jrtb1O
+nVwMxax/bLJE1S6jXiJFEXS5VYcdswDElDRV9wUUhZMUR3C0GYN7nKoLZqk6g2YZ
+DkdLfwcWIUuKRCXxFKmQpIJLOIEDniEEnqABp4iURNICI7MyT3AAxWmI/kbAOVpA
+vUP2UFYwvbACuwOzkCzKU7AhT7dqswsmrdAFsRI/j0/4coPRx/CIr48+EAa/FUH/
+Tsm1U4GL9OZWSmhI5aMafMPSbx3yltTdOL7KElnVWFHNFc1uatsyXLj7zy9vVUZV
+eMr8jn3/bJUzbvLrPL/4tVUFL669EgLfnugt39UbV3xSI9qfqPguKjx9Z2fZvDF5
+OrLpp+dipkpjk1KGF66Ub/zk5+iUjdxEdWty/cGwlethpWdkmC9Jv+o9XXP2Uti6
+dY83mYLtEYOpn61R6ppjpvLZroSu3wwtHflcYv+mjihXU96KnT31l7fyB29uT20b
+v94/8NUP6SHWsbZn3N7ZbbaM5r6y4gLbCLwTU/P5fLannIvrac3wmgPSEjsirLVN
+Z8f6+dqZA+/seJq9HVg3nti4+dWUoaqWC87VL207N2u4m9fZcfjy8FARX155cRXe
+N5Dtubbm0ZvxHzoGG588lFm49bWK3Ttmjow+DGhenVt+IhM35Sh9/vWhoAU8PMO9
+y60vCHjwSuaPsaMf44/tCrQnnmxVh2uO1aqpI2/syQ2Y9zclDyTRH3VOWYOjr9/3
+Pf/WX6/fmf4mpTHoxr5ve+x+Hu1uj7U2tu2B2Rg3kd/Qvj3jqYaVNtN7Z5ikycWm
+N+99gH2hLhs0RCcEHT06N151fmz09/a+LiY0bWhGfflAcO/tCZDNXfile5HwdvfO
+nf7VtRA/aRTMIGK5pdSYYD2X9sepwufv9aQmu2XPYHdzyJbw0Iv3Iy+976leMP0N
+=GzY6
+-----END PGP MESSAGE-----
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/zacstewart
+
+==================================================================
