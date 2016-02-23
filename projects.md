@@ -5,6 +5,9 @@ title: Projects
 {{ page.title }}
 ====
 
+* ### [Tech404logs](http://www.tech404logs.com)
+  A hack for the [Tech404 community Slack](http://tech404.io) to provide chat transcripts.
+
 * ### [PySpec](https://github.com/zacstewart/pyspec)
   An RSpec-inspired behavior-driven development framework for Python.
 
