@@ -14,7 +14,7 @@ lsi: false
 highlighter: pygments
 safe: true
 url: 'http://zacstewart.com'
-markdown: redcarpet
+markdown: kramdown
 redcarpet:
   extensions:
     - tables
