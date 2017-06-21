@@ -11,7 +11,7 @@ exclude:
 include:
   - .well-known
 lsi: false
-highlighter: pygments
+highlighter: rouge
 safe: true
 url: 'http://zacstewart.com'
 markdown: kramdown
