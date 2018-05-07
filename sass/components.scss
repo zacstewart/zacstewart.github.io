@@ -1,0 +1,10 @@
+.nav-social-media {
+  &__list {
+    list-style: none;
+    clear: both;
+    li {
+      float: left;
+      margin-right: 10px;
+    }
+  }
+}

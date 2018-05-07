@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="/css/tables.css" type="text/css" media="screen, projection">
     <link rel="stylesheet" href="/css/pygment.css" type="text/css" media="screen, projection">
     <link rel="stylesheet" href="/css/layout.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="/css/components.css" type="text/css" media="screen, projection">
 
     <link rel="shortcut icon" href="/images/favicon.png" type="image/png">
 
@@ -39,18 +40,27 @@
           </ul>
         </nav>
 
-        <p>
-          <a href="http://twitter.com/zacstewart"
-            class="twitter-follow-button"
-            data-button="grey"
-            data-show-count="false">Follow @zacstewart</a>
-        </p>
+        <nav class="nav-social-media clearfix">
+          <ul class="nav-social-media__list">
+            <li>
+              <a href="https://twitter.com/zacstewart">
+                <img height="32" width="32" src="https://unpkg.com/simple-icons@latest/icons/twitter.svg" />
+              </a>
+            </li>
+            <li>
+              <a href="https://www.instagram.com/zacstewart/">
+                <img height="32" width="32" src="https://unpkg.com/simple-icons@latest/icons/instagram.svg" />
+              </a>
+            </li>
+          </ul>
+        </nav>
 
         <p>
-        Have an interesting problem?
-        <a href="mailto:zgstewart@gmail.com?subject=Work">Let's talk</a>
+          Have an interesting problem?
+          <a href="mailto:zgstewart@gmail.com?subject=Work">Let's talk</a>
         </p>
       </div>
+
       <div class="twelve columns offset-by-one">
         {{ content }}
       </div>
