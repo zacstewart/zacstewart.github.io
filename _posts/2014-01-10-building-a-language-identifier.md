@@ -10,7 +10,7 @@ excerpt: "I recently gave a talk on language identification at Big Nerd Ranch. T
 I recently gave a talk on language identification at Big Nerd Ranch. The gist
 of it was extracting text from Wikipedia and training a naive Bayes classifier
 to predict the language of text. You can check out the resulting
-language identification service, [Langue](http://langue.io).
+language identification service, [Langue](http://langue.herokuapp.com).
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/yILPFWtw3_o" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
