@@ -40,7 +40,7 @@ The heat finally broke and I could push a little faster. The ten miles from Carl
 
 <a data-flickr-embed="true" href="https://www.flickr.com/photos/87070659@N04/50214154587/in/datetaken-public/" title="IMG_8840"><img src="https://live.staticflickr.com/65535/50214154587_b080099bcb_z.jpg" width="640" height="480" alt="IMG_8840"></a><script async src="//embedr.flickr.com/assets/client-code.js" charset="utf-8"></script>
 
-I emerged from the gravel roads and could see the guidestones illuminated on the hilltop ahead. The odometer rolled over to 116 as I pulled up to them at 21:00. A family was walking around looking at the different languages carved into the faces of the monoliths. I took a few pictures, set up my tent in the parking area, and then passed out cold.
+I emerged from the gravel roads and could see the guidestones illuminated on the hilltop ahead. The odometer rolled over to 116 as I pulled up to them at 21:00. A family was walking around looking at the different languages carved into the faces of the monoliths. I had decided on my way through the farm roads that I definitely was not going to push onwards to the SC line to camp. I took a few pictures, set up my tent in the parking area, and then passed out cold.
 
 <a data-flickr-embed="true" href="https://www.flickr.com/photos/87070659@N04/50214154297/in/datetaken-public/" title="IMG_8851"><img src="https://live.staticflickr.com/65535/50214154297_d6ec014810_z.jpg" width="640" height="480" alt="IMG_8851"></a><script async src="//embedr.flickr.com/assets/client-code.js" charset="utf-8"></script>
 
