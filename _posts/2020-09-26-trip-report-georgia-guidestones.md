@@ -46,7 +46,7 @@ I emerged from the gravel roads and could see the guidestones illuminated on the
 
 ## Day Two
 
-The return trip promised to be a little harder. I had just ridden the 116 miles the day before, I sleep rough without a sleeping pad, and the return route was at a slightly higher average grade. I learned my lesson the day before about hammering 50 miles before taking my first break and committed to take my first break within 20 miles. I also decided I was going take it easy during mid day. If that meant riding 5 MPH or taking a long nap during peak heat, and I couldn't make it home until midnight, so be it. I broke down my tent, packed up and pulled onto the road around 07:45.
+The return trip promised to be a little harder. I had just ridden the 116 miles the day before, I slept rough without a sleeping pad, and the return route was at a slightly higher average grade. I learned my lesson the day before about hammering 50 miles before taking my first break and committed to take my first break within 20 miles. I also decided I was going take it easy during mid day. If that meant riding 5 MPH or taking a long nap during peak heat, and I couldn't make it home until midnight, so be it. I broke down my tent, packed up and pulled onto the road around 07:45.
 
 <a data-flickr-embed="true" href="https://www.flickr.com/photos/87070659@N04/50214154082/in/datetaken-public/" title="IMG_8853"><img src="https://live.staticflickr.com/65535/50214154082_0d85620f98_z.jpg" width="640" height="480" alt="IMG_8853"></a><script async src="//embedr.flickr.com/assets/client-code.js" charset="utf-8"></script>
 
