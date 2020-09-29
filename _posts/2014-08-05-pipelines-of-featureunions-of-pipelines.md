@@ -33,7 +33,7 @@ After exhausting all the ideas I had for extracting features, I'd find myself no
 Using a [Pipeline][pipeline] simplifies this process. Instead of manually running through each of these steps, and then tediously repeating them on the test set, you get a nice, declarative interface where it's easy to see the entire model. This example extracts the text documents, tokenizes them, counts the tokens, and then performs a tf–idf transformation before passing the resulting features along to a multinomial naive Bayes classifier:
 
 ```python
-pipeline = Pipeline([
+model = Pipeline([
   ('extract_essays', EssayExractor()),
   ('counts', CountVectorizer()),
   ('tf_idf', TfidfTransformer()),
