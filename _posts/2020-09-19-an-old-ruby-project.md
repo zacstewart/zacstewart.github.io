@@ -45,7 +45,7 @@ It suggested that I install some specific version of Bundler, so I did.
 That helps. Almost everything installed when I ran `bundle install`. Not json
 version 1.8.3, though.  There are some details in the error message about
 rb_cFixnum and rb_cBignum symbols being missing. That sounds like the release
-note for Ruby 2.4.0. They dropped those two to unify under `Integer` Who even
+note for Ruby 2.4.0. They dropped those two to unify under `Integer`. Who even
 needs to install json? Isn't this part of the standard lib? I can't remember.
 The dependency chain says dm-serializer wants it, and data_mapper wants that.
 Why the hell did I use DataMapper on this project anyway? Maybe I didn't want
