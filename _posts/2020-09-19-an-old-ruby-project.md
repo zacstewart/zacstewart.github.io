@@ -7,7 +7,7 @@ or five years I've barely committed any work, just enough to keep it humming
 along.  It has actual users (not that many though) and has hundreds of pages
 indexed by search engines. It's just an open source community thing, not super
 important. I've been so lazy with it that a feature branch that I never merged
-with into has been running in production for years. Since it's Saturday and I
+into master has been running in production for years. Since it's Saturday and I
 don't have anything to do (thanks global pandemic), I decided to rectify that
 and finally clean this project up.
 
