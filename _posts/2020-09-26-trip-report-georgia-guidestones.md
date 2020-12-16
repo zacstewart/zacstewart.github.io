@@ -1,6 +1,9 @@
 ---
 layout: post
 title: "Trip Report: Atlanta to the Georgia Guidestones"
+excerpt: |
+  In August I went on a bike excursion from Atlanta to the Georgia Guidestones and back. I've known about them for a while, and have been curious to go see them, but never enough to drive the three or so hours it would be round trip. I never pass through that neck of the woods either, so I've never had a reason to stop while passing through. Last week, management at work announced a surprise day off kind of last minute. I had nothing planned, so I decided to build a route and put this unexpected three-day weekend to use.
+image: https://live.staticflickr.com/65535/50213356908_47136f0ae5_o.jpg
 tags:
   - bikes
 ---
