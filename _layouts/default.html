@@ -6,11 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
     <!-- open graph tags -->
-    <meta content="{{ site.title }}" property="og:site_name">
+    <meta content="{{ site.title | xml_escape }}" property="og:site_name">
     {% if page.title %}
-      <meta content="{{ page.title }}" property="og:title">
+      <meta content="{{ page.title | xml_escape }}" property="og:title">
     {% else %}
-      <meta content="{{ site.title }}" property="og:title">
+      <meta content="{{ site.title | xml_escape }}" property="og:title">
     {% endif %}
     {% if page.title %}
       <meta content="article" property="og:type">
@@ -18,11 +18,11 @@
       <meta content="website" property="og:type">
     {% endif %}
     {% if page.description %}
-      <meta content="{{ page.description }}" property="og:description">
+      <meta content="{{ page.description | xml_escape }}" property="og:description">
     {% else if page.excerpt %}
-      <meta content="{{ page.excerpt }}" property="og:description">
+      <meta content="{{ page.excerpt | xml_escape }}" property="og:description">
     {% else %}
-      <meta content="{{ site.description }}" property="og:description">
+      <meta content="{{ site.description | xml_escape }}" property="og:description">
     {% endif %}
     {% if page.url %}
       <meta content="{{ site.url }}{{ page.url }}" property="og:url">
