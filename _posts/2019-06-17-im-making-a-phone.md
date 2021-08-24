@@ -1,8 +1,9 @@
 ---
 layout: post
 title: "I’m Making a Phone"
+date: "2019-06-17 00:19:09"
 excerpt: |
-  A custom excerpt, otherwise the first paragraph will be used
+  Why make a phone? I started down this path after recognizing that I’m struggling with how addictive tech is. Devices are engineered to be as instantly gratifying as possible. I’m not incapable of putting it down, and luckily I’m not hooked on social media, but the devices themselves have a tendency to draw me in and fill up any empty space that I might otherwise use to hear my own thoughts for a minute. This constant presence works to isolate me from other humans. At least, I often feel lonely and disconnected, and then supplement my loneliness with more device usage.
 image: /images/im-making-a-phone.jpg
 tags:
   - phonium
