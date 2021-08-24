@@ -9,7 +9,7 @@ break: 'See a demo'
   <head>
     <title>Meow: A Growl Work-Alike for jQuery</title>
     <link rel="stylesheet" href="{{ site.url }}/css/pygment.css" type="text/css">
-    <link rel="stylesheet" href="http://zacstewart.github.com/Meow/jquery.meow.css" type="text/css" media="screen">
+    <link rel="stylesheet" href="http://zacstewart.com/Meow/jquery.meow.css" type="text/css" media="screen">
     <style>
       body {
         background-color: #777;
@@ -54,33 +54,33 @@ break: 'See a demo'
         })();
     </script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js" type="text/javascript" charset="utf-8"></script>
-    <script src="http://zacstewart.github.com/Meow/jquery.meow.js" type="text/javascript" charset="utf-8"></script>
+    <script src="http://zacstewart.com/Meow/jquery.meow.js" type="text/javascript" charset="utf-8"></script>
     <script>
       $(document).ready(function () {
 
         $(document).ready(function () {
           $.meow({
             message: $('#onready'),
-            icon: 'http://zacstewart.github.com/Meow/nyan-cat.gif'
+            icon: 'http://zacstewart.com/Meow/nyan-cat.gif'
           });
         });
 
         $('#button').click(function () {
           $.meow({
             message: $('#onclick'),
-            icon: 'http://zacstewart.github.com/Meow/nyan-cat.gif'
+            icon: 'http://zacstewart.com/Meow/nyan-cat.gif'
           });
         });
         $('#onchange').change(function () {
           $.meow({
             message: $('#onchange'),
-            icon: 'http://zacstewart.github.com/Meow/nyan-cat.gif'
+            icon: 'http://zacstewart.com/Meow/nyan-cat.gif'
           });
         });
         $('#selectonchange').change(function () {
           $.meow({
             message: $('#selectonchange'),
-            icon: 'http://zacstewart.github.com/Meow/nyan-cat.gif'
+            icon: 'http://zacstewart.com/Meow/nyan-cat.gif'
           });
         });
         $('#thanks-meow').click(function () {
@@ -134,13 +134,13 @@ break: 'See a demo'
     <p>To get awesome notifications on your website or app:
       <ol>
         <li>head over to the <a href="https://github.com/zacstewart/Meow">GitHub project</a> and download <code>jquery.meow.js</code> and <code>jquery.meow.css</code></li>
-        <li>Add them to the head of your page, or just hotlink them from the <a href="http://zacstewart.github.com/Meow/">GiHub demo page</a>.</li>
+        <li>Add them to the head of your page, or just hotlink them from the <a href="http://zacstewart.com/Meow/">GiHub demo page</a>.</li>
         <li>Add a div with id 'meows' and now all you have to do is <code>$.meow()</code>something like so:
           {% highlight javascript %}
 $('#button')click(function () {
   .meow({
     message: $('#onclick'),
-    icon: 'http://zacstewart.github.com/Meow/nyan-cat.gif'
+    icon: 'http://zacstewart.com/Meow/nyan-cat.gif'
   });
 });
 {% endhighlight %}

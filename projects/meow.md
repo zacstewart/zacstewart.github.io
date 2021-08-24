@@ -2,9 +2,9 @@
 layout: default
 title: 'Meow: A Growl Work-Alike for jQuery'
 ---
-<link rel="stylesheet" href="http://zacstewart.github.com/Meow/jquery.meow.css">
+<link rel="stylesheet" href="http://zacstewart.com/Meow/jquery.meow.css">
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
-<script src="http://zacstewart.github.com/Meow/jquery.meow.js"></script>
+<script src="http://zacstewart.com/Meow/jquery.meow.js"></script>
 <script src="meow_demo.js"></script>
 
 # jQuery Meow
@@ -32,12 +32,13 @@ $.meow(options);
 ## Get it!
 
 [Download the source](https://github.com/zacstewart/Meow/archives/master) from
-GitHub, or just [hotlink](http://zacstewart.github.com/Meow/) the JavaScript
+GitHub, or just [hotlink](http://zacstewart.com/Meow/) the JavaScript
 and CSS files to always have the latest version.
 
 ## Options
+
 | Key                 | Type             | Default   | Description                                                                                                                                                                                            |
-| ------------------- | ---------------- | --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| ------------------- | ---------------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | message             | String, Object   | null      | Either a string or a jQuery selected element. If it's an element, Meow will use its value, innerHTML or innerText depending on its type.                                                               |
 | title               | String           | null      | If a string is given, the meow's title will reflect it. However, if you do no set this and use a selector element in `message`, it will default to the `title` attribute of that element if available. |
 | icon                | String           | null      | Sets the image URL for the icon                                                                                                                                                                        |
