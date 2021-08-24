@@ -3,7 +3,7 @@ layout: post
 title: "Making a Phone Part 2: Getting Started"
 date: "2019-06-17 00:19:10"
 excerpt: |
-  A custom excerpt, otherwise the first paragraph will be used
+  I started out with an Arduino Uno-compatible microcontroller board manufactured by OSEPP, a 16-button 4x4 button matrix, a 2G cellular module by Adafruit called a FONA, and a 1.54" monochrome e-paper display from Adafruit. I also grabbed a starter kit from them that contained a soldering iron, a multimeter, a couple breadboards, some wire cutters, a handful of components, solder, and wire.
 image: /images/making-a-phone-part-2-getting-started.jpg
 tags:
   - hardware
