@@ -3,7 +3,7 @@ layout: post
 title: "Making a Phone Part 3: Going 32-bit"
 date: "2019-06-18 02:30:25"
 excerpt: |
-  Naturally, the next function is answering incoming calls. One way to do that (aka the wrong way) is to poll the cellular module to ask it what its call status is. The microcontroller communicates with the FONA via a serial interface, so doing that every tick of the loop function (16 Mhz) is very chatty.
+  Naturally, the next function is answering incoming calls. One way to do that (aka the wrong way) is to poll the cellular module to ask it what its call status is. The microcontroller communicates with the FONA via a serial interface, so doing that every tick of the loop function (16 MHz) is very chatty.
 image: /images/making-a-phone-part-3-going-32-bit.jpg
 tags:
   - hardware
@@ -17,9 +17,9 @@ tags:
 
 ![A Teensy microcontroller][image-1]
 
-Naturally, the next function is answering incoming calls. One way to do that (aka the wrong way) is to poll the cellular module to ask it what its call status is. The microcontroller communicates with the FONA via a serial interface, so doing that every tick of the `loop` function (16 Mhz) is very chatty. I suspect it would kill a battery very quickly. The right way is to handle a hardware interrupt from the FONA. Sadly, 20/20 pins are currently occupied and the I’d need to connect to the cell module’s RI (ringer interrupt) pin for that. I screwed around with the RESET pins again with no luck.
+Naturally, the next function is answering incoming calls. One way to do that (aka the wrong way) is to poll the cellular module to ask it what its call status is. The microcontroller communicates with the FONA via a serial interface, so doing that every tick of the `loop` function (16 MHz) is very chatty. I suspect it would kill a battery very quickly. The right way is to handle a hardware interrupt from the FONA. Sadly, 20/20 pins are currently occupied and the I’d need to connect to the cell module’s RI (ringer interrupt) pin for that. I screwed around with the RESET pins again with no luck.
 
-I had initially thought that I’d prototype with the Uno and then switch to an Arduino Nano when I wanted to scale things down. Now I was looking for something that could support more peripherals. I found the [Teensy][6] family of microcontrollers and was enthused. The Teensy LC looked like a winner. It’s smaller than the Uno, has 8 KB of RAM, 27 GPIO pins, and a 48 Mhz clock speed. It didn’t hurt that it has more ROM too, because I was a little worried that my code was going to get cramped in the space of 32 KB.
+I had initially thought that I’d prototype with the Uno and then switch to an Arduino Nano when I wanted to scale things down. Now I was looking for something that could support more peripherals. I found the [Teensy][6] family of microcontrollers and was enthused. The Teensy LC looked like a winner. It’s smaller than the Uno, has 8 KB of RAM, 27 GPIO pins, and a 48 MHz clock speed. It didn’t hurt that it has more ROM too, because I was a little worried that my code was going to get cramped in the space of 32 KB.
 
 The Teensy arrived, and I soldered some headers to it and wired it up. The EPD wouldn’t power up. I could see from Serial output that button presses were being registering. I started poking around with my multimeter, and confirmed that no power was getting to the EPD. I tried giving it some power view the vout from the Uno that was now completely disconnected. For a few moments the display came to life and showed the graphics test I had uploaded to the Teensy. Then everything stopped. The Teensy quit responding to button presses, quit logging to Serial. It stopped restarting up uploading new code. I fried it with my tampering.
 
