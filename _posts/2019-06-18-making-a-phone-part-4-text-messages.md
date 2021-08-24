@@ -13,6 +13,7 @@ tags:
 
 * [Part 1][4] background, motivations
 * [Part 2][5] getting started, making calls
+* [Part 3][6] answering calls, upgrading to a 32-bit microcontroller
 
 <video alt="Composing a text message" controls="undefined">
   <source src="/images/making-a-phone-part-4-text-messages.webm">
@@ -24,11 +25,12 @@ This sent me back to the drawing board about the EPD. I really want to use e-pap
 
 While I waited, I worked on incoming text messages. This has two large chunks: a navigation menu screen for viewing a list of messages, and a detail screen for reading a message. The most daunting piece I see ahead is making a scrollable view for reading long messages. I’ve gotten it to do the minimum of printing how many messages there are, and then displaying the first one. A friend sent me the first SMS my phone has ever received. It thought something was wrong, data was corrupted, or encoded weirdly, or something, but after a little searching around, I learned that D83EDDA1 is the unicode hexadecimal for 🦡 and that the FONA does not handle emoji gracefully. Normally it gives you plain text (ASCII?) but if you include one emoji, suddenly the whole message is UTF-16 hex represented.
 
-Well, that wraps up this episode. I’d love to dive into any details that you find interesting. If you want to see my source code, it’s on [GitHub][6]. I’ll write more updates as I make progress. Next up, I’ll be replacing the Teensy LC with the 3.2 and switching out the EPDs. Then I’ll try getting partial updates to work.
+Well, that wraps up this episode. I’d love to dive into any details that you find interesting. If you want to see my source code, it’s on [GitHub][7]. I’ll write more updates as I make progress. Next up, I’ll be replacing the Teensy LC with the 3.2 and switching out the EPDs. Then I’ll try getting partial updates to work.
 
 [1]:	/tags/phonium.html
 [2]:	https://scuttlebutt.nz/
 [3]:	https://viewer.scuttlebot.io/%256nvB0gMJTj%2BXS%2BiINJcPMmwpDQEIKdZ2316SjdCgeig%3D.sha256#%256nvB0gMJTj%2BXS%2BiINJcPMmwpDQEIKdZ2316SjdCgeig%3D.sha256
 [4]:	{% post_url 2019-06-17-im-making-a-phone %}
 [5]:	{% post_url 2019-06-17-making-a-phone-part-2-getting-started %}
-[6]:	https://github.com/zacstewart/phonium "Phonium git repository"
+[6]:	{% post_url 2019-06-18-making-a-phone-part-3-going-32-bit %}
+[7]:	https://github.com/zacstewart/phonium "Phonium git repository"
