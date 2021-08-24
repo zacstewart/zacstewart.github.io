@@ -2,9 +2,7 @@ exclude:
   - Gemfile
   - Gemfile.lock
   - README.md
-  - config
   - config.rb
-  - config_prod.rb
   - sass
 include:
   - .well-known
