@@ -15,7 +15,7 @@ tags:
 * [Part 2][5] getting started, making calls
 
 <video alt="Composing a text message" controls="undefined">
-  <source src="/images/making-a-phone-part-3-text-messages.webm">
+  <source src="/images/making-a-phone-part-4-text-messages.webm">
 </video>
 
 Sending texts is the next goalpost. The backend of this was pretty easy thanks to the Adafruit FONA library. The hard part was building a frontend for 9-key text entry. After a couple of after-work code sessions I got something complete enough to allow for lower-case text entry including spaces and punctuation. The UX, however, remains horrible. Like I mentioned before, the EPD refreshes the whole screen (multiple times actually) every time you update it. That second-or-so of lag time every time you press a button is excruciating. Especially since you can’t just click-click-click and wait for the screen to update. Subsequent presses of the button do nothing until the display is finished updating. That means I had to make the move-onto-the-key-character timeout really long. 3 seconds. You know, if you want to enter “hi” on 9-key phone, you have to hit 4, wait, 4? Well, that wait has to be long enough to accommodate the screen refresh.
