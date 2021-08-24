@@ -1,6 +1,7 @@
 ---
 layout: post
-title: "Making a Phone Part 3: Text Messages"
+title: "Making a Phone Part 4: Text Messages"
+date: "2019-06-18 02:35:00"
 excerpt: |
   Sending texts is the next goalpost. The backend of this was pretty easy thanks to the Adafruit FONA library. The hard part was building a frontend for 9-key text entry. After a couple of after-work code sessions I got something complete enough to allow for lower-case text entry including spaces and punctuation..
 tags:
