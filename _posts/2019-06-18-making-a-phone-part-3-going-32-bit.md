@@ -3,7 +3,7 @@ layout: post
 title: "Making a Phone Part 3: Going 32-bit"
 date: "2019-06-18 02:30:25"
 excerpt: |
-  Naturally, the next function is answering incoming calls. One way to do that (aka the wrong way) is to poll the cellular module to ask it what its call status is. The microcontroller communicates with the FONA via a serial interface, so doing that every tick of the `loop` function (16 Mhz) is very chatty.
+  Naturally, the next function is answering incoming calls. One way to do that (aka the wrong way) is to poll the cellular module to ask it what its call status is. The microcontroller communicates with the FONA via a serial interface, so doing that every tick of the loop function (16 Mhz) is very chatty.
 image: /images/making-a-phone-part-3-going-32-bit.jpg
 tags:
   - hardware
