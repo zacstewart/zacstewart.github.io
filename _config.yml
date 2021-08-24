@@ -1,8 +1,6 @@
 exclude:
-  - Capfile
   - Gemfile
   - Gemfile.lock
-  - Guardfile
   - README.md
   - config
   - config.rb
@@ -15,6 +13,3 @@ highlighter: rouge
 safe: true
 url: 'http://zacstewart.com'
 markdown: kramdown
-redcarpet:
-  extensions:
-    - tables
