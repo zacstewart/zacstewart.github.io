@@ -4,6 +4,7 @@ title: "Making a Phone Part 5: Partial Update Setbacks, Navigation Flows"
 date: "2019-06-23 01:33:25"
 excerpt: |
   I finally ordered a e-paper display capable of partial refresh. A 1.54" display made by Good Display and packaged with a PCB by a supplier called Waveshare. They also publish some drivers and demo code. I needed a higher-RAM microcontroller to handle partial updates, so I upgraded my Teensy LC to a Teensy 3.2.
+image: /images/making-a-phone-part-5-navigation-flow.jpg
 tags:
   - hardware
   - phonium
