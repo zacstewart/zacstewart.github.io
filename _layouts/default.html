@@ -32,7 +32,7 @@
     {% endif %}
     {% if page.image contains "https://" or page.image contains "http://" %}
       <meta content="{{ page.image }}" property="og:image">
-    {% else if page.image %}
+    {% elsif page.image %}
       <meta content="{{ site.url}}{{ page.image }}" property="og:image">
     {% endif %}
     {% if page.categories %}
