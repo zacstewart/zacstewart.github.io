@@ -17,9 +17,10 @@ better yet, send me a pull request.
 # Updating the site layout
 
 * Make any stylesheet changes to the .scss files in _sass/_. See changes by
-  running `compass compile` or `compass watch` The files in _css/_ are only
-  included becasuse GitHub Pages doesn't compile sass
-* Change layout partials in __templates/_
+  running `compass compile` or `compass watch`. `compass compile -e production`
+  when you're happy with the changes. The files in _css/_ are only included
+  becasuse GitHub Pages doesn't compile sass.
+* Change layout partials in _\_layouts_
 * Add new pages by creating files in the root directory
 * Add any new files that shouldn't be served to visitors to the exclude list in
   _\_config.yml_

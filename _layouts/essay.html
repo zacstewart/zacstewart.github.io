@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>{{ page.essay.title }}</title>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    {% include open-graph.html %}
+
+    <link rel="stylesheet" href="/css/skeleton.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="/css/essay.css" type="text/css" media="screen, projection">
+  </head>
+
+  <body>
+    <div class="container ">
+      <div class="twelve columns">
+        <h1>{{ page.title }}</h1>
+        {% if page.image %}
+          <img src="{{ page.image }}">
+        {% endif %}
+        {{ content }}
+      </div>
+      <div class="four columns">
+        <nav>
+          {% include_relative toc.html %}
+        </nav>
+      </div>
+    </div>
+  </body>
+</html>

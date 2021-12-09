@@ -1,10 +1,1 @@
-/* line 2, ../sass/components.scss */
-.nav-social-media__list {
-  list-style: none;
-  clear: both;
-}
-/* line 5, ../sass/components.scss */
-.nav-social-media__list li {
-  float: left;
-  margin-right: 10px;
-}
+.nav-social-media__list{list-style:none;clear:both}.nav-social-media__list li{float:left;margin-right:10px}
