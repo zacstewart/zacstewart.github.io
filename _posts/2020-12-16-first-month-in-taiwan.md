@@ -8,7 +8,9 @@ tags:
   - taiwan
   - life
 ---
-[![The windows in my apartment](https://live.staticflickr.com/65535/50723309626_11488d27fc_b.jpg)](https://www.flickr.com/photos/87070659@N04/50723309626/)
+<a href="https://www.flickr.com/photos/87070659@N04/50723309626/" target="_blank">
+  ![The windows in my apartment](https://live.staticflickr.com/65535/50723309626_11488d27fc_b.jpg)
+</a>
 
 It's been a month since I moved to Taiwan. The first two weeks were spent in quarantine, of course. For 15 days I sat on my balcony and enjoyed the warm, sunny weather. During the 3 weeks since I got out, Taipei has had almost non-stop rain.
 

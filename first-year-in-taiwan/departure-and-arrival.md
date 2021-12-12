@@ -8,6 +8,10 @@ tags:
   - life
   - taiwan
 ---
+<a href="https://www.flickr.com/photos/87070659@N04/50701359022/" target="_blank">
+  ![ATL international terminal](https://live.staticflickr.com/65535/50701359022_0c17374ae7_b_d.jpg)
+</a>
+
 The day before I left, my siblings, a few of their significant others, and a niece came to see me off. We ordered a big takeout order and went to a nearby park to eat together. There are so many of us that getting everyone together is notoriously difficult. Even for holidays and birthdays, there will often be someone absent. After eating we went back to my empty apartment. I opened all the windows and turned on the ventilation, probably in vain, but trying to be as responsible as possible during the pandemic. We sat in a circle on the floor and talked for a while. It's unbelievable to see all of us together as adults. The youngest is 14 years younger than me, and it has always felt like I'd have a baby sister forever. More amazing still is to see us not only getting along, but enjoying each others' company. Eight kids growing up in one house, most of us sharing bedrooms, was chaotic to say the least. On my last day in the States I realized, more than ever, that these are the most important people in my life. Each one of them is interesting, leads a weird and exciting life, and I get to follow their seven intertwined stories unfolding in real time. I could chase all the cool strangers in the world and it still wouldn't rival that.
 
 I had already donated, given to friends, or sold off almost everything I owned. Going to Taiwan with me were a bike, a big computer, a ukulele, a suitcase, and a backpack. Noah, my third brother, helped me carry my mattress out to the dumpster. Hannah, my oldest sister, wanted my duvet set. Whatever other knick-knacks were lying around were free for the taking, or going to the dumpster. Hannah's husband Catriel gave me a crash course on DSLR photography. Finally, my niece Camille (not to be confused with my little sister Camille) started getting grumpy, and I had to wake up early to catch my flight, so we said our goodbyes and everyone left.
