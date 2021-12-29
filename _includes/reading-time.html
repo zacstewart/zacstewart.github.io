@@ -1,0 +1,12 @@
+<aside class="reading-time">
+  <small>
+  {% assign words = content | number_of_words %}
+  {{ words }}
+  words, approx.
+  {% if words < 360 %}
+    1 min
+  {% else %}
+    {{ words | divided_by:180 }} mins
+  {% endif %}
+  </small>
+</aside>
