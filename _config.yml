@@ -11,3 +11,4 @@ highlighter: rouge
 safe: true
 url: 'http://zacstewart.com'
 markdown: kramdown
+destination: ./build
