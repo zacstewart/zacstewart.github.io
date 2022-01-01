@@ -1,8 +1,10 @@
-build: *
+build: _site
+
+_site: *
 	bundle install
 	bundle exec jekyll build
 
-deploy: build
+deploy: _site
 	cd build && \
 		remote_repo="https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" && \
 		remote_branch="gh-pages" && \
