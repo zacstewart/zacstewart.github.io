@@ -7,6 +7,12 @@ image: https://live.staticflickr.com/65535/50701359022_0c17374ae7_b_d.jpg
 tags:
   - life
   - taiwan
+excerpt: >
+  The day before I left, my siblings, a few of their significant others, and a
+  niece came to see me off. We ordered a big takeout order and went to a nearby
+  park to eat together. There are so many of us that getting everyone together
+  is notoriously difficult. Even for holidays and birthdays, there will often
+  be someone absent.
 ---
 <a href="https://www.flickr.com/photos/87070659@N04/50701359022/" target="_blank">
   ![ATL international terminal](https://live.staticflickr.com/65535/50701359022_0c17374ae7_b_d.jpg)

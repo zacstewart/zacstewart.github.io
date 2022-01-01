@@ -7,8 +7,13 @@ image: https://live.staticflickr.com/65535/50700526718_f8332f3784_b.jpg
 tags:
   - life
   - taiwan
+excerpt: >
+  Aside from the cramped seats and recycled air, I enjoy flying. I like taking
+  trains even more. If I could go back about 100 years, I'd probably enjoy a
+  transatlantic ocean crossing. I once had a boss who proclaimed that she
+  couldn't stand flying because she always needed to be doing something. I'm
+  the exact opposite: I love the freedom from needing to do anything.
 ---
-
 <a href="https://www.flickr.com/photos/87070659@N04/50700526718/in/datetaken/" target="_blank">
   ![Camera lense, notebook, and pencil sitting on the bed in my quarantine hotel](https://live.staticflickr.com/65535/50700526718_f8332f3784_b.jpg)
 </a>
