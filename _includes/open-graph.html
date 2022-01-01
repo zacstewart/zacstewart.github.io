@@ -11,11 +11,11 @@
   <meta content="website" property="og:type">
 {% endif %}
 {% if page.description %}
-  <meta content="{{ page.description | strip_html | xml_escape }}" property="og:description">
+  <meta content="{{ page.description | strip_html | xml_escape | strip }}" property="og:description">
 {% else if page.excerpt %}
-  <meta content="{{ page.excerpt | strip_html | xml_escape }}" property="og:description">
+  <meta content="{{ page.excerpt | strip_html | xml_escape | strip }}" property="og:description">
 {% else %}
-  <meta content="{{ site.description | strip_html | xml_escape }}" property="og:description">
+  <meta content="{{ site.description | strip_html | xml_escape | strip }}" property="og:description">
 {% endif %}
 {% if page.url %}
   <meta content="{{ site.url }}{{ page.url }}" property="og:url">
