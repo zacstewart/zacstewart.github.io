@@ -5,7 +5,7 @@ _site: *
 	bundle exec jekyll build
 
 deploy: _site
-	cd build && \
+	cd _site && \
 		remote_repo="https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" && \
 		remote_branch="gh-pages" && \
 		git init && \
