@@ -1,6 +1,10 @@
 exclude:
   - Gemfile
   - Gemfile.lock
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/
   - README.md
   - config.rb
   - sass
@@ -11,3 +15,4 @@ highlighter: rouge
 safe: true
 url: 'http://zacstewart.com'
 markdown: kramdown
+page_excerpts: true
