@@ -97,7 +97,6 @@ I had good energy after the climb and a nice slow descent ahead of me through th
   <li><a href="https://www.strava.com/activities/4564680801">Yuli to Donghe</a></li>
   <li><a href="https://www.strava.com/activities/4595992283">Donghe to Jinlun</a></li>
   <li><a href="https://www.strava.com/activities/4602470285">Jinlun to Hengchun</a></li>
-
 </ol>
 </aside>
 
