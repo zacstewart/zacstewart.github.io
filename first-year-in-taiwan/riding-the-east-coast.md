@@ -58,7 +58,8 @@ I love visiting small towns, and I love that traveling by bike gives me a reason
 After breakfast I started climbing the Hai'an mountains. This route was much gentler than I remember riding over these mountains at Ruisui was. At the top there's a tunnel and then a sharp descent down to the coast near Chenggong. Chenggong is a little town with no real reason to visit, but in 2017 I liked the vibe and decided to stay the night. That time, I met a Japanese guy who lived there named Kenji. He chased me down on his scooter because he's a cyclist and liked my Surly. We ended up riding together for a few hours the next day. Since I was passing through again this year I sent him a message to see if he wanted to meet up. He has sinced moved to another village nearby, but we got coffee at 7-Eleven and caught up for a while before I got back on the road. I was trying to get to Donghe by the end of the day. A few years ago while I was riding with Kenji we passed through here and had breakfast at the famous Donghe Baozi steamed bun shop. He said that Donghe and the next town the the south, Dulan, are both surf spots. I'd never tried to surf, so I wanted to do that.
 
 <a href="https://www.flickr.com/photos/87070659@N04/51863319434/in/album-72177720296467296/">
-  <img src="https://live.staticflickr.com/65535/51863319434_f1e5c43d72_w.jpg"
+  <img
+    src="https://live.staticflickr.com/65535/51863319434_f1e5c43d72_w.jpg"
     alt="Changbin coast in Taitung County"
     class="center">
 </a>
@@ -77,9 +78,9 @@ Before setting out from Dulan, I hadn't decided how far I'd ride or where I'd st
 
 <a href="https://www.flickr.com/photos/87070659@N04/51861963292/in/album-72177720296467296/">
   <img
-      src="https://live.staticflickr.com/65535/51861963292_463b11b1ce_w.jpg"
-      alt="View of Provincial Route 9 from Wufushan Fude Temple"
-      class="center">
+    src="https://live.staticflickr.com/65535/51861963292_463b11b1ce_w.jpg"
+    alt="View of Provincial Route 9 from Wufushan Fude Temple"
+    class="center">
 </a>
 
 The next day was my last one on the East Coast. Last time I stayed along the coast all the way around and visited the southernmost point, Cape Eluanbi. This time I decided to skip that and ride over the southern tip of the Central Mountain Range, through Mudan township, to Hengchun. There are several ways to get over the range, but all of them pass through the same mountain pass at Shouka. This ride offers a lot of diversity of terrain. The remainder of the east coast from Jinlun, before going inland at Daren, gave me the same gloomy chill as the day before. Once I left the coast, it turned into a slow, steady climb, and with the elevation, my mood improved as well. Along the way, there is a small temple that is home to a large family of cats. I stopped to rest for a while and take in the view before finishing the climb. Shouka mountain pass is where Taitung and Pingtung counties meet. In the past there was a police checkpoint, but it has been converted into a cyclist rest stop. I stopped for a little while, but aside from the bathroom, everything was closed.
