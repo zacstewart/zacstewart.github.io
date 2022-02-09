@@ -8,6 +8,11 @@ tags:
   - life
   - taiwan
   - bikes
+excerpt: >
+  On December 30 I packed my bike touring gear, put bags on my bike and set off
+  to ride a circuit around the country. In Mandarin they call this route the
+  huándǎo. Riding about 100 km per day, you could complete the trip
+  in nine days.
 ---
 
 <a href="https://www.flickr.com/photos/87070659@N04/51863327304/in/album-72177720296467296/">
