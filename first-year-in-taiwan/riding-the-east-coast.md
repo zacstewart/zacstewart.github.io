@@ -3,7 +3,7 @@ layout: essay
 essay:
   title: First Year in Taiwan
 title: "Riding the East Coast"
-image: https://live.staticflickr.com/65535/51863327304_231e6412ea_b.jpg
+image: https://live.staticflickr.com/65535/51871750450_28819ac87b_b.jpg
 tags:
   - life
   - taiwan
@@ -15,9 +15,9 @@ excerpt: >
   in nine days.
 ---
 
-<a href="https://www.flickr.com/photos/87070659@N04/51863327304/in/album-72177720296467296/">
+<a href="https://www.flickr.com/photos/87070659@N04/51871750450/in/album-72177720296467296/">
   <img
-    src="https://live.staticflickr.com/65535/51863327304_231e6412ea_b.jpg"
+    src="https://live.staticflickr.com/65535/51871750450_28819ac87b_b.jpg"
     alt="My bike in front of my building">
 </a>
 
