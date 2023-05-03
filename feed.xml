@@ -1,0 +1,408 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title></title>
+    <description></description>
+    <link>http://zacstewart.com</link>
+    <atom:link href="http://zacstewart.com/feed.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Getting Rid of Comments on my Site</title>
+      <description>&lt;p&gt;Ever since 2012 I’ve had supported comments on this site using Disqus. Usually, the things I post don’t warrant a lot of discussion, but a few posts have garnered quite a few comments. My most popular post, &lt;a href=&quot;https://disqus.com/home/forums/zacstewart/&quot;&gt;Using scikit-learn Pipelines and FeatureUnions&lt;/a&gt; has 88 as of the time time I am writing this.&lt;/p&gt;
+
+&lt;p&gt;Like many other people, I’ve since come to recognize that the commentable web usually does not spur deep or meaningful dialog. The extra maintenance overhead, page load time, sharing my visitor data with a third party, and clutter on my site just isn’t worth the convenience of supporting low-effort commentary. I’d rather not fragment conversations into a proprietary database that neither I nor my visitors control. With that in mind, I’ve decided to remove Disqus from my site. You can still visit the comment archive &lt;a href=&quot;https://disqus.com/home/forums/zacstewart/&quot;&gt;here&lt;/a&gt;, but I will not be moderating comments or exerting any effort to ensure this archive continues to exist.&lt;/p&gt;
+
+&lt;p&gt;I’d rather commentary take place on sites like Hacker News where moderation and maintenance have stronger guarantees. And of course, you’re always welcome to send me an email.&lt;/p&gt;
+
+</description>
+      <pubDate>Mon, 23 Aug 2021 00:00:00 +0000</pubDate>
+      <link>http://zacstewart.com/2021/08/23/getting-rid-of-comments.html</link>
+      <guid isPermaLink="true">http://zacstewart.com/2021/08/23/getting-rid-of-comments.html</guid>
+    </item>
+    
+    <item>
+      <title>My First Month Living in Taiwan</title>
+      <description>&lt;p&gt;&lt;a href=&quot;https://www.flickr.com/photos/87070659@N04/50723309626/&quot; target=&quot;_blank&quot;&gt;
+  &lt;img src=&quot;https://live.staticflickr.com/65535/50723309626_11488d27fc_b.jpg&quot; alt=&quot;The windows in my apartment&quot; /&gt;
+&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;It’s been a month since I moved to Taiwan. The first two weeks were spent in quarantine, of course. For 15 days I sat on my balcony and enjoyed the warm, sunny weather. During the 3 weeks since I got out, Taipei has had almost non-stop rain.&lt;/p&gt;
+
+&lt;p&gt;During that time I’ve handled a lot of practicalities like leasing an apartment, opening a bank account, and getting some furniture and plants. It’s weird how normal life feels as compared to the previous 8 months, despite language and cultural barriers. There are rules about wearing masks anytime you’re inside with strangers and not eating, most businesses take your temperature at the door. At really big department stores, metro stations, and other public places with lots of foot traffic you’ll see a pop-up surveillance desks with somebody watching a thermal camera monitor. That vigilance has allowed life to go on here without interruption.&lt;/p&gt;
+
+&lt;p&gt;Language acquisition is both challenging and fun. I’ve started to take note anytime I get stuck and have to resort to pidgin English, gesturing, or worse, Google Translate. If it’s simple I ask a friend, otherwise I bring it to class and get a mini lesson. A couple of weeks ago I felt stressed before walking into a restaurant to order food when there was a line. I brought a menu to my teacher, added a bunch of character flashcards to my study app, and now I can more or less get what I want.  It’s a lot more fun to have a practical need rather than textbook hypothetical situations.&lt;/p&gt;
+
+&lt;p&gt;Before getting here and during quarantine, the first thing I wanted to do upon getting out was to go bike touring again. I thought that’d be a nice way to finish out 2020. The weather has other ideas, though. I think I missed the window of opportunity by a couple of weeks. In 2017 when I toured, it was just before the rainy winter of northern Taiwan got started and I still spent a couple weeks riding through cold rain. I don’t want to do that again. I may still take my bike by train down south and ride around in the sun for a few days, though.&lt;/p&gt;
+
+&lt;p&gt;I haven’t given too much thought to what I want to do for work next. Working for a local company, working remotely in the US, or starting something here are all on the table. I have a couple of years before I need to meet certain salary requirements again in order to be eligible to renew my visa.&lt;/p&gt;
+
+&lt;p&gt;I’m looking forward to drier days, but I’m happy to be here.&lt;/p&gt;
+</description>
+      <pubDate>Wed, 16 Dec 2020 00:00:00 +0000</pubDate>
+      <link>http://zacstewart.com/2020/12/16/first-month-in-taiwan.html</link>
+      <guid isPermaLink="true">http://zacstewart.com/2020/12/16/first-month-in-taiwan.html</guid>
+    </item>
+    
+    <item>
+      <title>Trip Report: Atlanta to the Georgia Guidestones</title>
+      <description>&lt;p&gt;In August I went on a bike excursion from Atlanta to the &lt;a href=&quot;https://en.wikipedia.org/wiki/Georgia_Guidestones&quot;&gt;Georgia Guidestones&lt;/a&gt; and back. I’ve known about them for a while, and have been curious to go see them, but never enough to drive the three or so hours it would be round trip. I never pass through that neck of the woods either, so I’ve never had a reason to stop while passing through. Last week, management at work announced a surprise day off kind of last minute. I had nothing planned, so I decided to build a route and put this unexpected three-day weekend to use. I used a combo of Strava and Ride With GPS to build the route. Ride With GPS’ route builder is far better. It has more powerful tools like reversing a segment. Strava’s wealth of user data allows it to direct you along the most popular paths, though. It’s a great way to jaunt down pleasant country roads instead of miles of harrowing divided highways. I used Strava to connect three waypoints: my house, downtown Athens, and the Guidestones. I imported it into Ride With GPS to make some tweaks. I cut unnecessary diversions (popular segments aren’t always the shortest), opted for a few gravel farm roads, and cut through a couple parks instead bypassing them.&lt;/p&gt;
+
+&lt;p&gt;My plan was to stop in Athens (75 miles) for late lunch. I’d continue to the Guidestones (116 miles), take a picture, and then push the last 10 or so miles to the South Carolina border (125 miles). There I’d camp along the Savannah river. In the morning, I’d wake up and do the same thing in reverse.&lt;/p&gt;
+
+&lt;p&gt;&lt;a data-flickr-embed=&quot;true&quot; href=&quot;https://www.flickr.com/photos/87070659@N04/50214145212/in/datetaken-public/&quot; title=&quot;Steal this look&quot;&gt;&lt;img src=&quot;https://live.staticflickr.com/65535/50214145212_6f0a037af4_z.jpg&quot; width=&quot;640&quot; height=&quot;480&quot; alt=&quot;Steal this look&quot; /&gt;&lt;/a&gt;&lt;script async=&quot;&quot; src=&quot;//embedr.flickr.com/assets/client-code.js&quot; charset=&quot;utf-8&quot;&gt;&lt;/script&gt;&lt;/p&gt;
+
+&lt;p&gt;I suited up my everything-bike, the Surly Straggler 650b edition. I have a Swift Industries Paloma bar bag that can hold most everything I need during the ride: some trail mix, my phone, chargers, sunglasses, sunscreen, wallet, electrolytes, and other miscellany. I stuffed my summer sleep sack and tent into my custom Spindle tail bag, and bungied the tent poles under my top tube. I decided I was going to try recording the entire trip on my phone using Ride With GPS instead of relying on my Garmin. I have the cheapest Garmin money can buy (Edge 200) and its turn-by-turn directions are… lacking. The battery also tends to max out at around the century mark. My SON 28 dynamo hub, connected to a Sinewave USB charger on my stem, can keep an iPhone charged if you’re riding about 10+ MPH. Instead of juggling several devices, I figured I’d just keep the my phone on the dynamo. Of course, I charged my headlight and taillight the night before. They’re both good for a century and I can charge them on the dynamo for day two.&lt;/p&gt;
+
+&lt;h2 id=&quot;day-one&quot;&gt;Day One&lt;/h2&gt;
+
+&lt;iframe src=&quot;https://ridewithgps.com/embeds?type=trip&amp;amp;id=53496904&quot; style=&quot;width: 1px; min-width: 100%; height: 550px; border: none;&quot; scrolling=&quot;no&quot;&gt;&lt;/iframe&gt;
+
+&lt;p&gt;I got up before dawn to have my coffee, put on sunscreen, and ate a couple of bananas. In retrospect, I should have had more for breakfast, but I’m not really a breakfast person. My thought is always to get started and then have breakfast a little later when my stomach is awake. Sadly, much of Georgia is a barren, empty patch of dirt with no breakfast along the way. I got on the road at 07:30. I live in Brookhaven, so I headed pretty much due-east for the first 15 miles. There isn’t much to say about getting outside the Metro Atlanta area in this direction–it’s a snooze fest. I drafted off of a couple roadies in Tucker, out for their morning training rides. The roads are pretty busy and there’s not much to see. I just try to stay alert to passing cars and use this time to let my mind wander. I probably do some of my best thinking, ruminating, and reminiscing during rides like this.&lt;/p&gt;
+
+&lt;p&gt;I made it to Tribble Mill Park, mile 30, in about two and a half hours. The cool morning was starting to give way to sweltering Georgia heat. It wasn’t “hot” yet by Georgian standards, but it was getting there. At Tribble Mill, I had routed through some paths instead of staying on the roads. Little did I know, the paths I chose were mountain bike single track. Luckily, it was nothing too technical and I only had to walk a couple spots for fear that getting rad would bounce everything out of my bar bag. Despite my precautions, I did bounce my phone out and had to backtrack to search for it while yelling “hey Siri!” like moron. I ran into a mountain biker who asked if I was looking for something. Thankfully, he had picked it up. I guess that means I’m technically cheating on Strava because a few tenths of a mile are that guy’s ride.&lt;/p&gt;
+
+&lt;p&gt;&lt;a data-flickr-embed=&quot;true&quot; href=&quot;https://www.flickr.com/photos/87070659@N04/50213883206/in/datetaken-public/&quot; title=&quot;IMG_8793&quot;&gt;&lt;img src=&quot;https://live.staticflickr.com/65535/50213883206_0054c3a4f1_z.jpg&quot; width=&quot;640&quot; height=&quot;480&quot; alt=&quot;IMG_8793&quot; /&gt;&lt;/a&gt;&lt;script async=&quot;&quot; src=&quot;//embedr.flickr.com/assets/client-code.js&quot; charset=&quot;utf-8&quot;&gt;&lt;/script&gt;&lt;/p&gt;
+
+&lt;p&gt;After another two hours, I made my first rest stop at mile 48 in Bethlehem, GA. This stop wasn’t actually on my route. My 2017 tour in Taiwan trained me to be cavalier about supply stops because it seems like you’re never more than a few kilometers from the next 7-Eleven. I emptied my first bottle, and had a few sips left in my other, so I stopped and used Google Maps to find the closest station. It seemed like my plan to just run into one eventually was not going to work. Bethlehem is actually a really cute little town with a lot to see. I’m just kidding, there’s absolutely nothing there. Refill your water bottle and move along.&lt;/p&gt;
+
+&lt;p&gt;Then next 10ish miles to Statham were pretty chill. There are only two turns, and it’s all bucolic farm scenerie, and no major climbs. Just gentle rolling hills through Georgia’s pasture land. I can dig that kind of riding. If I had to deduct points, I’d say it lacks a little tree cover, and I happened to be passing through during the intense noon heat. Statham itself is actually a cute little town. If I had any sense I would have stopped for lunch. Instead, I figured I’d push onward since I was only about 15 miles from Athens.&lt;/p&gt;
+
+&lt;p&gt;There is a more direct route that passes through Bogart, but I chose to take smaller roads past Bear Creek Reservoir almost to Attica and then. I thought it’d be nice to ride past the reservoir and wanted to avoid traffic. Turns out, this segment of the trip was the long dark night of my soul. Or I wish it had been dark and night, because it was long, hot, and exhausting. The countryside is not pretty, and it felt very desolate and lonely for a while. Some places in Georgia have a knack for giving me that feeling. It was peak afternoon heat, and I started having trouble keeping my pace above 10 MPH. When I finally got to a gas station on the outskirts of town I was starting to bonk. If you’ve ever had that feeling, you know what I mean. When I got off the bike, I was having trouble keeping my eyes open. I had the overwhelming desire to sit down immediately and just sort of crash for a minute. I drank a Gatorade and a bottle of water and half-dozed for about 30 minutes before I finished riding into Athens (mile 75).&lt;/p&gt;
+
+&lt;p&gt;&lt;a data-flickr-embed=&quot;true&quot; href=&quot;https://www.flickr.com/photos/87070659@N04/50213881461/in/datetaken-public/&quot; title=&quot;Statham, GA&quot;&gt;&lt;img src=&quot;https://live.staticflickr.com/65535/50213881461_24c7c53cdd_z.jpg&quot; width=&quot;480&quot; height=&quot;640&quot; alt=&quot;Statham, GA&quot; /&gt;&lt;/a&gt;&lt;script async=&quot;&quot; src=&quot;//embedr.flickr.com/assets/client-code.js&quot; charset=&quot;utf-8&quot;&gt;&lt;/script&gt;&lt;/p&gt;
+
+&lt;p&gt;During the last few miles into town I started thinking to myself that I ought to call my friend Jonathan and ask if I can pitch my tent in his yard. I decided I would give that plan B some serious consideration once I had some food in my belly. I found some BBQ downtown and sat in the shade to refuel. I took almost an hour to eat and rest. Around 15:00 I expected the heat to start receding at any time, and I was feeling better about the remaining 42 miles I had to get to the Guidestones. I don’t know if any other cyclists do this, but I have this great/terrible way to encourage myself. I look at the next cherry-picked destination about 40 miles away and tell myself something like “40 miles is nothing! That’s like one Faster Mustache ride. You used to do those at 6pm after all day at work. You’ve got plenty of time!” completely disregarding the 75 miles already behind me.&lt;/p&gt;
+
+&lt;p&gt;Since I had been thinking about calling it quits before leaving Athens, I promised myself I would watch my pace and take a break within 10 miles. I stopped at the Golden Pantry in Winterville six miles later. The heat was still sweltering, so I rested about 15 minutes before moving on. Northeast of Winterville, the countryside is beautiful. I’ve passed through these parts during the Athens Twilight Gambler ride. I always enjoy the rolling hills dotted with barns and trees. I made it to the Watson Mill covered bridge (mile 95) around 18:30. A couple miles later as I was rolling up to a stretch of road that runs along the train tracks in Carlton, I pulled out my phone to snap a picture. Just as I took it, a dog came running out of someone’s yard and chased me for several yards as I awkwardly tried to sprint while not dropping my phone.&lt;/p&gt;
+
+&lt;p&gt;&lt;a data-flickr-embed=&quot;true&quot; href=&quot;https://www.flickr.com/photos/87070659@N04/50213356908/in/datetaken-public/&quot; title=&quot;IMG_8826&quot;&gt;&lt;img src=&quot;https://live.staticflickr.com/65535/50213356908_0da51501d3_z.jpg&quot; width=&quot;640&quot; height=&quot;480&quot; alt=&quot;IMG_8826&quot; /&gt;&lt;/a&gt;&lt;script async=&quot;&quot; src=&quot;//embedr.flickr.com/assets/client-code.js&quot; charset=&quot;utf-8&quot;&gt;&lt;/script&gt;&lt;/p&gt;
+
+&lt;p&gt;The heat finally broke and I could push a little faster. The ten miles from Carlton to Dewey Rose were pretty uneventful. I hit the century mark at the Tiny Town Minit Mart on River Road. I took a pit stop here for a few minutes to refill my water and grab an extra bottle to throw in my bar bag to make sure I had water overnight. It was 19:00 and I at this point I had decided I wouldn’t make it to the campsite at the state line. Right past Dewey Rose I hit the gravel farm roads I had opted for. I got chased by another evil doggo, but this time I was able to dig deeper and get away without much difficulty. Corn on my left and soy on my right. The stars were out, the moon was almost full, and flocks of swifts swirled overhead as I passed through the fields.&lt;/p&gt;
+
+&lt;p&gt;&lt;a data-flickr-embed=&quot;true&quot; href=&quot;https://www.flickr.com/photos/87070659@N04/50214154587/in/datetaken-public/&quot; title=&quot;IMG_8840&quot;&gt;&lt;img src=&quot;https://live.staticflickr.com/65535/50214154587_b080099bcb_z.jpg&quot; width=&quot;640&quot; height=&quot;480&quot; alt=&quot;IMG_8840&quot; /&gt;&lt;/a&gt;&lt;script async=&quot;&quot; src=&quot;//embedr.flickr.com/assets/client-code.js&quot; charset=&quot;utf-8&quot;&gt;&lt;/script&gt;&lt;/p&gt;
+
+&lt;p&gt;I emerged from the gravel roads and could see the guidestones illuminated on the hilltop ahead. The odometer rolled over to 116 as I pulled up to them at 21:00. A family was walking around looking at the different languages carved into the faces of the monoliths. I had decided on my way through the farm roads that I definitely was not going to push onwards to the SC line to camp. I took a few pictures, set up my tent in the parking area, and then passed out cold.&lt;/p&gt;
+
+&lt;p&gt;&lt;a data-flickr-embed=&quot;true&quot; href=&quot;https://www.flickr.com/photos/87070659@N04/50214154297/in/datetaken-public/&quot; title=&quot;IMG_8851&quot;&gt;&lt;img src=&quot;https://live.staticflickr.com/65535/50214154297_d6ec014810_z.jpg&quot; width=&quot;640&quot; height=&quot;480&quot; alt=&quot;IMG_8851&quot; /&gt;&lt;/a&gt;&lt;script async=&quot;&quot; src=&quot;//embedr.flickr.com/assets/client-code.js&quot; charset=&quot;utf-8&quot;&gt;&lt;/script&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;day-two&quot;&gt;Day Two&lt;/h2&gt;
+
+&lt;p&gt;The return trip promised to be a little harder. I had just ridden the 116 miles the day before, I slept rough without a sleeping pad, and the return route was at a slightly higher average grade. I learned my lesson the day before about hammering 50 miles before taking my first break and committed to take my first break within 20 miles. I also decided I was going take it easy during mid day. If that meant riding 5 MPH or taking a long nap during peak heat, and I couldn’t make it home until midnight, so be it. I broke down my tent, packed up and pulled onto the road around 07:45.&lt;/p&gt;
+
+&lt;p&gt;&lt;a data-flickr-embed=&quot;true&quot; href=&quot;https://www.flickr.com/photos/87070659@N04/50214154082/in/datetaken-public/&quot; title=&quot;IMG_8853&quot;&gt;&lt;img src=&quot;https://live.staticflickr.com/65535/50214154082_0d85620f98_z.jpg&quot; width=&quot;640&quot; height=&quot;480&quot; alt=&quot;IMG_8853&quot; /&gt;&lt;/a&gt;&lt;script async=&quot;&quot; src=&quot;//embedr.flickr.com/assets/client-code.js&quot; charset=&quot;utf-8&quot;&gt;&lt;/script&gt;&lt;/p&gt;
+
+&lt;p&gt;The fields I passed through were far less magical during the day than they were under starlight and a full moon with the swifts. I was nervous about my second encounter with the evil doggo because I was sure he sat up all night thinking about me like I did about him. Luckily my fears were unfounded because doggo’s gate was shut and his owner waved at me as I cruised past. I took my first break about an hour and half later at the Tiny Town Minit Mart (mile 16). It was pretty warm already and I had worked up an appetite so I grabbed some slimjims and cheese, topped off my water and got back to it.&lt;/p&gt;
+
+&lt;p&gt;As I approached the place where the first godless hellhound of the day before had snapped at my heels I made sure to build up speed. I kept my effort at 80% so I could sprint past him when he came charging. Like evil doggo number two, this one was also unwilling to violate Sabbath and I passed without incident. I went back through the covered bridge and traversed the pretty farmland northeast of Athens. I was starting to feel pretty burned up somewhere around the 30-mile mark and had to visualize the Golden Pantry in Winterville to keep myself going. A few miles before I got there I stopped to eat some trailmix and drink some water (of which I was almost out). I noticed that I was at an animal sanctuary. The pig looked pretty tasty, but sadly we’ll probably never know. I spent a few minute talking to the him and the llama, but they were more interested in their veggie scraps so I kept going before too long.&lt;/p&gt;
+
+&lt;p&gt;&lt;a data-flickr-embed=&quot;true&quot; href=&quot;https://www.flickr.com/photos/87070659@N04/50214144522/in/datetaken-public/&quot; title=&quot;IMG_8860&quot;&gt;&lt;img src=&quot;https://live.staticflickr.com/65535/50214144522_3a423b7066_z.jpg&quot; width=&quot;480&quot; height=&quot;640&quot; alt=&quot;IMG_8860&quot; /&gt;&lt;/a&gt;&lt;script async=&quot;&quot; src=&quot;//embedr.flickr.com/assets/client-code.js&quot; charset=&quot;utf-8&quot;&gt;&lt;/script&gt;&lt;/p&gt;
+
+&lt;p&gt;When the Golden Pantry (mile 35) came into view it was like an oasis in the Sahara. I donned a mask and loaded my arms up with absolute garbage to eat. Have you ever wondered who eats the pork rinds, pickled “Tijuana Mama” sausages, and Muscle Milk? It’s me. This store does have some delicious pickle chips in a bag that I haven’t seen elsewhere, so I ate two bags of them and drank all the pickle juice. After my trash feast, I took a nap for about 30 minutes. It only took about 25 minutes to ride the rest of the way into Athens, but when I got there I was still hungry and it was still hot so I ordered a poke bowl. Still not feeling the heat, I took my time, enjoyed second lunch, and cooled off in the shade. On my way out of town on the west side, I stopped for another short break and got an iced coffee.&lt;/p&gt;
+
+&lt;p&gt;I think I was psychically preparing to bridge the wasteland between Athens and Statham by procrastinating. I didn’t get back on the road until 15:30 and mind you, I still had at least 70 miles to ride. This segment proved to be the worst again. If I  ever do this trip again, I’m modifying it to pass through bogart or something. I hate this spot. I rolled into Statham (mile 60) around 17:00. I was feeling hot and worn out, so I hung out at a gas station for about 30 minutes and munched on an ice cream bar and a Five Hour Energy. During the last 20 miles or so, the ride had pivoted from adventure to stress about getting home before midnight, the batteries in my lights and phones die, or my legs die. Thankfully the heat had started to recede. I texted some folks to let them know my status since it was getting late. My friend Kartapreet kindly reminded me that I could pitch my tent and ride the rest in the morning, and that UberXL is always an option.&lt;/p&gt;
+
+&lt;p&gt;&lt;a data-flickr-embed=&quot;true&quot; href=&quot;https://www.flickr.com/photos/87070659@N04/50213355608/in/datetaken-public/&quot; title=&quot;IMG_8832&quot;&gt;&lt;img src=&quot;https://live.staticflickr.com/65535/50213355608_d7b0ca39e1_z.jpg&quot; width=&quot;640&quot; height=&quot;480&quot; alt=&quot;IMG_8832&quot; /&gt;&lt;/a&gt;&lt;script async=&quot;&quot; src=&quot;//embedr.flickr.com/assets/client-code.js&quot; charset=&quot;utf-8&quot;&gt;&lt;/script&gt;&lt;/p&gt;
+
+&lt;p&gt;I got back on the road and planned hammer as long as I could, half anticipating another rest at Tribble Mill. The cooler temperature and the Five Hour Energy had me feeling better. I could maintain a slightly better pace and tried to get some charge on my phone during the downhills. It’s a little annoying, but if you’re hovering right around 9-10 MPH, it will actually kill the battery because it frequently starts and stops charging. I would disconnect it before an ascent and when I got to the top I’d plug it back in. I was able to keep the it around 30-40% charged for the rest of the trip. I passed right through Bethlehem like there was nothing there (because there isn’t) and made it to Tribble Mill around 20:00. The sun was setting and it was finally cool, or as cool as it gets down here in August. My Achilles tendon had been bothering me for a while–the whole day really–but now it was actually becoming a problem. I couldn’t get full flexion of my ankle, and it made this weird sound/feeling like rubbing rubber against rubber when I tried to. My ankle was starting to swell a little. I took 25 minutes to stretch it out, eat the rest of my trail mix, use the bathroom, and refill my water.&lt;/p&gt;
+
+&lt;p&gt;I still had about 30 miles to get home, or, you know, just two consecutive WNJACS rides like I used to start at 20:30 all the time. Piece of cake. I was feeling much diminished compared to when I pull out of Statham and I longed for the burst of vigor that the Five Hour Energy had given me. I pulled over at a Wallgreens in Grayson to get myself another one and a bottle of Gatorade. When I came back out, my taillight refused to turn back on. I threw it on the dynamo and clipped it to the outside of my left handlebar. It can charge while in use, and I can keep it charged indefinitely as long as I maintain about 6 MPH. When I got up to speed, the charging indicator didn’t light up. I tried to turn the light on and it wouldn’t. I’m still not sure what happened, but I think that this must be yet another light that got fried during a rainstorm. I passed through several light showers and one downpour earlier in the day. I’m sure my buddy Chris would be thrilled to see this happen again. At this point I had bike-brain and my judgement was severely compromised. I took my headlight and attached it to the outside of my handlebars where I could swivel it back and forth. It has these yellow safety lights on the side so I pointed the headlight onto the road to my left hoping that anyone would be able to pick up the yellow dot or see the illuminated patch of road and slow down. After a few trucks passed me blasting their horns I thought to myself “This is crazy, Zac! Do something rational!” so I hopped the curb and started plowing down the sidewalk, cutting into the road where no sidewalk was available.&lt;/p&gt;
+
+&lt;p&gt;After about 8 harrowing miles of poorly lit Gwinnett County roads I made it to Five Forks (mile 95) near Lilburn. I decided to investigate whether I could find a USB charger or some kind of emergency light. QuickTrip had nothing, so I rode across the street to CVS. They were closed. I looked at the hours on their door, which said they close at 10. My phone confirmed that it was indeed past 22:00. For a moment my brain churned through how to make this work like &lt;a href=&quot;https://www.youtube.com/watch?v=cyxxE1AcUSM&amp;amp;feature=youtu.be&amp;amp;t=78&quot;&gt;Mac and Dennis trying to figure out how they still have a business with no customers, inventory, or money&lt;/a&gt;, before coming to my senses and deciding I had to call it and take an UberXL home. 30 minutes later I was safe at home and the whole thing was a nightmare that was finally over.&lt;/p&gt;
+
+&lt;p&gt;And thus concludes one of my top worst ideas. I won’t ever try to ride two centuries, back-to-back, without a rest day, alone, during the height of Georgia’s summer again. This trip could be a lot more fun with some friends, but pace management is important if you want to get there at a reasonable time. I’m not sure about the validity of pitching a tent at the Guidestones themselves. No one bothered me, but that doesn’t mean it’s okay. I was just too exhausted to make it the rest of the way to camp at Georgia River Campground like I had planned. Spending a rest day there and getting two nights of sleep before slogging back would make this trip more fun, but you’d have to push a full 125 miles to get to camp. Not impossible, but it might be tricky since the campsite doesn’t take reservations. I’ll be making some tweaks to the route to make sure it hits a watering hole every 10-20 miles and to avoid the stretch Statham and Athens. If I ever make this trip again, it will probably be a long time from now.&lt;/p&gt;
+
+&lt;iframe src=&quot;https://ridewithgps.com/embeds?type=trip&amp;amp;id=53632811&quot; style=&quot;width: 1px; min-width: 100%; height: 550px; border: none;&quot; scrolling=&quot;no&quot;&gt;&lt;/iframe&gt;
+</description>
+      <pubDate>Sat, 26 Sep 2020 00:00:00 +0000</pubDate>
+      <link>http://zacstewart.com/2020/09/26/trip-report-georgia-guidestones.html</link>
+      <guid isPermaLink="true">http://zacstewart.com/2020/09/26/trip-report-georgia-guidestones.html</guid>
+    </item>
+    
+    <item>
+      <title>Coming Back to an Old Ruby Project After a Few Years</title>
+      <description>&lt;p&gt;I have this Ruby project that I haven’t worked on in while. Over the last four
+or five years I’ve barely committed any work, just enough to keep it humming
+along.  It has actual users (not that many though) and has hundreds of pages
+indexed by search engines. It’s just an open source community thing, not super
+important. I’ve been so lazy with it that a feature branch that I never merged
+into master has been running in production for years. Since it’s Saturday and I
+don’t have anything to do (thanks global pandemic), I decided to rectify that
+and finally clean this project up.&lt;/p&gt;
+
+&lt;p&gt;It’s been a while and I’ve actually switched to a new machine since the last
+time I touched it.  Thanks to TimeMachine, my home directory is more or less a
+clone of what it was last time, though.  The Gemfile said Ruby 2.3.0.  I still
+had that version installed, apparently, so I switched to it using my version
+manager.  The entire bundle of gems is installed too. Convenient.  I ran &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;rake
+test&lt;/code&gt; just to see if everything still works.  Sadly, there’s a litany of
+dynamically linked libraries that my Ruby executable was compiled against and
+are now missing.  That’s fair. My home directory is a clone, but /usr/bin/local
+has probably changed significantly with Homebrew upgrades and what-have-you.  I
+decided to blow away my Ruby installation and start with a fresh build using
+install-ruby. That seemed to go well.&lt;/p&gt;
+
+&lt;p&gt;Well, kind of. Ruby 2.3.0 compiled and installed fine. IRB started up and worked
+fine.  But, I couldn’t run &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;bundle&lt;/code&gt;. OpenSSL was missing.  I’ve run into
+problems like this before and I can’t point to exactly what, but I vaguely
+recollect having a bad time. The gist in my memory is that if something targets
+an old version of OpenSSL: 1) It’s far, far behind on security updates and 2)
+you’re SOL to install it unless you want to start installing long-forgotten
+versions of OpenSSL by following sketchy advice littered across comments on
+GitHub issues left by people similarly marooned by bit rot.  Fuck that. How
+about I just upgrade to the latest Ruby version?  There’s nothing super fancy
+in this project and whatever syntax changes have occurred between Ruby 2.3.0
+and now should be minimal right?  I used to be an ardent Rubyist but I haven’t
+been following things for years now since I work primarily in other languages.
+Occasionally I see controversy over new syntax changes but don’t really dig in.
+I just don’t care that much. I don’t plan to use Ruby in the future and I’ve
+kinda lost interest.  I installed the latest version (2.7.1) and indicated such
+in the Gemfile.  Right off the bat, Bundler complained that Bundler
+1.7.something isn’t available.  Weird. Bundler says Bundler isn’t available.
+It suggested that I install some specific version of Bundler, so I did.&lt;/p&gt;
+
+&lt;p&gt;That helps. Almost everything installed when I ran &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;bundle install&lt;/code&gt;. Not json
+version 1.8.3, though.  There are some details in the error message about
+rb_cFixnum and rb_cBignum symbols being missing. That sounds like the release
+note for Ruby 2.4.0. They dropped those two to unify under &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Integer&lt;/code&gt;. Who even
+needs to install json? Isn’t this part of the standard lib? I can’t remember.
+The dependency chain says dm-serializer wants it, and data_mapper wants that.
+Why the hell did I use DataMapper on this project anyway? Maybe I didn’t want
+to go through the frustration of figuring out how to use ActiveModel divorced
+from Rails.  This is just a small Sinatra web app with a bunch of POROs to
+ingest events from a websocket and stick them in a database.  Maybe there is
+some incremental version of json that is compatible with both dm-serializer and
+these changes in Ruby 2.4.0.  Looks like dm-serializer 1.2.2 depends on json ~&amp;gt;
+1.6 (that ~&amp;gt; syntax means the 6 can go upwards, so hypothetically 1.7, 1.8,
+1.9, etc. would be fine).  I ran &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;bundle update json&lt;/code&gt; to let it figure out an
+optimal version to make everyone happy. It chose 1.8.6. It looks like that the
+last of the ruby 1.x line.  There we go, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;bundle install&lt;/code&gt; finished
+successfully.&lt;/p&gt;
+
+&lt;p&gt;I ran &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;rake test&lt;/code&gt; just to see if everything works.  Nope. Now Ruby tells me it
+can’t import dm-serializer because there is a conflict between the json version
+1.8.6 that it wants and another version, 2.3.0.  Who the hell wants json 2.3.0
+and why are they both installed?  There’s no mention of this version in my
+Gemfile.lock so it appears no one wants it.  I tried to uninstall it myself
+with gem.  Hmm, can’t do that. Apparently it’s a default gem. Is that like U2’s
+Songs of Innocence?  Okay, so how about any updates to dm-serializer that can
+address this situation?  No. No commits for like the past nine years.  I knew
+DataMapper was basically a dead project when I adopted it, so that’s on me.
+Looks like there’s something called ardm that seeks to hijack DataMapper names
+and make them more flexible with dependencies.  I tried replacing all the gems
+required by data_mapper with ardm-prefixed gems. No dice.  Half of these
+fictitious libraries don’t exist, replacing those with actual dm-gems leads to
+conflicts.  I’m just making a mess at this point.&lt;/p&gt;
+
+&lt;p&gt;I ran git reset to undo all this scrambling. I’ve been through two cups of
+coffee. Saturday morning is now Saturday afternoon and I’m hungry for lunch. It
+can’t be this hard.&lt;/p&gt;
+
+&lt;p&gt;So, I have this Ruby project that I haven’t worked on in while.&lt;/p&gt;
+</description>
+      <pubDate>Sat, 19 Sep 2020 00:00:00 +0000</pubDate>
+      <link>http://zacstewart.com/2020/09/19/an-old-ruby-project.html</link>
+      <guid isPermaLink="true">http://zacstewart.com/2020/09/19/an-old-ruby-project.html</guid>
+    </item>
+    
+    <item>
+      <title>Making a Phone Part 6: SHARP Memory Display</title>
+      <description>&lt;blockquote&gt;
+  &lt;p&gt;This and all my other &lt;a href=&quot;/tags/phonium.html&quot;&gt;#phonium&lt;/a&gt; posts were originally published to &lt;a href=&quot;https://scuttlebutt.nz/&quot;&gt;Scuttlebutt&lt;/a&gt;. After running into some ssb-specific problems with identity continuity I’ve decided to republish them all on my own site at the originally-posted dates. They are in reality showing up on the internet for the first time in August of 2021. &lt;a href=&quot;https://viewer.scuttlebot.io/%251%2F57eTqD1nXYbhYUogciGenBAaip9TyhCFxV2YhNHcc%3D.sha256#%251%2F57eTqD1nXYbhYUogciGenBAaip9TyhCFxV2YhNHcc%3D.sha256&quot;&gt;original ssb link&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;/2019/06/17/im-making-a-phone.html&quot;&gt;Part 1&lt;/a&gt; background, motivations&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;/2019/06/17/making-a-phone-part-2-getting-started.html&quot;&gt;Part 2&lt;/a&gt; getting started, making calls&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;/2019/06/18/making-a-phone-part-3-going-32-bit.html&quot;&gt;Part 3&lt;/a&gt; answering calls, upgrading to a 32-bit microcontroller&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;/2019/06/18/making-a-phone-part-4-text-messages.html&quot;&gt;Part 4&lt;/a&gt; sending and receiving text messages&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;/2019/06/23/making-a-phone-part-5-partial-update-setbacks-navigation-flows.html&quot;&gt;Part 5&lt;/a&gt; EPD partial update, menu navigation flow&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;I’m frustrated by my struggles to get an e-paper display that can do partial screen updates, so I’ve decided to give another technology a shot. I ordered a &lt;a href=&quot;https://www.adafruit.com/product/3502&quot;&gt;SHARP Memory Display&lt;/a&gt; from Adafruit. I also threw in a small mic and a speaker because I was going to need those anyway, sooner or later.&lt;/p&gt;
+
+&lt;p&gt;They arrived last weekend and I’ve had a little time this week to hook up the mem display and try it out. I had to solder header pins to it, as per usual and then figure out the wiring. It’s a write-only SPI device, so actually a little simpler to wire up than the EPD, and used fewer ports. However, lacking it’s own onboard memory buffer, it has to utilize the microcontroller’s memory. Good thing I upgraded to the more powerful Teensy 3.2.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/making-a-phone-part-6-sharp-memory-display.jpg&quot; alt=&quot;Prototype Phonium cell phone with new SHARP Memory Display beside repurposed EPD display and Teensy microcontroller&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;After wiring it up I uploaded a demo sketch to try it out. I was impressed with the refresh rate it demonstrates. You could actually perform animations with this thing, or build games or whatever. The only complaints I have are that it has really poor viewing angles and it’s pretty low contrast. The whole surface looks metallic and reflective, which makes it very hard to read in low light. Because of that, I think I’ll eventually come back to e-paper, but I really just want to make some progress on the thing without worrying about the display for now.&lt;/p&gt;
+
+&lt;p&gt;Side note: what do you do with a disused Teensy LC and a slow-to-refresh e-paper display? I made a little magic 8-ball. I was thinking of loading it up with a bunch of &lt;a href=&quot;https://en.wikipedia.org/wiki/Oblique_Strategies&quot;&gt;oblique strategies&lt;/a&gt; or aphorisms or something so that every time you push a button you get a random one.&lt;/p&gt;
+
+&lt;p&gt;I replaced all the EPD code in the Phonium source with the mem display library. They share a similar interface since they both inherit from Adafruit GFX, but there were some slight changes. The OOP programmer in me wants to create my own display object to insulate the rest of the code from this mess should I change again, but the embedded device programmer in me says that would waste a few bytes of ROM and CPU cycles.&lt;/p&gt;
+
+&lt;p&gt;It has indeed made entering text messages much more enjoyable. I’ve begun work on an interface to navigate and read text messages. So far, I just have a list of “previews” (the first 9 chars of each message on the SIM). I’m going to tap out a least effort way to navigate up and down that list and then read one of them.&lt;/p&gt;
+
+&lt;p&gt;After that, I really need to start thinking about UI design. So far, everything is text-based with no real navigation or interaction signifiers. I’m not really sure how to go about sketching out screen UIs. Should I use pencil and paper, or just pixel art with an image editor? So much to figure out, but until next time, thanks for reading!&lt;/p&gt;
+
+</description>
+      <pubDate>Thu, 04 Jul 2019 16:59:18 +0000</pubDate>
+      <link>http://zacstewart.com/2019/07/04/making-a-phone-part-6-sharp-memory-display.html</link>
+      <guid isPermaLink="true">http://zacstewart.com/2019/07/04/making-a-phone-part-6-sharp-memory-display.html</guid>
+    </item>
+    
+    <item>
+      <title>Making a Phone Part 5: Partial Update Setbacks, Navigation Flows</title>
+      <description>&lt;blockquote&gt;
+  &lt;p&gt;This and all my other &lt;a href=&quot;/tags/phonium.html&quot;&gt;#phonium&lt;/a&gt; posts were originally published to &lt;a href=&quot;https://scuttlebutt.nz/&quot;&gt;Scuttlebutt&lt;/a&gt;. After running into some ssb-specific problems with identity continuity I’ve decided to republish them all on my own site at the originally-posted dates. They are in reality showing up on the internet for the first time in August of 2021. &lt;a href=&quot;https://viewer.scuttlebot.io/%252yRFJesmO40UnvhEn6yaONkT28fGHA6UD3mV160HXmE%3D.sha256#%252yRFJesmO40UnvhEn6yaONkT28fGHA6UD3mV160HXmE%3D.sha256&quot;&gt;original ssb link&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;/2019/06/17/im-making-a-phone.html&quot;&gt;Part 1&lt;/a&gt; background, motivations&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;/2019/06/17/making-a-phone-part-2-getting-started.html&quot;&gt;Part 2&lt;/a&gt; getting started, making calls&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;/2019/06/18/making-a-phone-part-3-going-32-bit.html&quot;&gt;Part 3&lt;/a&gt; answering calls, upgrading to a 32-bit microcontroller&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;/2019/06/18/making-a-phone-part-4-text-messages.html&quot;&gt;Part 4&lt;/a&gt; sending and receiving text messages&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;I finally ordered a e-paper display capable of partial refresh. A &lt;a href=&quot;https://www.waveshare.com/1.54inch-e-paper-module.htm&quot;&gt;1.54” display&lt;/a&gt; made by Good Display and packaged with a PCB by a supplier called Waveshare. They also publish some drivers and demo code. I needed a higher-RAM microcontroller to handle partial updates, so I upgraded my Teensy LC to a &lt;a href=&quot;https://www.pjrc.com/teensy/teensy31.html&quot;&gt;Teensy 3.2&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;I wired up the new Teensy first. For the most part, it was a drop-in replacement because it has the same pin layout. My custom Makefile build did not continue to work, though. I burnt several hours late into the night trying to get it to work. I got past a lot of errors, but I’m not quite there. I spent enough time on it, though. I want to keep making progress on the phone itself; I can bikeshed later. For now, I’m back to building with the Arduino IDE.&lt;/p&gt;
+
+&lt;p&gt;I underestimated how hard replacing the display would be. I wired it all up, and then installed a library called &lt;a href=&quot;https://github.com/ZinggJM/GxEPD&quot;&gt;GxEPD&lt;/a&gt; that supposedly supports this display. It inherits from the same &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Adafruit_GFX&lt;/code&gt; interface that my current &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Adafruit_EPD&lt;/code&gt; driver uses, so it was basically just replacing the constructor and changing some type signatures. Sadly, I uploaded the sketch and the display did nothing.&lt;/p&gt;
+
+&lt;p&gt;I figured I may have jumped the gun a little and should take a step back. I opened up an example sketch that comes with GxEPD and configured it for the pins I have it connected to. Still nothing. I took a step further back and grabbed the janky library and demo code that came from Waveshare. Even still, nothing. I put the Teensy LC I just replaced on another breadboard and wired the display up to it and uploaded the sketch. Nada. I got my old Uno-compatible board out from when I first started this project. Wired up, uploaded, noped.&lt;/p&gt;
+
+&lt;p&gt;At this point I don’t know what to think. Am I dumb, did I fry this display, or did they send me a defective one? As a software engineer, I’m used to being pretty damn sure that any bug I’m encountering is my fault. Well-trodden code like popular frameworks, or less till, operating systems, are exponentially less likely to have bugs than the code that I write, so usually it’s safe to assume that if I bang my head against the wall for long enough I’ll figure it out. Can I assume the same when it comes to hardware projects? I don’t have an intuition for this.&lt;/p&gt;
+
+&lt;p&gt;I filed a return with Amazon and have it packaged up to drop off at UPS next time I’m out. In the meantime, I’m feeling pretty beat up by e-paper. I decided to cop out and get a &lt;a href=&quot;https://www.adafruit.com/product/3502&quot;&gt;SHARP Memory Display&lt;/a&gt; from Adafruit. It purports to be the best of both worlds: lower power consumption with a fast refresh rate. It also bills great sunlight readability. It isn’t permanent like e-paper, but you only have to pulse the display with power once every second or so to persist the image. I also threw in a little 8 Ohm speaker and a tiny electret microphone. I’ll to and structure my code so that I can swap out the display later if I have a notion of going back to e-paper.&lt;/p&gt;
+
+&lt;p&gt;In the meantime, I can share a little of the UI design I’ve done. Individual screens are not “designed” by any stretch of the imagination. They really just display text and there’s no UI indicators for navigating from one screen to the next. I have 168x144px to work with and would love some minimalist aesthetic inspiration here. I’m not a very good designer and don’t really know where to start. I’m currently reading the Design of Everyday Things. &lt;strong&gt;Seeking design advice.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;I mentioned the push, pop, replace navigation scheme I built before to transition between screens. Here’s a flow diagram showing how it works. It’s important to map out each transition, because it would be really bad to get the user into a dead end, or fail to have some data cleared out when it should be before a transition.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/making-a-phone-part-5-navigation-flow.jpg&quot; alt=&quot;Hand-drawn Phonium navigation flow diagram&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;I’ve also been thinking about what the post-breadboard phase of this project would look like. I’d like to design a PCB and get a small batch of them printed. I’ve never designed a schematic from scratch, simple circuits when I was kid and my grandpa was teaching me some electronics basics. What are the merits to using something like EAGLE vs Kicad? How would would I even get started? Do I just find (or create) schematics for each component I’m currently using, copy and paste them into another project and then start wiring things together with copper traces?&lt;/p&gt;
+
+&lt;p&gt;Last thoughts for this update. I’ve been thinking about novel features to include that would make this phone delightful without being toxic and distracting. I want to avoid gimmicks, but try things that might be weird. One limitation I have right now is my 4x4 button keypad. I hate touchscreens, so I’m not interested in that. But, what about some kind of analog input? I’ve considered using an incremental rotary encoder (aka a nob you can turn) to navigate menus or scroll texts. That might not be great for one-handed use. Another thing I’ve considered is putting an array of capacitive touch sensors (like tiny copper pinheads) that you can swipe your finger over. I’ve also considered some novel sensors like air quality or temperature. Are there any controls or sensors you’d like in a phone?&lt;/p&gt;
+
+&lt;p&gt;Thanks for reading!&lt;/p&gt;
+
+</description>
+      <pubDate>Sun, 23 Jun 2019 01:33:25 +0000</pubDate>
+      <link>http://zacstewart.com/2019/06/23/making-a-phone-part-5-partial-update-setbacks-navigation-flows.html</link>
+      <guid isPermaLink="true">http://zacstewart.com/2019/06/23/making-a-phone-part-5-partial-update-setbacks-navigation-flows.html</guid>
+    </item>
+    
+    <item>
+      <title>Making a Phone Part 4: Text Messages</title>
+      <description>&lt;blockquote&gt;
+  &lt;p&gt;This and all my other &lt;a href=&quot;/tags/phonium.html&quot;&gt;#phonium&lt;/a&gt; posts were originally published to &lt;a href=&quot;https://scuttlebutt.nz/&quot;&gt;Scuttlebutt&lt;/a&gt;. After running into some ssb-specific problems with identity continuity I’ve decided to republish them all on my own site at the originally-posted dates. They are in reality showing up on the internet for the first time in August of 2021. &lt;a href=&quot;https://viewer.scuttlebot.io/%256nvB0gMJTj%2BXS%2BiINJcPMmwpDQEIKdZ2316SjdCgeig%3D.sha256#%256nvB0gMJTj%2BXS%2BiINJcPMmwpDQEIKdZ2316SjdCgeig%3D.sha256&quot;&gt;original ssb link&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;/2019/06/17/im-making-a-phone.html&quot;&gt;Part 1&lt;/a&gt; background, motivations&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;/2019/06/17/making-a-phone-part-2-getting-started.html&quot;&gt;Part 2&lt;/a&gt; getting started, making calls&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;/2019/06/18/making-a-phone-part-3-going-32-bit.html&quot;&gt;Part 3&lt;/a&gt; answering calls, upgrading to a 32-bit microcontroller&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;video alt=&quot;Composing a text message&quot; controls=&quot;undefined&quot;&gt;
+  &lt;source src=&quot;/images/making-a-phone-part-4-text-messages.webm&quot; /&gt;
+&lt;/video&gt;
+
+&lt;p&gt;Sending texts is the next goalpost. The backend of this was pretty easy thanks to the Adafruit FONA library. The hard part was building a frontend for 9-key text entry. After a couple of after-work code sessions I got something complete enough to allow for lower-case text entry including spaces and punctuation. The UX, however, remains horrible. Like I mentioned before, the EPD refreshes the whole screen (multiple times actually) every time you update it. That second-or-so of lag time every time you press a button is excruciating. Especially since you can’t just click-click-click and wait for the screen to update. Subsequent presses of the button do nothing until the display is finished updating. That means I had to make the move-onto-the-key-character timeout really long. 3 seconds. You know, if you want to enter “hi” on 9-key phone, you have to hit 4, wait, 4? Well, that wait has to be long enough to accommodate the screen refresh.&lt;/p&gt;
+
+&lt;p&gt;This sent me back to the drawing board about the EPD. I really want to use e-paper because of the extremely low power draw, but if I can’t do fast partial updates, then the phone is almost unusable. Adafruit sells a SHARP memory display which supposedly has pretty low power draw. Unfortunately, it has no on-board memory like the EPD module I’m using, so the entire display buffer has to fit in the microcontroller’s memory. The Teensy LC isn’t enough. I looked more and found a similar sized EPD sold by Waveshare that supports partial update. It, too, needs a higher-RAM microcontroller though. I decided I’d upgrade to a Teensy 3.2 and get the Waveshare EPD. Now, my last concern is that these displays are susceptible to burn-in because they’re not really designed for rapid updates. We’ll see how it does. If I have to, I’m okay with switching to the SHARP display. I ordered these parts on Saturday and they arrive yesterday.&lt;/p&gt;
+
+&lt;p&gt;While I waited, I worked on incoming text messages. This has two large chunks: a navigation menu screen for viewing a list of messages, and a detail screen for reading a message. The most daunting piece I see ahead is making a scrollable view for reading long messages. I’ve gotten it to do the minimum of printing how many messages there are, and then displaying the first one. A friend sent me the first SMS my phone has ever received. It thought something was wrong, data was corrupted, or encoded weirdly, or something, but after a little searching around, I learned that D83EDDA1 is the unicode hexadecimal for 🦡 and that the FONA does not handle emoji gracefully. Normally it gives you plain text (ASCII?) but if you include one emoji, suddenly the whole message is UTF-16 hex represented.&lt;/p&gt;
+
+&lt;p&gt;Well, that wraps up this episode. I’d love to dive into any details that you find interesting. If you want to see my source code, it’s on &lt;a href=&quot;https://github.com/zacstewart/phonium&quot; title=&quot;Phonium git repository&quot;&gt;GitHub&lt;/a&gt;. I’ll write more updates as I make progress. Next up, I’ll be replacing the Teensy LC with the 3.2 and switching out the EPDs. Then I’ll try getting partial updates to work.&lt;/p&gt;
+
+</description>
+      <pubDate>Tue, 18 Jun 2019 02:35:00 +0000</pubDate>
+      <link>http://zacstewart.com/2019/06/18/making-a-phone-part-4-text-messages.html</link>
+      <guid isPermaLink="true">http://zacstewart.com/2019/06/18/making-a-phone-part-4-text-messages.html</guid>
+    </item>
+    
+    <item>
+      <title>Making a Phone Part 3: Going 32-bit</title>
+      <description>&lt;blockquote&gt;
+  &lt;p&gt;This and all my other &lt;a href=&quot;/tags/phonium.html&quot;&gt;#phonium&lt;/a&gt; posts were originally published to &lt;a href=&quot;https://scuttlebutt.nz/&quot;&gt;Scuttlebutt&lt;/a&gt;. After running into some ssb-specific problems with identity continuity I’ve decided to republish them all on my own site at the originally-posted dates. They are in reality showing up on the internet for the first time in August of 2021. &lt;a href=&quot;https://viewer.scuttlebot.io/%25oSboStN4v114mBik1nXWMRG3cUPxJs9UnyTAZpJvaBw%3D.sha256&quot;&gt;original ssb link&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;/2019/06/17/im-making-a-phone.html&quot;&gt;Part 1&lt;/a&gt; background, motivations&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;/2019/06/17/making-a-phone-part-2-getting-started.html&quot;&gt;Part 2&lt;/a&gt; getting started, making calls&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/making-a-phone-part-3-going-32-bit.jpg&quot; alt=&quot;A Teensy microcontroller&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Naturally, the next function is answering incoming calls. One way to do that (aka the wrong way) is to poll the cellular module to ask it what its call status is. The microcontroller communicates with the FONA via a serial interface, so doing that every tick of the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;loop&lt;/code&gt; function (16 MHz) is very chatty. I suspect it would kill a battery very quickly. The right way is to handle a hardware interrupt from the FONA. Sadly, 20/20 pins are currently occupied and the I’d need to connect to the cell module’s RI (ringer interrupt) pin for that. I screwed around with the RESET pins again with no luck.&lt;/p&gt;
+
+&lt;p&gt;I had initially thought that I’d prototype with the Uno and then switch to an Arduino Nano when I wanted to scale things down. Now I was looking for something that could support more peripherals. I found the &lt;a href=&quot;https://www.pjrc.com/teensy/&quot;&gt;Teensy&lt;/a&gt; family of microcontrollers and was enthused. The Teensy LC looked like a winner. It’s smaller than the Uno, has 8 KB of RAM, 27 GPIO pins, and a 48 MHz clock speed. It didn’t hurt that it has more ROM too, because I was a little worried that my code was going to get cramped in the space of 32 KB.&lt;/p&gt;
+
+&lt;p&gt;The Teensy arrived, and I soldered some headers to it and wired it up. The EPD wouldn’t power up. I could see from Serial output that button presses were being registering. I started poking around with my multimeter, and confirmed that no power was getting to the EPD. I tried giving it some power view the vout from the Uno that was now completely disconnected. For a few moments the display came to life and showed the graphics test I had uploaded to the Teensy. Then everything stopped. The Teensy quit responding to button presses, quit logging to Serial. It stopped restarting up uploading new code. I fried it with my tampering.&lt;/p&gt;
+
+&lt;p&gt;Undeterred, I ordered another one. While I waited for it to arrive, I rewired everything to the Uno. I disconnected the BUSY pin from the EPD to use the GPIO pin that it occupied. This makes the EPD update even slower, because instead of waiting just until the display reports that it’s done drawing, the driver waits a long, static amount of time. But, now I had a pin for the FONA’s ringer interrupt. Stealing this pin from the EPD worked and I was able to answer incoming calls, but I knew this was a temporary solution.&lt;/p&gt;
+
+&lt;p&gt;When my new Teensy arrived, I soldered and wired it all up again, and this time I was more cautious in exploring the lack of power to the EPD. I made the discovery that the power rail on my long breadboard does not expend the length of the entire board. It’s split in half. Facepalm. Moving the power lines up past the midpoint of the board fixed that.&lt;/p&gt;
+
+&lt;p&gt;Next I started getting the FONA to work with the Teensy. On the Uno, it was communicating via SoftwareSerial. The Teensy has several hardware serial channels so I connected it to what I thought were the right pins for Serial1. On boot, everything would power up, but the microcontroller would send an AT command repeatedly and never hear anything back from the cell module. I putzed around trying to figure out what was wrong with it for days. I read a bunch of misleading information about the FONA not supporting hardware serial and tried to go back to SoftwareSerial. I read misleading information about the Teensy not supporting RX via SoftwareSerial.&lt;/p&gt;
+
+&lt;p&gt;I racked my brains, multimeter tested everything, and then in a moment of glorious stupidity tried swapping the wires on the RX and TX pins. I had connected the Teensy’s 0 (RX) and 1 (TX) to the FONA’s RX and TX (RX&amp;lt;-&amp;gt;RX, TX&amp;lt;-&amp;gt;TX, see the problem?). Now those AT commands were answered, and after a few more moments of stupidity before I realized I didn’t have the uFL antenna connected, everything was working. It this point, it’s a bona fide phone that can do incoming and outgoing calls.&lt;/p&gt;
+
+&lt;p&gt;I also invested a little tooling work into getting off of the Arduino IDE. I found some Makefile examples for building and uploading to the Teensy. Initially, it was building an enormous binary, but I figured out how to make it prune out unused symbols in the linking phase and it trimmed it down significantly.&lt;/p&gt;
+
+</description>
+      <pubDate>Tue, 18 Jun 2019 02:30:25 +0000</pubDate>
+      <link>http://zacstewart.com/2019/06/18/making-a-phone-part-3-going-32-bit.html</link>
+      <guid isPermaLink="true">http://zacstewart.com/2019/06/18/making-a-phone-part-3-going-32-bit.html</guid>
+    </item>
+    
+    <item>
+      <title>Making a Phone Part 2: Getting Started</title>
+      <description>&lt;blockquote&gt;
+  &lt;p&gt;This and all my other &lt;a href=&quot;/tags/phonium.html&quot;&gt;#phonium&lt;/a&gt; posts were originally published to &lt;a href=&quot;https://scuttlebutt.nz/&quot;&gt;Scuttlebutt&lt;/a&gt;. After running into some ssb-specific problems with identity continuity I’ve decided to republish them all on my own site at the originally-posted dates. They are in reality showing up on the internet for the first time in August of 2021. &lt;a href=&quot;https://viewer.scuttlebot.io/%25c2p0dbP0ztqWHsB07QNejOa0%2F%2BPKkzVpiQYr%2Fk0S9lo%3D.sha256#%25c2p0dbP0ztqWHsB07QNejOa0%2F%2BPKkzVpiQYr%2Fk0S9lo%3D.sha256&quot;&gt;original ssb link&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Jump to &lt;a href=&quot;/2019/06/17/im-making-a-phone.html&quot;&gt;part 1&lt;/a&gt; for background and motivations.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/making-a-phone-part-2-getting-started.jpg&quot; alt=&quot;Keypad and e-ink display controlled by a OSEPP Uno microcontroller on a breadboard&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;I started out with an Arduino Uno-compatible microcontroller board manufactured by OSEPP, a 16-button 4x4 button matrix, a 2G cellular module by Adafruit called a FONA, and a 1.54” monochrome e-paper display from Adafruit. I also grabbed a starter kit from them that contained a soldering iron, a multimeter, a couple breadboards, some wire cutters, a handful of components, solder, and wire.&lt;/p&gt;
+
+&lt;p&gt;I didn’t have a SIM card yet, so initially I just wired up the button matrix, EPD display, and the Uno to make a minimal “dial a number” routine. After some trial and error I got working. This took up 8 GPIO pins for the button matrix and 8 pins for the EPD. The Uno has 14 dedicated GPIO pins and 6 analog pins. Luckily, you can also use the analog pins for GPIO for a total of 20. I initially used the 0 and 1 (RX and TX) pins for the button matrix, but realized that those are reserved for Serial if you want to have debug printing, so I moved things around a bit to accomodate. A total of 8 (buttons) + 8 (EPD) + 2 (Serial), for 18/20 GPIO pins used.&lt;/p&gt;
+
+&lt;p&gt;The first thing I noticed was that the EPD has a very slow refresh rate. About a second and half. I knew it’d be slow, but I assumed it’d be like my Kindle Touch. Slow, but still usable interfaces. Dialing a number is painful because you have to wait until the EPD finishes before pressing the next number each time. It turns out, neither the EPD hardware nor the Adafruit library support partial refresh, so it refreshes and redraws the entire display each time you tell it to display.&lt;/p&gt;
+
+&lt;p&gt;Next, I ordered a SIM card from Ting Wireless, a post-pay carrier that charges you only by what you use. I soldered headers to the FONA and wired it up. I realized that the Uno didn’t have enough pins to support everything. The FONA needed a bare minimum of 3. Both the EPD and FONA have a RST pin that should be able to connect to the microcontroller’s RESET pin, and free up GPIO pin, but for whatever reason, I was never able to get that working. An Adafruit support person said I should put a small delay before initializing the peripherals because they might be powering up before the Uno, but that didn’t help. I tried sharing the same GPIO pin for both their RSTs, and voilà! All 20 pins used, but everything was working.&lt;/p&gt;
+
+&lt;p&gt;I took the initial work I did on dialing numbers and hooked it into the FONA library to make it actually initiate the call. Miraculously, the calls come through and I can hear the person at the other end. Unfortunately, they can’t hear me. They hear a buzzing, or a scratching as I fiddle with the headphone jack, but not me. Seems like the iPhone headset I’m using is not compatible. I’ve also tried a Bose headset with no luck. I’ll get it figured out, but in the meantime I’m not too worried. I want to add dedicated mic and speaker components anyway.&lt;/p&gt;
+
+&lt;p&gt;A little discursion about the software. On an embedded device like this, there’s no OS to speak of, so you’re really writing firmware that directly talks to the hardware. This has some interested consequences that make some things easier than I’m used to, and some things harder. It’s simple because there’s no async, no threading, and things are pretty deterministic. Making it harder is that you don’t get segfaults for accessing memory that isn’t yours. There’re no processes, so you own all the memory. You just accidentally access data that you didn’t mean to. Overflowing memory crashes the device, making it restart.&lt;/p&gt;
+
+&lt;p&gt;I represent each “screen” by an object that handles input, interacts with the FONA and updates the EPD display. In OOP-vocab you could call these view controllers, but I’m careful not to be too OOP-y. I have 2KB of RAM, and a clock speed of 16 MHz. In the interest of efficiency, these objects are all allocated at boot and used as singletons. Meticulous state management ensues. Mediating between them is a Navigator object that contains refs to all these singletons and a stack whose head is the currently displayed screen. This design lets me push a view onto the stack, replace the current view in the stack, and pop back to the previous view. It makes it easier to reason about navigation flows. Granted, right now there are only two screens: Dialer and Call. Dialer lets you enter a number and press the dial key, which then &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;pushController&lt;/code&gt;s to the Call screen. When you hang up, it &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;popController&lt;/code&gt;s back to Dialer. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;replaceController&lt;/code&gt; isn’t used yet, but it makes sense later.&lt;/p&gt;
+
+&lt;p&gt;So far I’ve been writing everything in the Arduino IDE, and while not my favorite environment, it has served me well.&lt;/p&gt;
+
+</description>
+      <pubDate>Mon, 17 Jun 2019 00:19:10 +0000</pubDate>
+      <link>http://zacstewart.com/2019/06/17/making-a-phone-part-2-getting-started.html</link>
+      <guid isPermaLink="true">http://zacstewart.com/2019/06/17/making-a-phone-part-2-getting-started.html</guid>
+    </item>
+    
+    <item>
+      <title>I’m Making a Phone</title>
+      <description>&lt;blockquote&gt;
+  &lt;p&gt;This and all my other &lt;a href=&quot;/tags/phonium.html&quot;&gt;#phonium&lt;/a&gt; posts were originally published to &lt;a href=&quot;https://scuttlebutt.nz/&quot;&gt;Scuttlebutt&lt;/a&gt;. After running into some ssb-specific problems with identity continuity I’ve decided to republish them all on my own site at the originally-posted dates. They are in reality showing up on the internet for the first time in August of 2021. &lt;a href=&quot;https://viewer.scuttlebot.io/%25Pc5mfngm5ug0bbaY%2BzZW%2BZP6w5kfPD1oErLaMyUfeh8%3D.sha256#%25Pc5mfngm5ug0bbaY%2BzZW%2BZP6w5kfPD1oErLaMyUfeh8%3D.sha256&quot;&gt;original ssb link&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;For a few weeks I’ve been working on a home brewed cellphone. I’ve shared bits here and there on the legacy web, but I want to contribute something interesting here. I feel like the Scuttleverse is a better place for it anyway. Content here is usually longer-form than I can manage on Instagram, and the audience is decidedly more geeky. From now on, this is an ssb-first project.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/im-making-a-phone.jpg&quot; alt=&quot;homebrew cellular phone prototype on a breadboard&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Why make a phone? I started down this path after recognizing that I’m struggling with how addictive tech is. Devices are engineered to be as instantly gratifying as possible. I’m not incapable of putting it down, and luckily I’m not hooked on social media, but the devices themselves have a tendency to draw me in and fill up any empty space that I might otherwise use to hear my own thoughts for a minute. This constant presence works to isolate me from other humans. At least, I often feel lonely and disconnected, and then supplement my loneliness with more device usage.&lt;/p&gt;
+
+&lt;p&gt;Obviously, you can go buy a dumbphone off the shelf for a few dollars and call it a day. There are also a few “minimalist” designer phones like the Light Phone and the Punkt. I like those phones very much, but if you check out the price tag on them, you’ll see that you’re paying almost as much as you would for a smartphone. For $300 USD you can buy set of electronics equipment and some parts to prototype your own, so that’s what I did.&lt;/p&gt;
+
+&lt;p&gt;Truth be told, this isn’t an economical decision, even if I initially justified it that way. $300 is nothing compared to the parts and labor invested in making even what I have so far, to say nothing of a cleanly packaged and usable device. But, I love having an interesting side project. As a software developer, I’m usually working on something, but the results are typically only interesting to a very small set of people, or no one at all. If you tell people that you’re making your own phone and show them it working, they often want to hear more. Making a shitty phone, ironically, has the opposite affect that using a nice one has on me: it’s encouraging human connection.&lt;/p&gt;
+
+&lt;p&gt;I originally wrote this up as one page, but it’s a little long, so I’m going to break it up into a few posts. Follow along to hear the gritty details! &lt;a href=&quot;/tags/phonium.html&quot; title=&quot;list of #phonium posts&quot;&gt;#phonium&lt;/a&gt;&lt;/p&gt;
+
+</description>
+      <pubDate>Mon, 17 Jun 2019 00:19:09 +0000</pubDate>
+      <link>http://zacstewart.com/2019/06/17/im-making-a-phone.html</link>
+      <guid isPermaLink="true">http://zacstewart.com/2019/06/17/im-making-a-phone.html</guid>
+    </item>
+    
+  </channel>
+</rss>

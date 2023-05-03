@@ -1,0 +1,54 @@
+==================================================================
+https://keybase.io/zacstewart
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of https://zacstewart.com
+  * I am zacstewart (https://keybase.io/zacstewart) on keybase.
+  * I have a public key ASDyhMC1RbxHHDDE-PJJ695Beo2RavwsBOrBgitPYcRLowo
+
+To do so, I am signing this object:
+
+{
+    "body": {
+        "key": {
+            "eldest_kid": "0120f284c0b545bc471c30c4f8f249ebde417a8d916afc2c04eac1822b4f61c44ba30a",
+            "host": "keybase.io",
+            "kid": "0120f284c0b545bc471c30c4f8f249ebde417a8d916afc2c04eac1822b4f61c44ba30a",
+            "uid": "1dd8a6404ec6a7acda9e441a4e461700",
+            "username": "zacstewart"
+        },
+        "service": {
+            "hostname": "zacstewart.com",
+            "protocol": "https:"
+        },
+        "type": "web_service_binding",
+        "version": 1
+    },
+    "client": {
+        "name": "keybase.io go client",
+        "version": "1.0.16"
+    },
+    "ctime": 1470666673,
+    "expire_in": 504576000,
+    "merkle_root": {
+        "ctime": 1470666598,
+        "hash": "3faeac233795c6da600ab2a183d15fbabec3ce930bb886831eb154b6b3c74f9a0a7d7594aaf03277971bdd36c13f81cc1d1002083bf0e985793d290f971d5df8",
+        "seqno": 564742
+    },
+    "prev": "5a3339903129b16021a6bfe3571fe941c6b71a6f335bb03290db21db0395139e",
+    "seqno": 48,
+    "tag": "signature"
+}
+
+which yields the signature:
+
+hKRib2R5hqhkZXRhY2hlZMOpaGFzaF90eXBlCqNrZXnEIwEg8oTAtUW8RxwwxPjySeveQXqNkWr8LATqwYIrT2HES6MKp3BheWxvYWTFAvl7ImJvZHkiOnsia2V5Ijp7ImVsZGVzdF9raWQiOiIwMTIwZjI4NGMwYjU0NWJjNDcxYzMwYzRmOGYyNDllYmRlNDE3YThkOTE2YWZjMmMwNGVhYzE4MjJiNGY2MWM0NGJhMzBhIiwiaG9zdCI6ImtleWJhc2UuaW8iLCJraWQiOiIwMTIwZjI4NGMwYjU0NWJjNDcxYzMwYzRmOGYyNDllYmRlNDE3YThkOTE2YWZjMmMwNGVhYzE4MjJiNGY2MWM0NGJhMzBhIiwidWlkIjoiMWRkOGE2NDA0ZWM2YTdhY2RhOWU0NDFhNGU0NjE3MDAiLCJ1c2VybmFtZSI6InphY3N0ZXdhcnQifSwic2VydmljZSI6eyJob3N0bmFtZSI6InphY3N0ZXdhcnQuY29tIiwicHJvdG9jb2wiOiJodHRwczoifSwidHlwZSI6IndlYl9zZXJ2aWNlX2JpbmRpbmciLCJ2ZXJzaW9uIjoxfSwiY2xpZW50Ijp7Im5hbWUiOiJrZXliYXNlLmlvIGdvIGNsaWVudCIsInZlcnNpb24iOiIxLjAuMTYifSwiY3RpbWUiOjE0NzA2NjY2NzMsImV4cGlyZV9pbiI6NTA0NTc2MDAwLCJtZXJrbGVfcm9vdCI6eyJjdGltZSI6MTQ3MDY2NjU5OCwiaGFzaCI6IjNmYWVhYzIzMzc5NWM2ZGE2MDBhYjJhMTgzZDE1ZmJhYmVjM2NlOTMwYmI4ODY4MzFlYjE1NGI2YjNjNzRmOWEwYTdkNzU5NGFhZjAzMjc3OTcxYmRkMzZjMTNmODFjYzFkMTAwMjA4M2JmMGU5ODU3OTNkMjkwZjk3MWQ1ZGY4Iiwic2Vxbm8iOjU2NDc0Mn0sInByZXYiOiI1YTMzMzk5MDMxMjliMTYwMjFhNmJmZTM1NzFmZTk0MWM2YjcxYTZmMzM1YmIwMzI5MGRiMjFkYjAzOTUxMzllIiwic2Vxbm8iOjQ4LCJ0YWciOiJzaWduYXR1cmUifaNzaWfEQANV+nBePCpEWD/yJ3NYV2Kv/jT1dvqTi7T+LKKu2VCagP3kHsJytxzLizQoD8K9GpCV5hp/AHiM2XYnhTbGRw+oc2lnX3R5cGUgpGhhc2iCpHR5cGUIpXZhbHVlxCDVuI4XqraK7aslx0pBKhtJ9irTGs04MXJ1Glc+H8LlYaN0YWfNAgKndmVyc2lvbgE=
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/zacstewart
+
+==================================================================
