@@ -1,20 +1,4 @@
-body {
-  background: linear-gradient(0deg, rgba(255,215,0,1) 50%, rgba(0,87,184,1) 50%);
-  background-attachment: fixed;
-  background-size: 100% auto;
-}
-
-.container {
-  background: #fff;
-}
-
-.nav-social-media {
-  &__list {
-    list-style: none;
-    clear: both;
-    li {
-      float: left;
-      margin-right: 10px;
-    }
-  }
+ol.post-list {
+  list-style: none;
+  margin-left: 0;
 }
