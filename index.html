@@ -2,27 +2,10 @@
 layout: default
 title: Zac Stewart
 ---
-{% for post in site.posts %}
-  <div class="row">
 
-    <time class="two columns alpha" datetime="{{ post.date | date: "%Y-%m-%d" }}">
-      {{ post.date | date_to_string }}
-    </time>
 
-    <article class="ten columns omega">
-      <h2 class="">
-        <a href="{{post.url}}" rel="canonical">{{ post.title }}</a>
-      </h2>
 
-      {% if post.excerpt %}
-        {{ post.excerpt }}
-        <p>
-          <a href="{{post.url}}">
-            {% if post.break %} {{ post.break }} {% else %} Read more {% endif %}
-          </a>
-        </p>
-      {% endif %}
-    </article>
 
-  </div>
-{% endfor %}
+<p>
+  <a href="/posts.html">Older posts</a>
+</p>

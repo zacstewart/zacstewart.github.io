@@ -1,0 +1,16 @@
+---
+layout: default
+title: Posts
+---
+
+<ol class="post-list">
+  {% for post in site.posts %}
+    <li>
+      <a href="{{post.url}}" rel="canonical">{{ post.title }}</a>
+      <time class="" datetime="{{ post.date | date: "%Y-%m-%d" }}">
+        {{ post.date | date_to_string }}
+      </time>
+    </li>
+  {% endfor %}
+</ol>
+
