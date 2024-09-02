@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!-- open graph tags -->
+<meta content="" property="og:site_name">
+
+  <meta content="Learning C++: A brainfuck Interpreter" property="og:title">
+
+
+  <meta content="article" property="og:type">
+
+
+  <meta content="As I try to steer my career away from generic application building and into
+scientific computing, I find myself wanting to learn C++. This is an odd
+admission for a Rubyist, as I usually see movement in the opposite direction,
+with tired C programmers washing up on the sweet shores of Ruby, sighing,
+with relief, that it just feels so right." property="og:description">
+
+
+  <meta content="http://zacstewart.com/2013/09/15/learning-cpp-a-brainfuck-interpreter.html" property="og:url">
+
+
+  <meta content="2013-09-15T00:00:00+00:00" property="article:published_time">
+
+
+
+  
+
+
+  
+
+
+
+    <title>Learning C++: A brainfuck Interpreter</title>
+
+    <link rel="alternate" type="application/rss+xml" title="Zac Stewart" href="http://zacstewart.com/feed.xml">
+
+    <link rel="stylesheet" href="/css/base.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="/css/skeleton.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="/css/tables.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="/css/pygment.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="/css/layout.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="/css/components.css" type="text/css" media="screen, projection">
+
+    <script data-goatcounter="https://zacstewart.goatcounter.com/count"
+      async src="//gc.zgo.at/count.js"></script>
+    <noscript>
+      <img src="https://zacstewart.goatcounter.com/count?p=/2013/09/15/learning-cpp-a-brainfuck-interpreter.html">
+    </noscript>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="sixteen columns">
+        <h1 id="logo" class="remove-bottom">
+          <a href="/">Learning C++: A brainfuck Interpreter</a>
+        </h1>
+
+        <nav>
+        </nav>
+      </div>
+
+      <div class="sixteen columns">
+        <article>
+  <header>
+    <h2>Learning C++: A brainfuck Interpreter</h2>
+  </header>
+  <hr>
+  <div class="language-brainfuck highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">&gt;</span><span class="nf">+++++++++</span><span class="p">[</span><span class="nb">&lt;</span><span class="nf">++++++++</span><span class="nb">&gt;</span><span class="nf">-</span><span class="p">]</span><span class="nb">&lt;</span><span class="nf">.</span><span class="nb">&gt;</span><span class="nf">+++++++</span><span class="p">[</span><span class="nb">&lt;</span><span class="nf">++++</span><span class="nb">&gt;</span><span class="nf">-</span><span class="p">]</span><span class="nb">&lt;</span><span class="nf">+.+++++++..+++.</span><span class="nb">&gt;&gt;&gt;</span><span class="c1">
+</span><span class="nf">++++++++</span><span class="p">[</span><span class="nb">&lt;</span><span class="nf">++++</span><span class="nb">&gt;</span><span class="nf">-</span><span class="p">]</span><span class="nb">&lt;</span><span class="nf">.</span><span class="nb">&gt;&gt;&gt;</span><span class="nf">++++++++++</span><span class="p">[</span><span class="nb">&lt;</span><span class="nf">+++++++++</span><span class="nb">&gt;</span><span class="nf">-</span><span class="p">]</span><span class="nb">&lt;</span><span class="nf">---.</span><span class="nb">&lt;&lt;&lt;&lt;</span><span class="nf">.+++.------.--------.</span><span class="nb">&gt;&gt;</span><span class="nf">+.</span><span class="c1">
+</span></code></pre></div></div>
+<p>Hello, World!</p>
+
+<p>As I try to steer my career away from generic application building and into
+scientific computing, I find myself wanting to learn C++. This is an odd
+admission for a Rubyist, as I usually see movement in the opposite direction,
+with tired C programmers washing up on the sweet shores of Ruby, sighing, with
+relief, that it just feels so right.</p>
+
+<p>However, with myself it’s another story. I’ve spent almost my entire career
+writing in only scripting languages. I’ve had a touch of Java, but nothing
+to brag about. I first found myself writing some C++ by way of Objective C++
+while I worked on [SUPER SECRET PROJECT] during Big Nerd Ranch’s <a href="http://blog.bignerdranch.com/2650-clash-of-the-coders-2013/">Clash of the
+Coders 2013</a>. It didn’t take me long to figure out how to be effective with
+the language, but I’m sure I abused all kinds of things.</p>
+
+<p>With less than a tenuous grasp on pointers and references, the mysteries of
+debugging the effects of uninitialized variables, the weird constructor syntax,
+and being amazed that I could do things like iterate over a few million pixels
+in a matrix, we finally banged out a working project and grabbed third place.</p>
+
+<p>So, in an effort to go back and learn the things I just smashed through
+previously, I’ve started working on a few little C++ projects. One that I
+thought would be appropriate for learning how to use pointers is a
+<a href="http://esolangs.org/wiki/Brainfuck">brainfuck</a> interpreter. If you aren’t in the know, brainfuck is a tiny
+language with only eight instructions:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">&gt;</code> Move the pointer to the right</li>
+  <li><code class="language-plaintext highlighter-rouge">&lt;</code> Move the pointer to the left</li>
+  <li><code class="language-plaintext highlighter-rouge">+</code> Increment the memory cell under the pointer</li>
+  <li><code class="language-plaintext highlighter-rouge">-</code> Decrement the memory cell under the pointer</li>
+  <li><code class="language-plaintext highlighter-rouge">.</code> Output the character signified by the cell at the pointer</li>
+  <li><code class="language-plaintext highlighter-rouge">,</code> Input a character and store it in the cell at the pointer</li>
+  <li><code class="language-plaintext highlighter-rouge">[</code> Jump past the matching ] if the cell under the pointer is 0</li>
+  <li><code class="language-plaintext highlighter-rouge">]</code> Jump back to the matching [ if the cell under the pointer is nonzero</li>
+</ul>
+
+<p>This yields very cryptic programs, like the “Hello, World!” at the top of this
+post.</p>
+
+<h1 id="first-just-make-it-work">First, just make it work</h1>
+
+<p>My approach to implementing the interpreter was to first write it as it made
+sense to my scripting-brain: the memory would be an array of <code class="language-plaintext highlighter-rouge">char</code>s, the
+pointer would just be an <code class="language-plaintext highlighter-rouge">int</code> to index into that array and, the program and
+current execution index would have similar mechanics.</p>
+
+<p>That resulted in code that looked like this:</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">pincr</span><span class="p">()</span> <span class="p">{</span>
+  <span class="o">++</span><span class="n">d</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">pdecr</span><span class="p">()</span> <span class="p">{</span>
+  <span class="o">--</span><span class="n">d</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">bincr</span><span class="p">()</span> <span class="p">{</span>
+  <span class="o">++</span><span class="n">data</span><span class="p">[</span><span class="n">d</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">bdecr</span><span class="p">()</span> <span class="p">{</span>
+  <span class="o">--</span><span class="n">data</span><span class="p">[</span><span class="n">d</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">puts</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">data</span><span class="p">[</span><span class="n">d</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">gets</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">data</span><span class="p">[</span><span class="n">d</span><span class="p">];</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>My solution for the <code class="language-plaintext highlighter-rouge">[]</code> loop instructions were very rudimentary at first,
+capable of handling “Hello, World!”, but not anything with nested loops. This
+is because I just naïvely skipped back and forth to the next bracket for each
+instruction.</p>
+
+<p>I finally worked out a decent solution that skips to the matching bracket:</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">bropen</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kt">int</span> <span class="n">bal</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">d</span><span class="p">]</span> <span class="o">==</span> <span class="sc">'\0'</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">do</span> <span class="p">{</span>
+      <span class="n">p</span><span class="o">++</span><span class="p">;</span>
+      <span class="k">if</span>      <span class="p">(</span><span class="n">program</span><span class="p">[</span><span class="n">p</span><span class="p">]</span> <span class="o">==</span> <span class="sc">'['</span><span class="p">)</span> <span class="n">bal</span><span class="o">++</span><span class="p">;</span>
+      <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">program</span><span class="p">[</span><span class="n">p</span><span class="p">]</span> <span class="o">==</span> <span class="sc">']'</span><span class="p">)</span> <span class="n">bal</span><span class="o">--</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">while</span> <span class="p">(</span> <span class="n">bal</span> <span class="o">!=</span> <span class="mi">0</span> <span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">brclose</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kt">int</span> <span class="n">bal</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="k">do</span> <span class="p">{</span>
+    <span class="k">if</span>      <span class="p">(</span><span class="n">program</span><span class="p">[</span><span class="n">p</span><span class="p">]</span> <span class="o">==</span> <span class="sc">'['</span><span class="p">)</span> <span class="n">bal</span><span class="o">++</span><span class="p">;</span>
+    <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">program</span><span class="p">[</span><span class="n">p</span><span class="p">]</span> <span class="o">==</span> <span class="sc">']'</span><span class="p">)</span> <span class="n">bal</span><span class="o">--</span><span class="p">;</span>
+    <span class="n">p</span><span class="o">--</span><span class="p">;</span>
+  <span class="p">}</span> <span class="k">while</span> <span class="p">(</span> <span class="n">bal</span> <span class="o">!=</span> <span class="mi">0</span> <span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>At this point, it was time to replace my data and program <code class="language-plaintext highlighter-rouge">int</code> indices.</p>
+
+<h1 id="pointers-away">Pointers away!</h1>
+
+<p>The trickiest part for me wasn’t handling the instructions, but setting up the
+pointers to begin with. From reading <a href="http://alumni.cs.ucr.edu/~pdiloren/C++_Pointers/index.htm">Learning C++ Pointers for REAL
+Dummies</a>, I knew that if I had a pointer <code class="language-plaintext highlighter-rouge">p</code>, that <code class="language-plaintext highlighter-rouge">*p</code> meant “the value of
+the thing p is pointing at.”</p>
+
+<p>An array is just a <code class="language-plaintext highlighter-rouge">const</code> pointer to the first cell in the array, so if I declare
+a pointer <code class="language-plaintext highlighter-rouge">d</code> (for data), and point it at the first cell of <code class="language-plaintext highlighter-rouge">data</code>…</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">char</span> <span class="n">data</span><span class="p">[</span><span class="mi">30000</span><span class="p">];</span>
+<span class="kt">char</span> <span class="o">*</span><span class="n">d</span><span class="p">;</span>
+<span class="n">d</span> <span class="o">=</span> <span class="n">data</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>Follow the same pattern for program and its pointer, <code class="language-plaintext highlighter-rouge">p</code>, and all that’s left
+to do is update the implementation of the instructions. Instead of incrementing
+the <code class="language-plaintext highlighter-rouge">int</code> indices, I just need to increment the corresponding pointers, and instead
+of accessing the arrays using the indices, I just need to access the value that the
+pointers point to.</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include &lt;iostream&gt;
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">Brainfuck</span> <span class="p">{</span>
+  <span class="nl">public:</span>
+    <span class="kt">char</span> <span class="n">data</span><span class="p">[</span><span class="mi">30000</span><span class="p">];</span>
+    <span class="kt">char</span> <span class="o">*</span><span class="n">d</span><span class="p">;</span>
+    <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">p</span><span class="p">;</span>
+
+    <span class="n">Brainfuck</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="n">prog</span><span class="p">[])</span> <span class="p">{</span>
+      <span class="n">d</span> <span class="o">=</span> <span class="n">data</span><span class="p">;</span>
+      <span class="n">p</span> <span class="o">=</span> <span class="n">prog</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="kt">void</span> <span class="n">pincr</span><span class="p">()</span> <span class="p">{</span>
+      <span class="n">d</span><span class="o">++</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="kt">void</span> <span class="n">pdecr</span><span class="p">()</span> <span class="p">{</span>
+      <span class="n">d</span><span class="o">--</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="kt">void</span> <span class="n">bincr</span><span class="p">()</span> <span class="p">{</span>
+      <span class="p">(</span><span class="o">*</span><span class="n">d</span><span class="p">)</span><span class="o">++</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="kt">void</span> <span class="n">bdecr</span><span class="p">()</span> <span class="p">{</span>
+      <span class="p">(</span><span class="o">*</span><span class="n">d</span><span class="p">)</span><span class="o">--</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="kt">void</span> <span class="n">puts</span><span class="p">()</span> <span class="p">{</span>
+      <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="o">*</span><span class="n">d</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="kt">void</span> <span class="n">gets</span><span class="p">()</span> <span class="p">{</span>
+      <span class="n">std</span><span class="o">::</span><span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="o">*</span><span class="n">d</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="kt">void</span> <span class="n">bropen</span><span class="p">()</span> <span class="p">{</span>
+      <span class="kt">int</span> <span class="n">bal</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+      <span class="k">if</span> <span class="p">(</span><span class="o">*</span><span class="n">d</span> <span class="o">==</span> <span class="sc">'\0'</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">do</span> <span class="p">{</span>
+          <span class="n">p</span><span class="o">++</span><span class="p">;</span>
+          <span class="k">if</span>      <span class="p">(</span><span class="o">*</span><span class="n">p</span> <span class="o">==</span> <span class="sc">'['</span><span class="p">)</span> <span class="n">bal</span><span class="o">++</span><span class="p">;</span>
+          <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="o">*</span><span class="n">p</span> <span class="o">==</span> <span class="sc">']'</span><span class="p">)</span> <span class="n">bal</span><span class="o">--</span><span class="p">;</span>
+        <span class="p">}</span> <span class="k">while</span> <span class="p">(</span> <span class="n">bal</span> <span class="o">!=</span> <span class="mi">0</span> <span class="p">);</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="kt">void</span> <span class="n">brclose</span><span class="p">()</span> <span class="p">{</span>
+      <span class="kt">int</span> <span class="n">bal</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+      <span class="k">do</span> <span class="p">{</span>
+        <span class="k">if</span>      <span class="p">(</span><span class="o">*</span><span class="n">p</span> <span class="o">==</span> <span class="sc">'['</span><span class="p">)</span> <span class="n">bal</span><span class="o">++</span><span class="p">;</span>
+        <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="o">*</span><span class="n">p</span> <span class="o">==</span> <span class="sc">']'</span><span class="p">)</span> <span class="n">bal</span><span class="o">--</span><span class="p">;</span>
+        <span class="n">p</span><span class="o">--</span><span class="p">;</span>
+      <span class="p">}</span> <span class="k">while</span> <span class="p">(</span> <span class="n">bal</span> <span class="o">!=</span> <span class="mi">0</span> <span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="kt">void</span> <span class="n">evaluate</span><span class="p">()</span> <span class="p">{</span>
+      <span class="k">while</span> <span class="p">(</span><span class="o">*</span><span class="n">p</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">switch</span> <span class="p">(</span><span class="o">*</span><span class="n">p</span><span class="p">)</span> <span class="p">{</span>
+          <span class="k">case</span> <span class="sc">'&gt;'</span><span class="p">:</span>
+            <span class="n">pincr</span><span class="p">();</span>
+            <span class="k">break</span><span class="p">;</span>
+          <span class="k">case</span> <span class="sc">'&lt;'</span><span class="p">:</span>
+            <span class="n">pdecr</span><span class="p">();</span>
+            <span class="k">break</span><span class="p">;</span>
+          <span class="k">case</span> <span class="sc">'+'</span><span class="p">:</span>
+            <span class="n">bincr</span><span class="p">();</span>
+            <span class="k">break</span><span class="p">;</span>
+          <span class="k">case</span> <span class="sc">'-'</span><span class="p">:</span>
+            <span class="n">bdecr</span><span class="p">();</span>
+            <span class="k">break</span><span class="p">;</span>
+          <span class="k">case</span> <span class="sc">'.'</span><span class="p">:</span>
+            <span class="n">puts</span><span class="p">();</span>
+            <span class="k">break</span><span class="p">;</span>
+          <span class="k">case</span> <span class="sc">','</span><span class="p">:</span>
+            <span class="n">gets</span><span class="p">();</span>
+            <span class="k">break</span><span class="p">;</span>
+          <span class="k">case</span> <span class="sc">'['</span><span class="p">:</span>
+            <span class="n">bropen</span><span class="p">();</span>
+            <span class="k">break</span><span class="p">;</span>
+          <span class="k">case</span> <span class="sc">']'</span><span class="p">:</span>
+            <span class="n">brclose</span><span class="p">();</span>
+            <span class="k">break</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="n">p</span><span class="o">++</span><span class="p">;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<p>And there we have it. A working brainfuck interpreter, capable of executing <a href="http://esoteric.sange.fi/brainfuck/bf-source/prog/BOTTLES.BF">99
+Bottles of Beer</a> in about 0.03 seconds. I’m still not happy with the loop
+implementation. I know I shouldn’t have to incrementally rewind to the opening
+bracket for each iteration, and next I’m going to work on achieving it using
+the <code class="language-plaintext highlighter-rouge">std::stack</code>.</p>
+
+<p>You can check out the finished code <a href="https://github.com/zacstewart/brainfuck-pp">here</a>.</p>
+
+
+  <footer>
+    <aside class="short-bio">
+  <div class="columns alpha two">
+    <img src="http://gravatar.com/avatar/c5e99d5ecfaab30b92d9a7cdb34e0e33?s=64" alt="Zac Stewart" id="avatar">
+  </div>
+  <div class="columns omega eight">
+    <p>
+      I'm a software engineer interested in machine learning, web backends,
+      system software, realtime systems, and much more. I'm looking for
+      consulting work.
+    </p>
+
+    <p>
+      Have an interesting problem? <a href="mailto:work@zacstewart.com?subject=Work">I’d love to hear from you.</a>
+    </p>
+  </div>
+</aside>
+
+  </footer>
+</article>
+
+      </div>
+    </div>
+  </body>
+</html>

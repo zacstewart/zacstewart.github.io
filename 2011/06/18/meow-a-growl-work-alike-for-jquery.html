@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Meow: A Growl Work-Alike for jQuery</title>
+    <link rel="stylesheet" href="http://zacstewart.com/css/pygment.css" type="text/css">
+    <link rel="stylesheet" href="http://zacstewart.com/Meow/jquery.meow.css" type="text/css" media="screen">
+    <style>
+      body {
+        background-color: #777;
+        background: -moz-linear-gradient(left, rgba(119,119,119,1) 0%, rgba(0,0,0,0.3) 100%);
+        background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(119,119,119,1)), color-stop(100%,rgba(0,0,0,0.3)));
+        background: -webkit-linear-gradient(left, rgba(119,119,119,1) 0%,rgba(0,0,0,0.3) 100%);
+        background: -o-linear-gradient(left, rgba(119,119,119,1) 0%,rgba(0,0,0,0.3) 100%);
+        background: -ms-linear-gradient(left, rgba(119,119,119,1) 0%,rgba(0,0,0,0.3) 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#777777', endColorstr='#4d000000',GradientType=1 );
+        background: linear-gradient(left, rgba(119,119,119,1) 0%,rgba(0,0,0,0.3) 100%);
+        color: #999 rgba(200,200,200,0.7);
+        margin: 48px;
+        text-shadow: 0 1px 1px rgba(255,255,255,0.5);
+        font-family: Helvetica, Arial, sans-serif;
+      }
+      a:link,
+      a:visited,
+      a:hover,
+      a:active {
+        color: black;
+      }
+      textarea {
+        background: #dddddd;
+        border-radius: 10px;
+        color: #666666;
+        font-size: 24px;
+        width: 400px;
+        height: 124px;
+        padding: 10px;
+        text-shadow: 0 1px 1px rgba(255,255,255,0.3);
+      }
+    </style>
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-18516502-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function() {
+          var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+          ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+          var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="http://zacstewart.com/Meow/jquery.meow.js" type="text/javascript" charset="utf-8"></script>
+    <script>
+      $(document).ready(function () {
+
+        $(document).ready(function () {
+          $.meow({
+            message: $('#onready'),
+            icon: 'http://zacstewart.com/Meow/nyan-cat.gif'
+          });
+        });
+
+        $('#button').click(function () {
+          $.meow({
+            message: $('#onclick'),
+            icon: 'http://zacstewart.com/Meow/nyan-cat.gif'
+          });
+        });
+        $('#onchange').change(function () {
+          $.meow({
+            message: $('#onchange'),
+            icon: 'http://zacstewart.com/Meow/nyan-cat.gif'
+          });
+        });
+        $('#selectonchange').change(function () {
+          $.meow({
+            message: $('#selectonchange'),
+            icon: 'http://zacstewart.com/Meow/nyan-cat.gif'
+          });
+        });
+        $('#thanks-meow').click(function () {
+          $.meow({
+            message: 'Fork me on GitHub!',
+            icon: 'https://secure.gravatar.com/avatar/c5e99d5ecfaab30b92d9a7cdb34e0e33?s=48'
+          });
+        });
+      });
+    </script>
+  </head>
+
+  <body>
+    <div id="meows"></div>
+
+    <h1>Meow: A Growl Work-Alike for jQuery</h1>
+
+    <p>jQuery Meow mimics Growl notifications. It can be called within and jQuery bind event and passed various sources for message input, making it ideal for form validation, Rails flash notices, or a replacement for the alert() box.</p>
+    <p>It's under active development right now and is lacking a bunch of features that are soon to come, including, callbacks.</p>
+    <p>If you've got something to add, please <a href="https://github.com/zacstewart/Meow">fork the project on GitHub</a>!</p>
+
+    <h2>Update: Aug 23, 2011</h2>
+    <p>Some of this is probably outdated. Meow took off much better than I expected. I got mentions on several blogs and have been retweeted a bit. Thanks a lot for all the interest.</p>
+    <p>Because of this humble success, I promoted Meow to "project-that-I-actively-maintain" status and have given it its own <a href="/projects/meow.html">project page</a>. Go there for the latest documentation and everything; this blog post is just awkward to keep current.
+
+    <h2>Demonstration</h2>
+    <h3>Ready Demo</h3>
+    <p>
+      <div id="onready">I'll meow upon ready</div>
+    </p>
+
+    <h3>Click Demo</h3>
+    <p>
+      <textarea id="onclick" title="Click Demo">I'll meow when you click the button.</textarea><br>
+      <button id="button">Click Me!</button>
+    </p>
+
+    <h3>Change Demo</h3>
+    <p>
+      <textarea id="onchange" title="Change Demo">I'll meow upon changing.</textarea>
+    </p>
+    <p>
+      <select id="selectonchange">
+        <option value="nyan-1">Nyan 1</option>
+        <option value="nyan-2">Nyan 2</option>
+        <option value="nyan-3">Nyan 3</option>
+      </select>
+    </p>
+
+    <h2>Usage</h2>
+    <p>To get awesome notifications on your website or app:
+      <ol>
+        <li>head over to the <a href="https://github.com/zacstewart/Meow">GitHub project</a> and download <code>jquery.meow.js</code> and <code>jquery.meow.css</code></li>
+        <li>Add them to the head of your page, or just hotlink them from the <a href="http://zacstewart.com/Meow/">GiHub demo page</a>.</li>
+        <li>Add a div with id 'meows' and now all you have to do is <code>$.meow()</code>something like so:
+          <figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">$</span><span class="p">(</span><span class="dl">'</span><span class="s1">#button</span><span class="dl">'</span><span class="p">)</span><span class="nx">click</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+  <span class="p">.</span><span class="nx">meow</span><span class="p">({</span>
+    <span class="na">message</span><span class="p">:</span> <span class="nx">$</span><span class="p">(</span><span class="dl">'</span><span class="s1">#onclick</span><span class="dl">'</span><span class="p">),</span>
+    <span class="na">icon</span><span class="p">:</span> <span class="dl">'</span><span class="s1">http://zacstewart.com/Meow/nyan-cat.gif</span><span class="dl">'</span>
+  <span class="p">});</span>
+<span class="p">});</span></code></pre></figure>
+        </li>
+      </ol>
+      <p>The jQuery element that you .meow() is your trigger element, so if you wanted the notification on page load, you'd use <code>$(document)</code>.</p>
+      <p><code>message</code> can be a string or any jQuery selected element. For form fields it will use their value, for other elements it will use their innerText</p>
+      <p>The <code>icon</code> is pretty self explanatory: you put cat pictures in it.</p>
+      <h2>Thanks!</h2>
+      I extend my most sincere <a href="javascript:;" id="thanks-meow">meow</a> to you for visiting. If you like what you see, <a href="https://github.com/zacstewart">follow me on GitHub</a> or check out the rest of <a href="http://zacstewart.com">my site</a>.
+  </body>
+</html>

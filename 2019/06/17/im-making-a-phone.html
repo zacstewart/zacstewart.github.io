@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!-- open graph tags -->
+<meta content="" property="og:site_name">
+
+  <meta content="I’m Making a Phone" property="og:title">
+
+
+  <meta content="article" property="og:type">
+
+
+  <meta content="Why make a phone? I started down this path after recognizing that I’m struggling with how addictive tech is. Devices are engineered to be as instantly gratifying as possible. I’m not incapable of putting it down, and luckily I’m not hooked on social media, but the devices themselves have a tendency to draw me in and fill up any empty space that I might otherwise use to hear my own thoughts for a minute. This constant presence works to isolate me from other humans. At least, I often feel lonely and disconnected, and then supplement my loneliness with more device usage." property="og:description">
+
+
+  <meta content="http://zacstewart.com/2019/06/17/im-making-a-phone.html" property="og:url">
+
+
+  <meta content="2019-06-17T00:19:09+00:00" property="article:published_time">
+
+
+  <meta content="http://zacstewart.com/images/im-making-a-phone.jpg" property="og:image">
+
+
+  
+
+
+  
+    <meta content="phonium" property="article:tag">
+  
+    <meta content="hardware" property="article:tag">
+  
+
+
+
+    <title>I’m Making a Phone</title>
+
+    <link rel="alternate" type="application/rss+xml" title="Zac Stewart" href="http://zacstewart.com/feed.xml">
+
+    <link rel="stylesheet" href="/css/base.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="/css/skeleton.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="/css/tables.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="/css/pygment.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="/css/layout.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="/css/components.css" type="text/css" media="screen, projection">
+
+    <script data-goatcounter="https://zacstewart.goatcounter.com/count"
+      async src="//gc.zgo.at/count.js"></script>
+    <noscript>
+      <img src="https://zacstewart.goatcounter.com/count?p=/2019/06/17/im-making-a-phone.html">
+    </noscript>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="sixteen columns">
+        <h1 id="logo" class="remove-bottom">
+          <a href="/">I’m Making a Phone</a>
+        </h1>
+
+        <nav>
+        </nav>
+      </div>
+
+      <div class="sixteen columns">
+        <article>
+  <header>
+    <h2>I’m Making a Phone</h2>
+  </header>
+  <hr>
+  <blockquote>
+  <p>This and all my other <a href="/tags/phonium.html">#phonium</a> posts were originally published to <a href="https://scuttlebutt.nz/">Scuttlebutt</a>. After running into some ssb-specific problems with identity continuity I’ve decided to republish them all on my own site at the originally-posted dates. They are in reality showing up on the internet for the first time in August of 2021. <a href="https://viewer.scuttlebot.io/%25Pc5mfngm5ug0bbaY%2BzZW%2BZP6w5kfPD1oErLaMyUfeh8%3D.sha256#%25Pc5mfngm5ug0bbaY%2BzZW%2BZP6w5kfPD1oErLaMyUfeh8%3D.sha256">original ssb link</a></p>
+</blockquote>
+
+<p>For a few weeks I’ve been working on a home brewed cellphone. I’ve shared bits here and there on the legacy web, but I want to contribute something interesting here. I feel like the Scuttleverse is a better place for it anyway. Content here is usually longer-form than I can manage on Instagram, and the audience is decidedly more geeky. From now on, this is an ssb-first project.</p>
+
+<p><img src="/images/im-making-a-phone.jpg" alt="homebrew cellular phone prototype on a breadboard" /></p>
+
+<p>Why make a phone? I started down this path after recognizing that I’m struggling with how addictive tech is. Devices are engineered to be as instantly gratifying as possible. I’m not incapable of putting it down, and luckily I’m not hooked on social media, but the devices themselves have a tendency to draw me in and fill up any empty space that I might otherwise use to hear my own thoughts for a minute. This constant presence works to isolate me from other humans. At least, I often feel lonely and disconnected, and then supplement my loneliness with more device usage.</p>
+
+<p>Obviously, you can go buy a dumbphone off the shelf for a few dollars and call it a day. There are also a few “minimalist” designer phones like the Light Phone and the Punkt. I like those phones very much, but if you check out the price tag on them, you’ll see that you’re paying almost as much as you would for a smartphone. For $300 USD you can buy set of electronics equipment and some parts to prototype your own, so that’s what I did.</p>
+
+<p>Truth be told, this isn’t an economical decision, even if I initially justified it that way. $300 is nothing compared to the parts and labor invested in making even what I have so far, to say nothing of a cleanly packaged and usable device. But, I love having an interesting side project. As a software developer, I’m usually working on something, but the results are typically only interesting to a very small set of people, or no one at all. If you tell people that you’re making your own phone and show them it working, they often want to hear more. Making a shitty phone, ironically, has the opposite affect that using a nice one has on me: it’s encouraging human connection.</p>
+
+<p>I originally wrote this up as one page, but it’s a little long, so I’m going to break it up into a few posts. Follow along to hear the gritty details! <a href="/tags/phonium.html" title="list of #phonium posts">#phonium</a></p>
+
+
+  <footer>
+    <aside class="short-bio">
+  <div class="columns alpha two">
+    <img src="http://gravatar.com/avatar/c5e99d5ecfaab30b92d9a7cdb34e0e33?s=64" alt="Zac Stewart" id="avatar">
+  </div>
+  <div class="columns omega eight">
+    <p>
+      I'm a software engineer interested in machine learning, web backends,
+      system software, realtime systems, and much more. I'm looking for
+      consulting work.
+    </p>
+
+    <p>
+      Have an interesting problem? <a href="mailto:work@zacstewart.com?subject=Work">I’d love to hear from you.</a>
+    </p>
+  </div>
+</aside>
+
+  </footer>
+</article>
+
+      </div>
+    </div>
+  </body>
+</html>

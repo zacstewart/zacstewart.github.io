@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!-- open graph tags -->
+<meta content="" property="og:site_name">
+
+  <meta content="Using JSON Web Tokens to Authenticate JavaScript Front-Ends on Rails" property="og:title">
+
+
+  <meta content="article" property="og:type">
+
+
+  <meta content="While working on a project recently, I encountered a problem I haven’t had to
+tangle with in a while: authenticating front-end applications against a Rails
+API. The last time I was even dabbling in this realm, jQuery was everything,
+CORS was still in its infancy, and JSONP was still a thing (that’s not a thing
+anymore, right?). The only way I ever managed to scrape by in this hostile
+environment was to let Rails’ asset pipeline serve up the front-end app and
+rely on same-origin requests and regular ol’ cookies to handle authentication.
+I didn’t like it, but I survived. Eventually, I got away from front-end
+concerns almost completely." property="og:description">
+
+
+  <meta content="http://zacstewart.com/2015/05/14/using-json-web-tokens-to-authenticate-javascript-front-ends-on-rails.html" property="og:url">
+
+
+  <meta content="2015-05-14T00:00:00+00:00" property="article:published_time">
+
+
+
+  
+
+
+  
+    <meta content="ruby" property="article:tag">
+  
+    <meta content="rails" property="article:tag">
+  
+    <meta content="javascript" property="article:tag">
+  
+
+
+
+    <title>Using JSON Web Tokens to Authenticate JavaScript Front-Ends on Rails</title>
+
+    <link rel="alternate" type="application/rss+xml" title="Zac Stewart" href="http://zacstewart.com/feed.xml">
+
+    <link rel="stylesheet" href="/css/base.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="/css/skeleton.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="/css/tables.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="/css/pygment.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="/css/layout.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="/css/components.css" type="text/css" media="screen, projection">
+
+    <script data-goatcounter="https://zacstewart.goatcounter.com/count"
+      async src="//gc.zgo.at/count.js"></script>
+    <noscript>
+      <img src="https://zacstewart.goatcounter.com/count?p=/2015/05/14/using-json-web-tokens-to-authenticate-javascript-front-ends-on-rails.html">
+    </noscript>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="sixteen columns">
+        <h1 id="logo" class="remove-bottom">
+          <a href="/">Using JSON Web Tokens to Authenticate JavaScript Front-Ends on Rails</a>
+        </h1>
+
+        <nav>
+        </nav>
+      </div>
+
+      <div class="sixteen columns">
+        <article>
+  <header>
+    <h2>Using JSON Web Tokens to Authenticate JavaScript Front-Ends on Rails</h2>
+  </header>
+  <hr>
+  <p>While working on a project recently, I encountered a problem I haven’t had to
+tangle with in a while: authenticating front-end applications against a Rails
+API. The last time I was even dabbling in this realm, jQuery was everything,
+CORS was still in its infancy, and JSONP was still a thing (that’s not a thing
+anymore, right?). The only way I ever managed to scrape by in this hostile
+environment was to let Rails’ asset pipeline serve up the front-end app and
+rely on same-origin requests and regular ol’ cookies to handle authentication.
+I didn’t like it, but I survived. Eventually, I got away from front-end
+concerns almost completely.</p>
+
+<p>Since those dark times, a few tools have cropped up and improved the landscape.
+As I mentioned before, I have recently been working on a project that I wanted
+to have a stand-alone front-end app for (inb4 single page apps don’t work). I
+wanted to avoid the messes I’ve encountered with JavaScript-heavy Rails apps
+and keep Rails as API-centered as possible. Once I had a functioning back-end,
+I knocked together a rudimentary front-end with React using Bower to manage
+dependencies and Jekyll to compile it all down to a static page.</p>
+
+<p>At first, I got started by symlinking the front-end to <em>public/</em> in my Rails
+app and setting <code class="language-plaintext highlighter-rouge">protect_from_forgery with: :null_session</code>. That was good
+enough for me to get my feet wet with React and get back into the swing of
+things with JavaScript (with which I hadn’t really done anything of consequence
+with since before ES5). However, this setup was clearly deficient for even a
+development deploy to Heroku. When I got to that point, I had to give thought
+to where I’d host the front-end and how I’d manage authentication.</p>
+
+<p>There were a few other, related problems to solve, but I want to focus on how
+I did authentication for the rest of this post. I had a few characteristics
+that I wanted to satisfy:</p>
+
+<ul>
+  <li>Let Devise do the heavy lifting</li>
+  <li>Not require the front-end and back-ends to be on the same hostname</li>
+  <li>Not clutter my application code with a bunch of (what should be standardized)
+authentication logic</li>
+  <li>Leave open the possibility of separating the app into microservices,
+including an authentication service</li>
+</ul>
+
+<p>To that end, I scrapped together a handful of tools, blog posts, and sites that
+have already solved this problem. In that bucket was, of course, Devise, and
+JSON Web Tokens, or JWTs as I’ll refer to them hereafter. A really nice <a href="http://nebulab.it/blog/authentication-with-rails-jwt-and-react">blog post
+by Andrea Pavoni</a> was a valuable resource, but I had a few
+disagreements with their implementation. Heroku does a really good job with
+their dashboard app, and as a bonus they already have a separate ID service, so
+I knew that however they were doing it was probably something I should pay
+attention to.</p>
+
+<p>I wanted to stick with Devise for a couple reasons. One: I’m not a big fan of
+Building It Here™.  I’m trying to build a workflow automation service, not
+pioneer user authentication. Two: Devise is battle tested. There are people
+much smarter than me with a log of 2,804 closed issues (as of writing). Plenty
+of those pertain to security defects that have been identified, fixed, and I
+have no idea about. I probably shouldn’t recreate each of those defects on my
+own.</p>
+
+<p>JWT was vaguely on my radar after it came up during the Q&amp;A of talk by Lance
+Gleason at the Atlanta Ruby Users Group. They are pretty neat, but nothing too
+special. Essentially, they are an encrypted JSON object that can contain
+arbitrary claims, like a user id. The entire claim object can be decrypted and
+inspected by anyone with the secret key. This is useful, because instead of storing
+a session token server-side, looking it up, and verifying it every request, the
+token can be verified by anyone with the secret. Since the claims are arbitrary,
+you could store a user’s name or any other information in there. That’s great for
+distributed systems where not every service needs to have access to the “truth”
+for user records. Some services may just need the name for display purposes.
+Because it’s encrypted, it’s safe from being tampered with by the user. A downside
+is that you can’t easily revoke a token. You could blacklist them, but then you
+lose all the benefits of not needing to store and verify them server-side. There
+are several ways to do this, but I think the easiest is to keep your session
+TTLs short and make token re-issuance transparent.</p>
+
+<p>To issue tokens, I used the <a href="https://github.com/progrium/ruby-jwt">JWT ruby gem</a>. I wrote a thin wrapper around
+it to encapsulate whatever application-specific stuff I needed: basically the secret
+and TTL:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">require</span> <span class="s1">'jwt'</span>
+
+<span class="k">class</span> <span class="nc">JsonWebToken</span>
+  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">encode</span><span class="p">(</span><span class="n">payload</span><span class="p">,</span> <span class="n">expiration</span> <span class="o">=</span> <span class="mi">24</span><span class="p">.</span><span class="nf">hours</span><span class="p">.</span><span class="nf">from_now</span><span class="p">)</span>
+    <span class="n">payload</span> <span class="o">=</span> <span class="n">payload</span><span class="p">.</span><span class="nf">dup</span>
+    <span class="n">payload</span><span class="p">[</span><span class="s1">'exp'</span><span class="p">]</span> <span class="o">=</span> <span class="n">expiration</span><span class="p">.</span><span class="nf">to_i</span>
+    <span class="no">JWT</span><span class="p">.</span><span class="nf">encode</span><span class="p">(</span><span class="n">payload</span><span class="p">,</span> <span class="no">Rails</span><span class="p">.</span><span class="nf">application</span><span class="p">.</span><span class="nf">secrets</span><span class="p">.</span><span class="nf">json_web_token_secret</span><span class="p">)</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">decode</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
+    <span class="no">JWT</span><span class="p">.</span><span class="nf">decode</span><span class="p">(</span><span class="n">token</span><span class="p">,</span> <span class="no">Rails</span><span class="p">.</span><span class="nf">application</span><span class="p">.</span><span class="nf">secrets</span><span class="p">.</span><span class="nf">json_web_token_secret</span><span class="p">).</span><span class="nf">first</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>I wanted to imitate Heroku’s ID service with my Rails app. I didn’t want my
+front-end handling usernames and passwords at any point. I just wanted to
+redirect the user to the back-end to sign in, but then be able to acquire
+session tokens thereafter. To that end, I left the Devise sign-in/-up
+controllers and forms all as the normally are on the back-end, and created a
+session tokens resource for issuing a JWT for the <code class="language-plaintext highlighter-rouge">current_user</code>:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">require</span> <span class="s1">'json_web_token'</span>
+
+<span class="k">class</span> <span class="nc">SessionTokensController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+  <span class="n">before_action</span> <span class="ss">:authenticate_user!</span>
+  <span class="n">skip_before_action</span> <span class="ss">:verify_authenticity_token</span>
+
+  <span class="k">def</span> <span class="nf">create</span>
+    <span class="n">token</span> <span class="o">=</span> <span class="no">JsonWebToken</span><span class="p">.</span><span class="nf">encode</span><span class="p">(</span><span class="s1">'user_id'</span> <span class="o">=&gt;</span> <span class="n">current_user</span><span class="p">.</span><span class="nf">id</span><span class="p">)</span>
+
+    <span class="n">respond_to</span> <span class="k">do</span> <span class="o">|</span><span class="nb">format</span><span class="o">|</span>
+      <span class="nb">format</span><span class="p">.</span><span class="nf">json</span> <span class="p">{</span> <span class="n">render</span> <span class="ss">json: </span><span class="p">{</span><span class="s1">'token'</span> <span class="o">=&gt;</span> <span class="n">token</span><span class="p">},</span> <span class="ss">status: :created</span> <span class="p">}</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">show</span>
+    <span class="n">respond_to</span> <span class="k">do</span> <span class="o">|</span><span class="nb">format</span><span class="o">|</span>
+      <span class="nb">format</span><span class="p">.</span><span class="nf">json</span> <span class="p">{</span> <span class="n">render</span> <span class="ss">json: </span><span class="p">{</span><span class="s1">'logged_in'</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">}</span> <span class="p">}</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>So far, my approach was very similar to that of Nebulab’s, but here’s where
+things start to diverge. I didn’t want all the authentication goop cluttering
+up my <code class="language-plaintext highlighter-rouge">ApplicationController</code>. Since I’m using Devise, I’m already using Warden.
+Warden allows you to specify a cascade of <a href="https://github.com/hassox/warden/wiki/Strategies">strategies</a> for
+authenticating a request.  By default, Devise uses the username/password
+strategy, but you can layer multiple together. I just wanted to add another
+strategy to the stack.</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">require</span> <span class="s1">'json_web_token'</span>
+
+<span class="k">module</span> <span class="nn">Devise</span>
+  <span class="k">module</span> <span class="nn">Strategies</span>
+    <span class="k">class</span> <span class="nc">JsonWebToken</span> <span class="o">&lt;</span> <span class="no">Base</span>
+      <span class="k">def</span> <span class="nf">valid?</span>
+        <span class="o">!</span><span class="n">request</span><span class="p">.</span><span class="nf">headers</span><span class="p">[</span><span class="s1">'Authorization'</span><span class="p">].</span><span class="nf">nil?</span>
+      <span class="k">end</span>
+
+      <span class="k">def</span> <span class="nf">authenticate!</span>
+        <span class="k">if</span> <span class="n">claims</span> <span class="n">and</span> <span class="n">user</span> <span class="o">=</span> <span class="no">User</span><span class="p">.</span><span class="nf">find_by_id</span><span class="p">(</span><span class="n">claims</span><span class="p">.</span><span class="nf">fetch</span><span class="p">(</span><span class="s1">'user_id'</span><span class="p">))</span>
+          <span class="n">success!</span> <span class="n">user</span>
+        <span class="k">else</span>
+          <span class="nb">fail</span><span class="o">!</span>
+        <span class="k">end</span>
+      <span class="k">end</span>
+
+      <span class="kp">private</span>
+
+      <span class="k">def</span> <span class="nf">claims</span>
+        <span class="n">auth_header</span> <span class="o">=</span> <span class="n">request</span><span class="p">.</span><span class="nf">headers</span><span class="p">[</span><span class="s1">'Authorization'</span><span class="p">]</span> <span class="n">and</span>
+          <span class="n">token</span> <span class="o">=</span> <span class="n">auth_header</span><span class="p">.</span><span class="nf">split</span><span class="p">(</span><span class="s1">' '</span><span class="p">).</span><span class="nf">last</span> <span class="n">and</span>
+          <span class="o">::</span><span class="no">JsonWebToken</span><span class="p">.</span><span class="nf">decode</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
+      <span class="k">rescue</span>
+        <span class="kp">nil</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>Defining the <code class="language-plaintext highlighter-rouge">valid?</code> method is optional, but allows you to determine whether
+the strategy should be used for any request. My implementation means that this
+strategy will only be active for requests with an <code class="language-plaintext highlighter-rouge">Authorization</code> HTTP header.
+The <code class="language-plaintext highlighter-rouge">authenticate!</code> method decrypts the JWT, and finds the corresponding user.
+The result is that without any mess in the application code, we end up with
+a <code class="language-plaintext highlighter-rouge">current_user</code>, just like you’re used to, any time a request with a valid JWT
+comes in.</p>
+
+<p>To inject the above strategy into the stack you need to add this bit to the
+<em>devise.rb</em> initializer:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">config</span><span class="p">.</span><span class="nf">warden</span> <span class="k">do</span> <span class="o">|</span><span class="n">manager</span><span class="o">|</span>
+  <span class="n">manager</span><span class="p">.</span><span class="nf">strategies</span><span class="p">.</span><span class="nf">add</span><span class="p">(</span><span class="ss">:jwt</span><span class="p">,</span> <span class="no">Devise</span><span class="o">::</span><span class="no">Strategies</span><span class="o">::</span><span class="no">JsonWebToken</span><span class="p">)</span>
+  <span class="n">manager</span><span class="p">.</span><span class="nf">default_strategies</span><span class="p">(</span><span class="ss">scope: :user</span><span class="p">).</span><span class="nf">unshift</span> <span class="ss">:jwt</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>To support cross-site requests, I used <a href="https://github.com/cyu/rack-cors">Rack CORS</a>. This enabled the front-end to
+make, requests for session tokens, and then later to make requests for the
+resources, from domains other than the one hosting the API.</p>
+
+<p>The next part was making the front-end request and use JWTs. I put together
+a <code class="language-plaintext highlighter-rouge">Session</code> object to use across the front-end. It has a few features. It can
+refresh a JWT by making a POST request to the session tokens resource using a
+regular ol’ cookie (normal Devise-auth’d ajax at that point). It stores JWTs
+in <code class="language-plaintext highlighter-rouge">localStorage</code>. It can check the status of a token, and it can delete the
+token from <code class="language-plaintext highlighter-rouge">localStorage</code> and send the browser to Devise’s sign-out endpoint.
+I’m slightly dissatisfied with this part. It makes a GET request to log you
+out, but it seems like that’s what Heroku uses, so I’ll go with it for now.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">Session</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">authenticated</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">begin</span> <span class="o">=</span> <span class="nb">Promise</span><span class="p">.</span><span class="nx">resolve</span><span class="p">();</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">getSessionToken</span><span class="p">()</span> <span class="o">===</span> <span class="kc">undefined</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">begin</span> <span class="o">=</span> <span class="nx">begin</span><span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">refreshSessionToken</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="nx">begin</span><span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="na">headers</span><span class="p">:</span> <span class="k">new</span> <span class="nx">Headers</span><span class="p">({</span>
+          <span class="dl">'</span><span class="s1">Authorization</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Bearer </span><span class="dl">'</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">getSessionToken</span><span class="p">(),</span>
+          <span class="dl">'</span><span class="s1">Content-Type</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">application/json</span><span class="dl">'</span><span class="p">,</span>
+          <span class="dl">'</span><span class="s1">Accept</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">application/json</span><span class="dl">'</span>
+        <span class="p">})</span>
+      <span class="p">};</span>
+      <span class="k">return</span> <span class="nb">window</span><span class="p">.</span><span class="nx">fetch</span><span class="p">(</span><span class="nx">Urls</span><span class="p">.</span><span class="nx">sessionTokenUrl</span><span class="p">,</span> <span class="nx">options</span><span class="p">).</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">status</span> <span class="o">===</span> <span class="mi">401</span><span class="p">)</span> <span class="p">{</span>
+          <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+          <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+        <span class="p">}</span>
+      <span class="p">});</span>
+    <span class="p">}.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">));</span>
+  <span class="p">};</span>
+
+  <span class="k">this</span><span class="p">.</span><span class="nx">deAuthenticate</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="k">delete</span> <span class="nx">localStorage</span><span class="p">.</span><span class="nx">sessionToken</span><span class="p">;</span>
+    <span class="nb">window</span><span class="p">.</span><span class="nx">location</span> <span class="o">=</span> <span class="nx">Urls</span><span class="p">.</span><span class="nx">signOutUrl</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="k">this</span><span class="p">.</span><span class="nx">refreshSessionToken</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="na">credentials</span><span class="p">:</span> <span class="dl">'</span><span class="s1">include</span><span class="dl">'</span><span class="p">,</span>
+      <span class="na">headers</span><span class="p">:</span> <span class="k">new</span> <span class="nx">Headers</span><span class="p">({</span>
+        <span class="dl">'</span><span class="s1">Content-Type</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">application/json</span><span class="dl">'</span><span class="p">,</span>
+        <span class="dl">'</span><span class="s1">Accept</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">application/json</span><span class="dl">'</span>
+      <span class="p">}),</span>
+      <span class="na">method</span><span class="p">:</span> <span class="dl">'</span><span class="s1">POST</span><span class="dl">'</span>
+    <span class="p">};</span>
+
+    <span class="k">return</span> <span class="nb">window</span><span class="p">.</span><span class="nx">fetch</span><span class="p">(</span><span class="nx">Urls</span><span class="p">.</span><span class="nx">sessionTokenUrl</span><span class="p">,</span> <span class="nx">options</span><span class="p">).</span>
+      <span class="nx">then</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">status</span> <span class="o">===</span> <span class="mi">401</span><span class="p">)</span> <span class="p">{</span>
+          <span class="k">throw</span> <span class="k">new</span> <span class="nx">RequestFailedException</span><span class="p">(</span><span class="dl">'</span><span class="s1">not signed in</span><span class="dl">'</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="nx">response</span><span class="p">.</span><span class="nx">json</span><span class="p">().</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+          <span class="nx">localStorage</span><span class="p">.</span><span class="nx">sessionToken</span> <span class="o">=</span> <span class="nx">data</span><span class="p">.</span><span class="nx">token</span><span class="p">;</span>
+        <span class="p">});</span>
+      <span class="p">});</span>
+  <span class="p">};</span>
+
+  <span class="k">this</span><span class="p">.</span><span class="nx">getSessionToken</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">localStorage</span><span class="p">.</span><span class="nx">sessionToken</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="kd">var</span> <span class="nx">session</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Session</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p>To enable the sign-out via GET in devise, add this to the <em>devise.rb</em>
+initializer:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">config</span><span class="p">.</span><span class="nf">sign_out_via</span> <span class="o">=</span> <span class="ss">:get</span>
+</code></pre></div></div>
+
+<p>To make use of these tokens, I wrote a <code class="language-plaintext highlighter-rouge">Controller</code> base object, which I use as
+a prototype for all my resource controllers. It’s essentially a wrapper around
+<code class="language-plaintext highlighter-rouge">GlobalFetch.fetch()</code> that makes sure to include the <code class="language-plaintext highlighter-rouge">Authorization</code> header in
+requests. If a request fails with a 401, it will refresh the token and attempt
+to retry the request.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">Controller</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">MAX_RETRIES</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+
+  <span class="k">this</span><span class="p">.</span><span class="nx">fetch</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">input</span><span class="p">,</span> <span class="nx">init</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">_fetch</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">tries</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">init</span><span class="p">.</span><span class="nx">headers</span> <span class="o">===</span> <span class="kc">undefined</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">init</span><span class="p">.</span><span class="nx">headers</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Headers</span><span class="p">();</span>
+      <span class="p">}</span>
+
+      <span class="nx">init</span><span class="p">.</span><span class="nx">headers</span><span class="p">.</span><span class="kd">set</span><span class="p">(</span><span class="dl">'</span><span class="s1">Accept</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">application/json</span><span class="dl">'</span><span class="p">);</span>
+      <span class="nx">init</span><span class="p">.</span><span class="nx">headers</span><span class="p">.</span><span class="kd">set</span><span class="p">(</span><span class="dl">'</span><span class="s1">Authorization</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">Bearer </span><span class="dl">'</span> <span class="o">+</span> <span class="nx">session</span><span class="p">.</span><span class="nx">getSessionToken</span><span class="p">());</span>
+      <span class="nx">init</span><span class="p">.</span><span class="nx">headers</span><span class="p">.</span><span class="kd">set</span><span class="p">(</span><span class="dl">'</span><span class="s1">Content-Type</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">application/json</span><span class="dl">'</span><span class="p">);</span>
+
+      <span class="k">return</span> <span class="nx">fetch</span><span class="p">(</span><span class="nx">input</span><span class="p">,</span> <span class="nx">init</span><span class="p">).</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">status</span> <span class="o">!==</span> <span class="mi">401</span><span class="p">)</span> <span class="p">{</span>
+          <span class="k">return</span> <span class="nx">response</span><span class="p">;</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+          <span class="k">if</span> <span class="p">(</span><span class="nx">tries</span> <span class="o">&gt;=</span> <span class="nx">MAX_RETRIES</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="nx">RequestFailedException</span><span class="p">(</span><span class="dl">'</span><span class="s1">too many retries</span><span class="dl">'</span><span class="p">);</span>
+          <span class="p">}</span>
+
+          <span class="k">return</span> <span class="nx">session</span><span class="p">.</span><span class="nx">refreshSessionToken</span><span class="p">().</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="nx">_fetch</span><span class="p">(</span><span class="nx">tries</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+          <span class="p">});</span>
+        <span class="p">}</span>
+      <span class="p">}.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">));</span>
+    <span class="p">};</span>
+
+    <span class="k">return</span> <span class="nx">_fetch</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+  <span class="p">};</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<p>The last bit of polish I needed for signing in was a link to the sign in page
+of Devise and a little code to redirect back to the front-end appropriately.
+This is literally the whole <code class="language-plaintext highlighter-rouge">ApplicationController</code>:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">ApplicationController</span> <span class="o">&lt;</span> <span class="no">ActionController</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">protect_from_forgery</span> <span class="ss">with: :null_session</span>
+  <span class="n">respond_to</span> <span class="ss">:html</span><span class="p">,</span> <span class="ss">:json</span>
+  <span class="n">after_action</span> <span class="ss">:store_location</span>
+
+  <span class="k">def</span> <span class="nf">store_location</span>
+    <span class="k">case</span> <span class="n">request</span><span class="p">.</span><span class="nf">path</span>
+    <span class="k">when</span> <span class="s1">'/users/sign_in'</span><span class="p">,</span> <span class="s1">'/users/sign_up'</span>
+      <span class="n">session</span><span class="p">[</span><span class="ss">:return_to</span><span class="p">]</span> <span class="o">=</span> <span class="n">request</span><span class="p">.</span><span class="nf">referer</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">after_sign_in_path_for</span><span class="p">(</span><span class="n">resource</span><span class="p">)</span>
+    <span class="n">session</span><span class="p">.</span><span class="nf">delete</span><span class="p">(</span><span class="ss">:return_to</span><span class="p">)</span> <span class="o">||</span> <span class="n">root_path</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>I’m not terribly pleased about this part (add it to the list containing
+sign-out via GET), but it gets the job done, and fairly reliably too.</p>
+
+<p>The result of all this is that my back-end supports tried-and-true sign up and
+sign in via Devise, can issue expirable session tokens, and subsequently
+authenticate a user via such a token. The front-end can acquire such a token
+once a standard, cookie-backed session has been established. Using the token,
+it can then make requests against protected resources of the API. If a token
+expires, it will transparently refresh and should be completely unnoticeable to
+users. The app now works without needing the front-end and the back-end to be
+so tightly coupled. Additionally, it would not be a huge stretch to segment the
+app into different services that could independently verify the JWTs.</p>
+
+
+  <footer>
+    <aside class="short-bio">
+  <div class="columns alpha two">
+    <img src="http://gravatar.com/avatar/c5e99d5ecfaab30b92d9a7cdb34e0e33?s=64" alt="Zac Stewart" id="avatar">
+  </div>
+  <div class="columns omega eight">
+    <p>
+      I'm a software engineer interested in machine learning, web backends,
+      system software, realtime systems, and much more. I'm looking for
+      consulting work.
+    </p>
+
+    <p>
+      Have an interesting problem? <a href="mailto:work@zacstewart.com?subject=Work">I’d love to hear from you.</a>
+    </p>
+  </div>
+</aside>
+
+  </footer>
+</article>
+
+      </div>
+    </div>
+  </body>
+</html>

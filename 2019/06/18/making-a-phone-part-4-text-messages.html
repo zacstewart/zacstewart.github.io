@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!-- open graph tags -->
+<meta content="" property="og:site_name">
+
+  <meta content="Making a Phone Part 4: Text Messages" property="og:title">
+
+
+  <meta content="article" property="og:type">
+
+
+  <meta content="Sending texts is the next goalpost. The backend of this was pretty easy thanks to the Adafruit FONA library. The hard part was building a frontend for 9-key text entry. After a couple of after-work code sessions I got something complete enough to allow for lower-case text entry including spaces and punctuation." property="og:description">
+
+
+  <meta content="http://zacstewart.com/2019/06/18/making-a-phone-part-4-text-messages.html" property="og:url">
+
+
+  <meta content="2019-06-18T02:35:00+00:00" property="article:published_time">
+
+
+
+  
+
+
+  
+    <meta content="hardware" property="article:tag">
+  
+    <meta content="phonium" property="article:tag">
+  
+
+
+
+    <title>Making a Phone Part 4: Text Messages</title>
+
+    <link rel="alternate" type="application/rss+xml" title="Zac Stewart" href="http://zacstewart.com/feed.xml">
+
+    <link rel="stylesheet" href="/css/base.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="/css/skeleton.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="/css/tables.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="/css/pygment.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="/css/layout.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="/css/components.css" type="text/css" media="screen, projection">
+
+    <script data-goatcounter="https://zacstewart.goatcounter.com/count"
+      async src="//gc.zgo.at/count.js"></script>
+    <noscript>
+      <img src="https://zacstewart.goatcounter.com/count?p=/2019/06/18/making-a-phone-part-4-text-messages.html">
+    </noscript>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="sixteen columns">
+        <h1 id="logo" class="remove-bottom">
+          <a href="/">Making a Phone Part 4: Text Messages</a>
+        </h1>
+
+        <nav>
+        </nav>
+      </div>
+
+      <div class="sixteen columns">
+        <article>
+  <header>
+    <h2>Making a Phone Part 4: Text Messages</h2>
+  </header>
+  <hr>
+  <blockquote>
+  <p>This and all my other <a href="/tags/phonium.html">#phonium</a> posts were originally published to <a href="https://scuttlebutt.nz/">Scuttlebutt</a>. After running into some ssb-specific problems with identity continuity I’ve decided to republish them all on my own site at the originally-posted dates. They are in reality showing up on the internet for the first time in August of 2021. <a href="https://viewer.scuttlebot.io/%256nvB0gMJTj%2BXS%2BiINJcPMmwpDQEIKdZ2316SjdCgeig%3D.sha256#%256nvB0gMJTj%2BXS%2BiINJcPMmwpDQEIKdZ2316SjdCgeig%3D.sha256">original ssb link</a></p>
+</blockquote>
+
+<ul>
+  <li><a href="/2019/06/17/im-making-a-phone.html">Part 1</a> background, motivations</li>
+  <li><a href="/2019/06/17/making-a-phone-part-2-getting-started.html">Part 2</a> getting started, making calls</li>
+  <li><a href="/2019/06/18/making-a-phone-part-3-going-32-bit.html">Part 3</a> answering calls, upgrading to a 32-bit microcontroller</li>
+</ul>
+
+<video alt="Composing a text message" controls="undefined">
+  <source src="/images/making-a-phone-part-4-text-messages.webm" />
+</video>
+
+<p>Sending texts is the next goalpost. The backend of this was pretty easy thanks to the Adafruit FONA library. The hard part was building a frontend for 9-key text entry. After a couple of after-work code sessions I got something complete enough to allow for lower-case text entry including spaces and punctuation. The UX, however, remains horrible. Like I mentioned before, the EPD refreshes the whole screen (multiple times actually) every time you update it. That second-or-so of lag time every time you press a button is excruciating. Especially since you can’t just click-click-click and wait for the screen to update. Subsequent presses of the button do nothing until the display is finished updating. That means I had to make the move-onto-the-key-character timeout really long. 3 seconds. You know, if you want to enter “hi” on 9-key phone, you have to hit 4, wait, 4? Well, that wait has to be long enough to accommodate the screen refresh.</p>
+
+<p>This sent me back to the drawing board about the EPD. I really want to use e-paper because of the extremely low power draw, but if I can’t do fast partial updates, then the phone is almost unusable. Adafruit sells a SHARP memory display which supposedly has pretty low power draw. Unfortunately, it has no on-board memory like the EPD module I’m using, so the entire display buffer has to fit in the microcontroller’s memory. The Teensy LC isn’t enough. I looked more and found a similar sized EPD sold by Waveshare that supports partial update. It, too, needs a higher-RAM microcontroller though. I decided I’d upgrade to a Teensy 3.2 and get the Waveshare EPD. Now, my last concern is that these displays are susceptible to burn-in because they’re not really designed for rapid updates. We’ll see how it does. If I have to, I’m okay with switching to the SHARP display. I ordered these parts on Saturday and they arrive yesterday.</p>
+
+<p>While I waited, I worked on incoming text messages. This has two large chunks: a navigation menu screen for viewing a list of messages, and a detail screen for reading a message. The most daunting piece I see ahead is making a scrollable view for reading long messages. I’ve gotten it to do the minimum of printing how many messages there are, and then displaying the first one. A friend sent me the first SMS my phone has ever received. It thought something was wrong, data was corrupted, or encoded weirdly, or something, but after a little searching around, I learned that D83EDDA1 is the unicode hexadecimal for 🦡 and that the FONA does not handle emoji gracefully. Normally it gives you plain text (ASCII?) but if you include one emoji, suddenly the whole message is UTF-16 hex represented.</p>
+
+<p>Well, that wraps up this episode. I’d love to dive into any details that you find interesting. If you want to see my source code, it’s on <a href="https://github.com/zacstewart/phonium" title="Phonium git repository">GitHub</a>. I’ll write more updates as I make progress. Next up, I’ll be replacing the Teensy LC with the 3.2 and switching out the EPDs. Then I’ll try getting partial updates to work.</p>
+
+
+  <footer>
+    <aside class="short-bio">
+  <div class="columns alpha two">
+    <img src="http://gravatar.com/avatar/c5e99d5ecfaab30b92d9a7cdb34e0e33?s=64" alt="Zac Stewart" id="avatar">
+  </div>
+  <div class="columns omega eight">
+    <p>
+      I'm a software engineer interested in machine learning, web backends,
+      system software, realtime systems, and much more. I'm looking for
+      consulting work.
+    </p>
+
+    <p>
+      Have an interesting problem? <a href="mailto:work@zacstewart.com?subject=Work">I’d love to hear from you.</a>
+    </p>
+  </div>
+</aside>
+
+  </footer>
+</article>
+
+      </div>
+    </div>
+  </body>
+</html>

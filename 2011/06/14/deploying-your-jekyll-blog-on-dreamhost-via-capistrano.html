@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!-- open graph tags -->
+<meta content="" property="og:site_name">
+
+  <meta content="Deploying Your Jekyll Blog On Dreamhost Via Capistrano" property="og:title">
+
+
+  <meta content="article" property="og:type">
+
+
+  <meta content="I&apos;ve gotten Jekyll working on my shared Dreamhosting account, and not just pushing the compiled pages to my webroot: compiling my Sass stylesheets and then compiling the static HTML pages with Jekyll and even using Pygments to generate syntax-aware HTML--all server-side." property="og:description">
+
+
+  <meta content="http://zacstewart.com/2011/06/14/deploying-your-jekyll-blog-on-dreamhost-via-capistrano.html" property="og:url">
+
+
+  <meta content="2011-06-14T00:00:00+00:00" property="article:published_time">
+
+
+
+  
+
+
+  
+
+
+
+    <title>Deploying Your Jekyll Blog On Dreamhost Via Capistrano</title>
+
+    <link rel="alternate" type="application/rss+xml" title="Zac Stewart" href="http://zacstewart.com/feed.xml">
+
+    <link rel="stylesheet" href="/css/base.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="/css/skeleton.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="/css/tables.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="/css/pygment.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="/css/layout.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="/css/components.css" type="text/css" media="screen, projection">
+
+    <script data-goatcounter="https://zacstewart.goatcounter.com/count"
+      async src="//gc.zgo.at/count.js"></script>
+    <noscript>
+      <img src="https://zacstewart.goatcounter.com/count?p=/2011/06/14/deploying-your-jekyll-blog-on-dreamhost-via-capistrano.html">
+    </noscript>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="sixteen columns">
+        <h1 id="logo" class="remove-bottom">
+          <a href="/">Deploying Your Jekyll Blog On Dreamhost Via Capistrano</a>
+        </h1>
+
+        <nav>
+        </nav>
+      </div>
+
+      <div class="sixteen columns">
+        <article>
+  <header>
+    <h2>Deploying Your Jekyll Blog On Dreamhost Via Capistrano</h2>
+  </header>
+  <hr>
+  <p>I’ve finally gotten around to doing something with my domain. I’m becoming quite the Git junkie
+these days, and I prefer to spend most of my time between my text editor and a terminal, so I
+started myself a Jekyll blog. I took the idea of using my favorite TextMate theme for colors from
+my friend Stafford (thanks!). I may rework the layout a bit, I’m not sure I’m feeling this dark
+one so much.</p>
+
+<p>Anyway, I’ve gotten Jekyll working on my shared Dreamhosting account, and not just pushing the
+compiled pages to my webroot: compiling my Sass stylesheets and then compiling the static HTML
+pages with Jekyll and even using Pygments to generate syntax-aware HTML–all server-side.</p>
+
+<p>Why did I go through all the trouble? I see this blog as source code. I didn’t want to distribute
+a binary. I wanted the source to be what I kept in my repo, and to compile the blog you’re reading
+right now from it.</p>
+
+<p>But, without further ado, here’s what I did to make that happen:</p>
+
+<h1 id="install-rvm">Install RVM</h1>
+<p>RVM is great for keeping multiple Ruby environments organized. It’s also easy to install in your
+home directory and run without root permissions. I was having trouble installing Jekyll on my
+Dreamhost account, as the version of Ruby on the system didn’t support it. Instinctively, I ran
+<code class="language-plaintext highlighter-rouge">sudo gem update --system</code>. Oh, right, not in the sudoers file and this incident just
+got reported.</p>
+
+<p>There’s more detailed instructions at the <a href="http://beginrescueend.com/rvm/install/" title="RVM installation">RVM installation</a>
+page, but this is the gist:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>bash &lt; &lt;<span class="o">(</span>curl <span class="nt">-s</span> https://rvm.beginrescueend.com/install/rv m<span class="o">)</span>
+<span class="nv">$ </span><span class="nb">echo</span> <span class="s1">'[[ -s "$HOME/.rvm/scripts/rvm" ]] &amp;&amp; . "$HOME/.rvm/scripts/rvm" # Load RVM function'</span> <span class="o">&gt;&gt;</span> ~/.bash_profile
+<span class="nv">$ </span><span class="nb">source</span> .bash_profile
+<span class="nv">$ </span>rvm <span class="nb">install </span>1.9.2 <span class="c"># or any other current version</span>
+<span class="nv">$ </span>rvm use 1.9.2 <span class="nt">--default</span>
+</code></pre></div></div>
+
+<p>You can test that it’s working with <code class="language-plaintext highlighter-rouge">ruby -v</code>, which should yield something like <code class="language-plaintext highlighter-rouge">ruby 1.9.2p180 (2011-02-18 revision 30909) [x86_64-linux]</code>.</p>
+
+<h1 id="install-jekyll-with-pygments-for-syntax-highlighting">Install Jekyll with Pygments for Syntax Highlighting</h1>
+<p>Getting Jekyll is easy: just <code class="language-plaintext highlighter-rouge">gem install jekyll</code>. If you want syntax highlighting for code blocks
+you need to do a little more work, though. <code class="language-plaintext highlighter-rouge">easy_install Pygments</code> won’t work. I played on
+<a href="http://tatey.com/2009/04/29/jekyll-meets-dreamhost-automated-deployment-for-jekyll-with-git/" title="Jekyll Meets DreamHost. Automated Deployment For Jekyll With Git">this guide</a>
+but updated it for a more recent version of Pygments.</p>
+
+<h2 id="configure-your-python-environment">Configure your Python Environment</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">mkdir</span> ~/lib/python
+<span class="nv">$ </span><span class="nb">echo</span> <span class="s1">'export PYTHONPATH="$HOME/lib/python:/usr/lib/python2.3"'</span> <span class="o">&gt;&gt;</span> ~/.bash_profile
+<span class="nv">$ </span><span class="nb">source</span> ~/.bash_profile
+</code></pre></div></div>
+
+<h2 id="get-and-build-pygments">Get and Build Pygments</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">cd</span> ~/src
+<span class="nv">$ </span>wget http://pypi.python.org/packages/source/P/Pygments/Pygments-1.4.tar.gz
+<span class="nv">$ </span><span class="nb">tar</span> <span class="nt">-xvzf</span> Pygments-1.4.tar.gz
+<span class="nv">$ </span><span class="nb">cd </span>Pygments-1.4
+<span class="nv">$ </span>python setup.py <span class="nb">install</span> <span class="nt">--home</span><span class="o">=</span><span class="nv">$HOME</span>
+</code></pre></div></div>
+
+<p>Make sure <code class="language-plaintext highlighter-rouge">PATH=$PATH:~/packages/bin/:~/bin</code> is in your .bash_profile, if not, add it
+and then run <code class="language-plaintext highlighter-rouge">source ~/.bash_profile</code>. Check that it’s working be running <code class="language-plaintext highlighter-rouge">pygmentize</code>.</p>
+
+<h1 id="setup-capistrano-and-deploy">Setup Capistrano and Deploy!</h1>
+<p>So, I’m assuming that you’re using GitHub with this guide, but you can probably figure it out
+if you’re not. Maybe later I’ll have a post on getting <a href="http://scie.nti.st/2007/11/14/hosting-git-repositories-the-easy-and-secure-way" title="Gitosis">Gitosis</a> working on Dreamhost (once I
+have it working well myself).</p>
+
+<p>I found this <a href="https://gist.github.com/286293">Simple Capistrano recipe for Jekyll</a>, but had to do a
+little work on it. Especially since I’m using <a href="http://compass-style.org">Compass</a> on my blog.</p>
+
+<h2 id="configdeployrb">config/deploy.rb</h2>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">set</span> <span class="ss">:application</span><span class="p">,</span>       <span class="s1">'zacstewart.com'</span>
+<span class="n">set</span> <span class="ss">:repository</span><span class="p">,</span>        <span class="s1">'git@github.com:zacstewart/zacstewart.com.git'</span>
+<span class="n">set</span> <span class="ss">:scm</span><span class="p">,</span>               <span class="ss">:git</span>
+<span class="n">set</span> <span class="ss">:deploy_via</span><span class="p">,</span>        <span class="ss">:copy</span>
+<span class="n">set</span> <span class="ss">:branch</span><span class="p">,</span>            <span class="s2">"master"</span>
+<span class="n">set</span> <span class="ss">:copy_compression</span><span class="p">,</span>  <span class="ss">:gzip</span>
+<span class="n">set</span> <span class="ss">:use_sudo</span><span class="p">,</span>          <span class="kp">false</span>
+<span class="n">set</span> <span class="ss">:host</span><span class="p">,</span>              <span class="s1">'zacstewart.com'</span>
+
+<span class="n">role</span> <span class="ss">:web</span><span class="p">,</span>  <span class="n">host</span>
+<span class="n">role</span> <span class="ss">:app</span><span class="p">,</span>  <span class="n">host</span>
+<span class="n">role</span> <span class="ss">:db</span><span class="p">,</span>   <span class="n">host</span><span class="p">,</span> <span class="ss">:primary</span> <span class="o">=&gt;</span> <span class="kp">true</span>
+<span class="n">ssh_options</span><span class="p">[</span><span class="ss">:port</span><span class="p">]</span> <span class="o">=</span> <span class="mi">22</span>
+
+<span class="c1"># this forwards your agent, meaning it will use your public key rather than your</span>
+<span class="c1"># dreamhost account key to clone the repo. it saves you the trouble of adding that</span>
+<span class="c1"># key to github</span>
+<span class="n">ssh_options</span><span class="p">[</span><span class="ss">:forward_agent</span><span class="p">]</span> <span class="o">=</span> <span class="kp">true</span>
+
+<span class="n">set</span> <span class="ss">:user</span><span class="p">,</span>    <span class="s1">'zacstewart'</span>
+<span class="n">set</span> <span class="ss">:group</span><span class="p">,</span>   <span class="n">user</span>
+
+<span class="n">set</span><span class="p">(</span><span class="ss">:dest</span><span class="p">)</span> <span class="p">{</span> <span class="no">Capistrano</span><span class="o">::</span><span class="no">CLI</span><span class="p">.</span><span class="nf">ui</span><span class="p">.</span><span class="nf">ask</span><span class="p">(</span><span class="s2">"Destination: "</span><span class="p">)</span> <span class="p">}</span>
+
+<span class="k">if</span> <span class="n">dest</span> <span class="o">==</span> <span class="s1">'dev'</span>
+  <span class="n">set</span> <span class="ss">:deploy_to</span><span class="p">,</span>    <span class="s2">"/home/</span><span class="si">#{</span><span class="n">user</span><span class="si">}</span><span class="s2">/dev.</span><span class="si">#{</span><span class="n">application</span><span class="si">}</span><span class="s2">"</span>
+<span class="k">elsif</span> <span class="n">dest</span> <span class="o">==</span> <span class="s1">'www'</span>
+  <span class="n">set</span> <span class="ss">:deploy_to</span><span class="p">,</span>    <span class="s2">"/home/</span><span class="si">#{</span><span class="n">user</span><span class="si">}</span><span class="s2">/</span><span class="si">#{</span><span class="n">application</span><span class="si">}</span><span class="s2">"</span>
+<span class="k">end</span>
+
+<span class="n">namespace</span> <span class="ss">:deploy</span> <span class="k">do</span>
+
+  <span class="p">[</span><span class="ss">:start</span><span class="p">,</span> <span class="ss">:stop</span><span class="p">,</span> <span class="ss">:restart</span><span class="p">,</span> <span class="ss">:finalize_update</span><span class="p">].</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">t</span><span class="o">|</span>
+    <span class="n">desc</span> <span class="s2">"</span><span class="si">#{</span><span class="n">t</span><span class="si">}</span><span class="s2"> task is a no-op with jekyll"</span>
+    <span class="n">task</span> <span class="n">t</span><span class="p">,</span> <span class="ss">:roles</span> <span class="o">=&gt;</span> <span class="ss">:app</span> <span class="k">do</span> <span class="p">;</span> <span class="k">end</span>
+  <span class="k">end</span>
+
+  <span class="c1"># compile compass and then jekyll</span>
+  <span class="n">task</span> <span class="ss">:finalize_update</span> <span class="k">do</span>
+    <span class="n">run</span> <span class="s2">"/bin/bash -c 'source ~/.bash_profile; cd </span><span class="si">#{</span><span class="n">latest_release</span><span class="si">}</span><span class="s2">; compass compile -c config_prod.rb --force; jekyll;'"</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>Of course, you’ll need to configure it with your credentials and if you, like me, are using
+compass, you’ll need to change your compile task. Add ` ~/.rvm/gems/ruby-1.9.2-p180/bin/compass’;`
+<strong>before</strong> running jekyll.</p>
+
+<p>You should be all ready to deploy now. Commit your changes, push your repo and then run <code class="language-plaintext highlighter-rouge">cap deploy</code></p>
+
+<hr />
+
+<p>This post is actually the first wherein I have all this set up, so I’ve undoubtedly made
+mistakes here. If you have something to improve, by all means, fork this blog and fix it!
+I’d love to accept a pull request.</p>
+
+  <footer>
+    <aside class="short-bio">
+  <div class="columns alpha two">
+    <img src="http://gravatar.com/avatar/c5e99d5ecfaab30b92d9a7cdb34e0e33?s=64" alt="Zac Stewart" id="avatar">
+  </div>
+  <div class="columns omega eight">
+    <p>
+      I'm a software engineer interested in machine learning, web backends,
+      system software, realtime systems, and much more. I'm looking for
+      consulting work.
+    </p>
+
+    <p>
+      Have an interesting problem? <a href="mailto:work@zacstewart.com?subject=Work">I’d love to hear from you.</a>
+    </p>
+  </div>
+</aside>
+
+  </footer>
+</article>
+
+      </div>
+    </div>
+  </body>
+</html>
