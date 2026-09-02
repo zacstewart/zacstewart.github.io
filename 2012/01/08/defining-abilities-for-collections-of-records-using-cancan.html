@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!-- open graph tags -->
+<meta content="" property="og:site_name">
+
+  <meta content="Defining Abilities for Collections of Records Using CanCan" property="og:title">
+
+
+  <meta content="article" property="og:type">
+
+
+  <meta content="I’ve been using CanCan for managing
+role-based authorization in Rstrnt, my restaurant
+management solution. CanCan is a very simple and easy-to-use
+authorization library that works out-of-the-box with Devise (and any
+other authentication system that provides a current_user method).
+However I had a use case that doesn’t seem to be documented on the
+project’s wiki." property="og:description">
+
+
+  <meta content="http://zacstewart.com/2012/01/08/defining-abilities-for-collections-of-records-using-cancan.html" property="og:url">
+
+
+  <meta content="2012-01-08T00:00:00+00:00" property="article:published_time">
+
+
+
+  
+
+
+  
+
+
+
+    <title>Defining Abilities for Collections of Records Using CanCan</title>
+
+    <link rel="alternate" type="application/rss+xml" title="Zac Stewart" href="http://zacstewart.com/feed.xml">
+
+    <link rel="stylesheet" href="/css/base.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="/css/skeleton.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="/css/tables.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="/css/pygment.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="/css/layout.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="/css/components.css" type="text/css" media="screen, projection">
+
+    <script data-goatcounter="https://zacstewart.goatcounter.com/count"
+      async src="//gc.zgo.at/count.js"></script>
+    <noscript>
+      <img src="https://zacstewart.goatcounter.com/count?p=/2012/01/08/defining-abilities-for-collections-of-records-using-cancan.html">
+    </noscript>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="sixteen columns">
+        <h1 id="logo" class="remove-bottom">
+          <a href="/">Defining Abilities for Collections of Records Using CanCan</a>
+        </h1>
+
+        <nav>
+        </nav>
+      </div>
+
+      <div class="sixteen columns">
+        <article>
+  <header>
+    <h2>Defining Abilities for Collections of Records Using CanCan</h2>
+  </header>
+  <hr>
+  <p>I’ve been using <a href="https://github.com/ryanb/cancan">CanCan</a> for managing
+role-based authorization in <a href="http://rstrnt.net">Rstrnt</a>, my restaurant
+management solution. CanCan is a very simple and easy-to-use
+authorization library that works out-of-the-box with Devise (and any
+other authentication system that provides a current_user method).
+However I had a use case that doesn’t seem to be documented on the
+project’s wiki.</p>
+
+<h1 id="the-special-case">The Special Case</h1>
+<p>I wanted to authorize a user on a collection of records, for example on
+the index action of a controller. The typical way to do this is to
+define your abilities using hash conditions and then query for the records
+that a user may access using <code class="language-plaintext highlighter-rouge">accessible_by(current_ability)</code>. This felt
+icky to me, though. I didn’t want CanCan so deeply ingrained into my
+app. I have my own logic for which records to request, and while at some
+point I may decide to let all the logic reside within my Ability model,
+right now I don’t want to.</p>
+
+<p>So, in this example, I’m working with a <code class="language-plaintext highlighter-rouge">Restaurant</code>, <code class="language-plaintext highlighter-rouge">current_membership</code>
+(my own permission-role system. For the purposes of this example,
+consider it equivalent to <code class="language-plaintext highlighter-rouge">current_user</code>) and many instances of
+<code class="language-plaintext highlighter-rouge">TimeOffRequest</code>. I want managers and admins to have access to all the
+restaurant’s time off requests, but other users should only have access
+to their own. The following logic is actually enough to ensure that
+they’re only ever requesting within those parameters, but I still want
+to <code class="language-plaintext highlighter-rouge">authorize!</code> them to be sure. Projects tend to become increasingly
+complex and I want to make sure that at no point in the future I do
+something that accidentally gives access to someone undeserving. Having
+all that bottleneck through the Ability model helps me sleep at night.</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># time_off_requests_controller.rb</span>
+<span class="k">if</span> <span class="n">current_membership</span><span class="p">.</span><span class="nf">has_any_role?</span><span class="p">(</span><span class="ss">:admin</span><span class="p">,</span> <span class="ss">:manager</span><span class="p">)</span>
+  <span class="vi">@time_off_requests</span> <span class="o">=</span> <span class="vi">@restaurant</span><span class="p">.</span><span class="nf">time_off_requests</span>
+<span class="k">else</span>
+  <span class="vi">@time_off_requests</span> <span class="o">=</span> <span class="n">current_membership</span><span class="p">.</span><span class="nf">time_off_requests</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<h1 id="authorize-those-records"><code class="language-plaintext highlighter-rouge">authorize!</code> those records!</h1>
+<p>Usually you do something like <code class="language-plaintext highlighter-rouge">authorize! :read, @time_off_request</code> to
+make sure a user can indeed read the time off request in question.
+However, with an array of time off requests, it gets tricky. Your first
+instinct, like mine, may be to just call <code class="language-plaintext highlighter-rouge">authorize! :read,
+@time_off_requests</code>. This won’t work, though. Your Ability model depends
+upon the type of object you pass it. In this case, you would be passing
+it an Array and not a TimeOffRequest. You could, I suppose, define an
+ability for Array and then do some funky work inside there to figure out
+what kind of array it is, and go from there… But that would be a
+horrible solution.</p>
+
+<h2 id="enter-the-splat-">Enter the splat: <code class="language-plaintext highlighter-rouge">*</code></h2>
+<p>What you need, is a way to evaluate an entire collection of
+TimeOffRequests, but you must pass the first argument as an instance
+thereof and not an array. That’s where the handy ol’ splat comes in.
+In the example below, the asterisk in <code class="language-plaintext highlighter-rouge">*time_off_requests</code> means that
+the block will accept N number of arguments and will squish them back
+into an array, letting me use an iterative method on it, in this case <code class="language-plaintext highlighter-rouge">all?</code>.</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># ability.rb</span>
+<span class="n">can</span> <span class="ss">:manage</span><span class="p">,</span> <span class="no">TimeOffRequest</span> <span class="k">do</span> <span class="o">|*</span><span class="n">time_off_requests</span><span class="o">|</span>
+  <span class="n">membership</span><span class="p">.</span><span class="nf">has_any_role?</span><span class="p">(</span><span class="ss">:admin</span><span class="p">,</span> <span class="ss">:manager</span><span class="p">)</span> <span class="o">||</span>
+    <span class="n">time_off_requests</span><span class="p">.</span><span class="nf">all?</span> <span class="p">{</span> <span class="o">|</span><span class="n">tor</span><span class="o">|</span> <span class="n">membership</span><span class="p">.</span><span class="nf">id</span> <span class="o">==</span> <span class="n">tor</span><span class="p">.</span><span class="nf">employee_id</span> <span class="p">}</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<h2 id="back-in-the-controller">Back in the controller…</h2>
+<p>Now I just need to call <code class="language-plaintext highlighter-rouge">authorize!</code> properly. The splat operator also lets
+you pass the contents of an array as arguments. If you’re from the PHP
+world you may recognize the similarity of <code class="language-plaintext highlighter-rouge">call_user_func_array</code>.</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">foo</span> <span class="o">=</span> <span class="p">[</span><span class="ss">:a</span><span class="p">,</span> <span class="ss">:b</span><span class="p">,</span> <span class="ss">:c</span><span class="p">]</span>
+<span class="n">bar</span><span class="p">(</span><span class="o">*</span><span class="n">foo</span><span class="p">)</span>
+<span class="c1"># is the same as</span>
+<span class="n">bar</span><span class="p">(</span><span class="ss">:a</span><span class="p">,</span> <span class="ss">:b</span><span class="p">,</span> <span class="ss">:c</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>There is one bit of inelegance that I don’t like here. As I said
+earlier, CanCan needs the argument following the access method to be an
+instance of the class you are authorizing. An empty array splat means no
+arguments. So if <code class="language-plaintext highlighter-rouge">@time_off_requests</code> is empty, which is completely
+possible, CanCan will raise an exception for too few arguments. I got
+around this by using ternary operator to always pass at least a new
+instance.</p>
+
+<h1 id="the-code">The Code</h1>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># time_off_requests_controller.rb</span>
+<span class="k">def</span> <span class="nf">index</span>
+  <span class="k">if</span> <span class="n">current_membership</span><span class="p">.</span><span class="nf">has_any_role?</span><span class="p">(</span><span class="ss">:admin</span><span class="p">,</span> <span class="ss">:manager</span><span class="p">)</span>
+    <span class="vi">@time_off_requests</span> <span class="o">=</span> <span class="vi">@restaurant</span><span class="p">.</span><span class="nf">time_off_requests</span>
+  <span class="k">else</span>
+    <span class="vi">@time_off_requests</span> <span class="o">=</span> <span class="n">current_membership</span><span class="p">.</span><span class="nf">time_off_requests</span>
+  <span class="k">end</span>
+
+  <span class="n">authorize!</span> <span class="ss">:read</span><span class="p">,</span> <span class="o">*</span><span class="p">(</span><span class="vi">@time_off_requests</span><span class="p">.</span><span class="nf">any?</span> <span class="p">?</span> <span class="vi">@time_off_requests</span> <span class="p">:</span> <span class="n">current_membership</span><span class="p">.</span><span class="nf">time_off_requests</span><span class="p">.</span><span class="nf">new</span><span class="p">)</span>
+  <span class="n">respond_to</span> <span class="k">do</span> <span class="o">|</span><span class="nb">format</span><span class="o">|</span>
+    <span class="nb">format</span><span class="p">.</span><span class="nf">html</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="c1"># ability.rb</span>
+<span class="n">can</span> <span class="ss">:manage</span><span class="p">,</span> <span class="no">TimeOffRequest</span> <span class="k">do</span> <span class="o">|*</span><span class="n">time_off_requests</span><span class="o">|</span>
+  <span class="n">membership</span><span class="p">.</span><span class="nf">has_any_role?</span><span class="p">(</span><span class="ss">:admin</span><span class="p">,</span> <span class="ss">:manager</span><span class="p">)</span> <span class="o">||</span>
+    <span class="n">time_off_requests</span><span class="p">.</span><span class="nf">all?</span> <span class="p">{</span> <span class="o">|</span><span class="n">tor</span><span class="o">|</span> <span class="n">membership</span><span class="p">.</span><span class="nf">id</span> <span class="o">==</span> <span class="n">tor</span><span class="p">.</span><span class="nf">employee_id</span> <span class="p">}</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+  <footer>
+    <aside class="short-bio">
+  <div class="columns alpha two">
+    <img src="http://gravatar.com/avatar/c5e99d5ecfaab30b92d9a7cdb34e0e33?s=64" alt="Zac Stewart" id="avatar">
+  </div>
+  <div class="columns omega eight">
+    <p>
+      I'm a software engineer interested in machine learning, web backends,
+      system software, realtime systems, and much more. I'm looking for
+      consulting work.
+    </p>
+
+    <p>
+      Have an interesting problem? <a href="mailto:work@zacstewart.com?subject=Work">I’d love to hear from you.</a>
+    </p>
+  </div>
+</aside>
+
+  </footer>
+</article>
+
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!-- open graph tags -->
+<meta content="" property="og:site_name">
+
+  <meta content="Document Classification with scikit-learn" property="og:title">
+
+
+  <meta content="article" property="og:type">
+
+
+  <meta content="Document classification is a fundamental machine learning task. It is used for
+all kinds of applications, like filtering spam, routing support request to the
+right support rep, language detection, genre
+classification, sentiment analysis, and many more. To demonstrate text
+classification with scikit-learn, we’re going to build a simple spam filter.
+While the filters in production for services like Gmail are vastly more
+sophisticated, the model we’ll have by the end of this tutorial is effective,
+and surprisingly accurate." property="og:description">
+
+
+  <meta content="http://zacstewart.com/2015/04/28/document-classification-with-scikit-learn.html" property="og:url">
+
+
+  <meta content="2015-04-28T00:00:00+00:00" property="article:published_time">
+
+
+
+  
+
+
+  
+    <meta content="python" property="article:tag">
+  
+    <meta content="machine learning" property="article:tag">
+  
+    <meta content="data science" property="article:tag">
+  
+
+
+
+    <title>Document Classification with scikit-learn</title>
+
+    <link rel="alternate" type="application/rss+xml" title="Zac Stewart" href="http://zacstewart.com/feed.xml">
+
+    <link rel="stylesheet" href="/css/base.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="/css/skeleton.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="/css/tables.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="/css/pygment.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="/css/layout.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="/css/components.css" type="text/css" media="screen, projection">
+
+    <script data-goatcounter="https://zacstewart.goatcounter.com/count"
+      async src="//gc.zgo.at/count.js"></script>
+    <noscript>
+      <img src="https://zacstewart.goatcounter.com/count?p=/2015/04/28/document-classification-with-scikit-learn.html">
+    </noscript>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="sixteen columns">
+        <h1 id="logo" class="remove-bottom">
+          <a href="/">Document Classification with scikit-learn</a>
+        </h1>
+
+        <nav>
+        </nav>
+      </div>
+
+      <div class="sixteen columns">
+        <article>
+  <header>
+    <h2>Document Classification with scikit-learn</h2>
+  </header>
+  <hr>
+  <p>Document classification is a fundamental machine learning task. It is used for
+all kinds of applications, like filtering spam, routing support request to the
+right support rep, <a href="http://zacstewart.com/2014/01/10/building-a-language-identifier.html">language detection</a>, genre
+classification, sentiment analysis, and many more. To demonstrate text
+classification with scikit-learn, we’re going to build a simple spam filter.
+While the filters in production for services like Gmail are vastly more
+sophisticated, the model we’ll have by the end of this tutorial is effective,
+and surprisingly accurate.</p>
+
+<p>Spam filtering is kind of like the “Hello world” of document classification.
+It’s a binary classification problem: either spam, or not spam (a.k.a ham).
+However, something to be aware of is that you aren’t limited to two classes.
+The classifier we will be using supports multi-class classification. All that
+is required is to include examples from more classes in the training set. In
+this example, we’ll just stick to two classes: spam and ham.</p>
+
+<p>We’re going to use a combination of the <a href="http://www.aueb.gr/users/ion/data/enron-spam/">Enron-Spam (in raw form)</a>
+data sets and the <a href="https://spamassassin.apache.org/old/publiccorpus/">SpamAssassin public corpus</a>. Both are publicly
+available for download. We’re going to start with raw, labeled emails, and end
+with a working, reasonable accurate spam filter. We’ll work through to following
+tasks to get there:</p>
+
+<ul>
+  <li>Loading raw email data into a workable format</li>
+  <li>Extracting features from the raw data that an algorithm can learn from</li>
+  <li>Training a classifier</li>
+  <li>Evaluating accuracy by cross-validation</li>
+  <li>Improving upon initial accuracy</li>
+</ul>
+
+<h1 id="loading-examples">Loading Examples</h1>
+
+<p>Before we can train a classifier, we need to load example data in a format
+we can feed to the learning algorithm. scikit-learn typically likes things to be in a
+Numpy array-like structure. For a spam classifier, it would be useful to have a
+2-dimensional array containing email bodies in one column and a class (also
+called a label), i.e. spam or ham, for the document in another.</p>
+
+<p>A good starting place is a generator function that will take a file path,
+iterate recursively through all files in said path or its subpaths, and yield
+each email body contained therein. This allows us to dump the example data into
+directories without meticulously organizing it.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">os</span>
+
+<span class="n">NEWLINE</span> <span class="o">=</span> <span class="s">'</span><span class="se">\n</span><span class="s">'</span>
+<span class="n">SKIP_FILES</span> <span class="o">=</span> <span class="p">{</span><span class="s">'cmds'</span><span class="p">}</span>
+
+
+<span class="k">def</span> <span class="nf">read_files</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">root</span><span class="p">,</span> <span class="n">dir_names</span><span class="p">,</span> <span class="n">file_names</span> <span class="ow">in</span> <span class="n">os</span><span class="p">.</span><span class="n">walk</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">dir_names</span><span class="p">:</span>
+            <span class="n">read_files</span><span class="p">(</span><span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">path</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">file_name</span> <span class="ow">in</span> <span class="n">file_names</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">file_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">SKIP_FILES</span><span class="p">:</span>
+                <span class="n">file_path</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">file_name</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">file_path</span><span class="p">):</span>
+                    <span class="n">past_header</span><span class="p">,</span> <span class="n">lines</span> <span class="o">=</span> <span class="bp">False</span><span class="p">,</span> <span class="p">[]</span>
+                    <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s">"latin-1"</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">past_header</span><span class="p">:</span>
+                            <span class="n">lines</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+                        <span class="k">elif</span> <span class="n">line</span> <span class="o">==</span> <span class="n">NEWLINE</span><span class="p">:</span>
+                            <span class="n">past_header</span> <span class="o">=</span> <span class="bp">True</span>
+                    <span class="n">f</span><span class="p">.</span><span class="n">close</span><span class="p">()</span>
+                    <span class="n">content</span> <span class="o">=</span> <span class="n">NEWLINE</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
+                    <span class="k">yield</span> <span class="n">file_path</span><span class="p">,</span> <span class="n">content</span>
+</code></pre></div></div>
+
+<p>According to protocol, email headers and bodies are separated by a blank line
+(<code class="language-plaintext highlighter-rouge">NEWLINE</code>), so we simply ignore all lines before that and then yield the rest
+of the email. You’ll also notice the <code class="language-plaintext highlighter-rouge">encoding="latin-1"</code> bit. Some of the corpus
+is not in Unicode, so this makes a “best effort” attempt to decode the files
+correctly. A little corruption here and there (accented characters and such) won’t
+stop the show. It might just reduce accuracy a tiny bit. Read more about <a href="http://python-notes.curiousefficiency.org/en/latest/python3/text_file_processing.html">processing
+text files with Python 3</a>.</p>
+
+<p>Now we need to build a dataset from all these email bodies. The Python
+library Pandas makes it easy to munge the data into shape as a DataFrame and
+then convert it to a Numpy array when we need to send it to the classifier.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pandas</span> <span class="kn">import</span> <span class="n">DataFrame</span>
+
+
+<span class="k">def</span> <span class="nf">build_data_frame</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">classification</span><span class="p">):</span>
+    <span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">index</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">file_name</span><span class="p">,</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">read_files</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+        <span class="n">rows</span><span class="p">.</span><span class="n">append</span><span class="p">({</span><span class="s">'text'</span><span class="p">:</span> <span class="n">text</span><span class="p">,</span> <span class="s">'class'</span><span class="p">:</span> <span class="n">classification</span><span class="p">})</span>
+        <span class="n">index</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>
+
+    <span class="n">data_frame</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">index</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">data_frame</span>
+</code></pre></div></div>
+
+<p>This function will build us a DataFrame from all the files in <code class="language-plaintext highlighter-rouge">path</code>. It will
+include the body text in one column and the class in another. Each row will be
+indexed by the corresponding email’s filename. Pandas lets you <code class="language-plaintext highlighter-rouge">append</code> a
+DataFrame to another DataFrame. It’s really more of a concatenation than an
+append like Python’s <code class="language-plaintext highlighter-rouge">list.append()</code>, so instead of just adding a new row to
+the DataFrame, we construct a new one and append it to the prior repeatedly.</p>
+
+<p>Using <code class="language-plaintext highlighter-rouge">read_files</code> and <code class="language-plaintext highlighter-rouge">build_data_frame</code>, it’s really easy for us to build and
+add to the dataset:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">HAM</span> <span class="o">=</span> <span class="s">'ham'</span>
+<span class="n">SPAM</span> <span class="o">=</span> <span class="s">'spam'</span>
+
+<span class="n">SOURCES</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="s">'data/spam'</span><span class="p">,</span>        <span class="n">SPAM</span><span class="p">),</span>
+    <span class="p">(</span><span class="s">'data/easy_ham'</span><span class="p">,</span>    <span class="n">HAM</span><span class="p">),</span>
+    <span class="p">(</span><span class="s">'data/hard_ham'</span><span class="p">,</span>    <span class="n">HAM</span><span class="p">),</span>
+    <span class="p">(</span><span class="s">'data/beck-s'</span><span class="p">,</span>      <span class="n">HAM</span><span class="p">),</span>
+    <span class="p">(</span><span class="s">'data/farmer-d'</span><span class="p">,</span>    <span class="n">HAM</span><span class="p">),</span>
+    <span class="p">(</span><span class="s">'data/kaminski-v'</span><span class="p">,</span>  <span class="n">HAM</span><span class="p">),</span>
+    <span class="p">(</span><span class="s">'data/kitchen-l'</span><span class="p">,</span>   <span class="n">HAM</span><span class="p">),</span>
+    <span class="p">(</span><span class="s">'data/lokay-m'</span><span class="p">,</span>     <span class="n">HAM</span><span class="p">),</span>
+    <span class="p">(</span><span class="s">'data/williams-w3'</span><span class="p">,</span> <span class="n">HAM</span><span class="p">),</span>
+    <span class="p">(</span><span class="s">'data/BG'</span><span class="p">,</span>          <span class="n">SPAM</span><span class="p">),</span>
+    <span class="p">(</span><span class="s">'data/GP'</span><span class="p">,</span>          <span class="n">SPAM</span><span class="p">),</span>
+    <span class="p">(</span><span class="s">'data/SH'</span><span class="p">,</span>          <span class="n">SPAM</span><span class="p">)</span>
+<span class="p">]</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="p">({</span><span class="s">'text'</span><span class="p">:</span> <span class="p">[],</span> <span class="s">'class'</span><span class="p">:</span> <span class="p">[]})</span>
+<span class="k">for</span> <span class="n">path</span><span class="p">,</span> <span class="n">classification</span> <span class="ow">in</span> <span class="n">SOURCES</span><span class="p">:</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">build_data_frame</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">classification</span><span class="p">))</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">numpy</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">permutation</span><span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="n">index</span><span class="p">))</span>
+</code></pre></div></div>
+
+<p>As you can see, increasing the size of the training set is just a matter of
+dumping a collection of emails into a directory and then adding it to <code class="language-plaintext highlighter-rouge">SOURCES</code>
+with an applicable class. The last thing we do is use DataFrame’s <code class="language-plaintext highlighter-rouge">reindex</code> to
+shuffle the whole dataset. Otherwise, we’d have contiguous blocks of examples
+from each source. This is important for validating prediction accuracy later.</p>
+
+<p>Now that the data is in a usable format, let’s talk about how to turn raw email
+text into useful features.</p>
+
+<h1 id="extracting-features">Extracting Features</h1>
+
+<p>Before we can train an algorithm to classify a document, we have to extract
+features from it. In general terms, that means to reduce the mass of
+unstructured data into some uniform set of attributes that an algorithm can
+learn from. For text classification, that can mean word counts. We’ll produce a
+table of each word mentioned in the corpus (that is, the unioned collection of
+emails) and its corresponding frequency for each class of email. A contrived
+visualization might look like this:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th> </th>
+      <th>I</th>
+      <th>Linux</th>
+      <th>tomorrow</th>
+      <th>today</th>
+      <th>Viagra</th>
+      <th>Free</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>ham</td>
+      <td>319</td>
+      <td>619</td>
+      <td>123</td>
+      <td>67</td>
+      <td>0</td>
+      <td>50</td>
+    </tr>
+    <tr>
+      <td>spam</td>
+      <td>233</td>
+      <td>3</td>
+      <td>42</td>
+      <td>432</td>
+      <td>291</td>
+      <td>534</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The code to do this using scikit-learn’s <code class="language-plaintext highlighter-rouge">feature_extraction</code> module is pretty
+minimal. We’ll instantiate a <code class="language-plaintext highlighter-rouge">CountVectorizer</code> and then call its instance method
+<code class="language-plaintext highlighter-rouge">fit_transform</code>, which does two things: it learns the vocabulary of the corpus
+and extracts word count features. This method is an efficient way to do
+both steps, and for us it does the job. However, in some cases you may want to
+use a different vocabulary than the one inherent in the raw data. For this
+reason, <code class="language-plaintext highlighter-rouge">CountVectorizer</code> provides <code class="language-plaintext highlighter-rouge">fit</code> and <code class="language-plaintext highlighter-rouge">transform</code> methods to do them
+separately.  Additionally, you can provide a vocabulary in the constructor.</p>
+
+<p>To get the text from the DataFrame, you just access it like a dictionary and it
+returns a vector of email bodies, and then use its <code class="language-plaintext highlighter-rouge">values</code> attribute to get
+the underlying Numpy array.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">numpy</span>
+<span class="kn">from</span> <span class="nn">sklearn.feature_extraction.text</span> <span class="kn">import</span> <span class="n">CountVectorizer</span>
+
+<span class="n">count_vectorizer</span> <span class="o">=</span> <span class="n">CountVectorizer</span><span class="p">()</span>
+<span class="n">counts</span> <span class="o">=</span> <span class="n">count_vectorizer</span><span class="p">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s">'text'</span><span class="p">].</span><span class="n">values</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>With these counts as features, we can go to the next steps: training a
+classifier and classifying individual emails.</p>
+
+<h1 id="classifying-emails">Classifying Emails</h1>
+
+<p>We’re going to use a naïve Bayes classifier to learn from the features. A naïve
+Bayes classifier applies the Bayes theorem with naïve independence assumptions.
+That is, each feature (in this case word counts) is independent from every
+other one and each one contributes to the probability that an example belongs
+to a particular class. Using the contrived table above, a super spammy word like
+“Free” contributes to the probability that an email containing it is spam,
+however, a non-spam email could also contain “Free,” balanced out with
+non-spammy words like “Linux” and “tomorrow.”</p>
+
+<p>We instantiate a new <code class="language-plaintext highlighter-rouge">MultinomialNB</code> and train it by calling <code class="language-plaintext highlighter-rouge">fit</code>, passing in
+the feature vector and the target vector (the classes that each example belongs
+to). The indices of each vector must be aligned, but luckily Pandas keeps that
+straight for us.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sklearn.naive_bayes</span> <span class="kn">import</span> <span class="n">MultinomialNB</span>
+
+<span class="n">classifier</span> <span class="o">=</span> <span class="n">MultinomialNB</span><span class="p">()</span>
+<span class="n">targets</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">'class'</span><span class="p">].</span><span class="n">values</span>
+<span class="n">classifier</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">counts</span><span class="p">,</span> <span class="n">targets</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>And there we have it: a trained spam classifier. We can try it out by
+constructing some examples and predicting on them.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">examples</span> <span class="o">=</span> <span class="p">[</span><span class="s">'Free Viagra call today!'</span><span class="p">,</span> <span class="s">"I'm going to attend the Linux users group tomorrow."</span><span class="p">]</span>
+<span class="n">example_counts</span> <span class="o">=</span> <span class="n">count_vectorizer</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">examples</span><span class="p">)</span>
+<span class="n">predictions</span> <span class="o">=</span> <span class="n">classifier</span><span class="p">.</span><span class="n">predict</span><span class="p">(</span><span class="n">example_counts</span><span class="p">)</span>
+<span class="n">predictions</span> <span class="c1"># [1, 0]
+</span></code></pre></div></div>
+
+<p>Our predictions vector should be <code class="language-plaintext highlighter-rouge">[1, 0]</code>, corresponding to the constants we
+defined for <code class="language-plaintext highlighter-rouge">SPAM</code> and <code class="language-plaintext highlighter-rouge">HAM</code>.</p>
+
+<p>Still, doing each one of those steps one-at-a-time was pretty tedious. We can
+package it all up using a construct provided by scikit-learn called a <code class="language-plaintext highlighter-rouge">Pipeline</code>.</p>
+
+<h1 id="pipelining">Pipelining</h1>
+
+<p>A pipeline does exactly what it sounds like: connects a series of steps into
+one object which you train and then use to make predictions. I’ve written about
+<a href="http://zacstewart.com/2014/08/05/pipelines-of-featureunions-of-pipelines.html">using scikit-learn pipelines</a> in detail, so I won’t redo that here.
+In short, we can use a pipeline to merge the feature extraction and
+classification into one operation:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sklearn.pipeline</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([</span>
+    <span class="p">(</span><span class="s">'vectorizer'</span><span class="p">,</span>  <span class="n">CountVectorizer</span><span class="p">()),</span>
+    <span class="p">(</span><span class="s">'classifier'</span><span class="p">,</span>  <span class="n">MultinomialNB</span><span class="p">())</span> <span class="p">])</span>
+
+<span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s">'text'</span><span class="p">].</span><span class="n">values</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s">'class'</span><span class="p">].</span><span class="n">values</span>
+<span class="n">pipeline</span><span class="p">.</span><span class="n">predict</span><span class="p">(</span><span class="n">examples</span><span class="p">)</span> <span class="c1"># ['spam', 'ham']
+</span></code></pre></div></div>
+
+<p>The first element of each tuple in the pipeline, ‘vectorizer’, and
+‘classifier’, are arbitrary names. Pipelining simplifies things a lot
+when you start tweaking your model to improve your results, and you’ll see why
+later. First, we need to get some real performance metrics. Classifying two
+short, imaginary messages isn’t a very rigorous test. We need to
+<em>cross-validate</em> with some real emails which we already have labels for, much
+like the examples we trained on.</p>
+
+<h1 id="cross-validating">Cross-Validating</h1>
+
+<p>To validate the classifier against unseen data, we can just split the training
+set into two parts with a ratio of 2:8 or so. Given that the dataset has been
+shuffled, each portion should contain an equal distribution of example types.
+We hold out the smaller portion (the cross-validation set), train the
+classifier on the larger part, predict on the cross-validation set, and compare
+the predictions to the examples’ already-known classes. This method works very
+well, but it has the disadvantage of your classifier not getting trained and
+validated on all examples in the data set.</p>
+
+<p>A more sophisticated method is known as <em>k-fold cross-validation</em>. Using this
+method, we split the data set into k parts, hold out one, combine the others
+and train on them, then validate against the held-out portion. You repeat that
+process k times (each <em>fold</em>), holding out a different portion each time. Then
+you average the score measured for each fold to get a more accurate
+estimation of your model’s performance.</p>
+
+<p>While the process sounds complicated, scikit-learn makes it really easy. We’ll
+split the data set into 6 folds and cross-validate on them. scikit-learn’s
+<code class="language-plaintext highlighter-rouge">KFold</code> can be used to generate k pairs of index vectors. Each pair contains a
+list of indices to select a training subset of the data and a list of indices
+to select a validation subset of the data.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sklearn.cross_validation</span> <span class="kn">import</span> <span class="n">KFold</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">confusion_matrix</span><span class="p">,</span> <span class="n">f1_score</span>
+
+<span class="n">k_fold</span> <span class="o">=</span> <span class="n">KFold</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="n">n_folds</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
+<span class="n">scores</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">confusion</span> <span class="o">=</span> <span class="n">numpy</span><span class="p">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]])</span>
+<span class="k">for</span> <span class="n">train_indices</span><span class="p">,</span> <span class="n">test_indices</span> <span class="ow">in</span> <span class="n">k_fold</span><span class="p">:</span>
+    <span class="n">train_text</span> <span class="o">=</span> <span class="n">data</span><span class="p">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">train_indices</span><span class="p">][</span><span class="s">'text'</span><span class="p">].</span><span class="n">values</span>
+    <span class="n">train_y</span> <span class="o">=</span> <span class="n">data</span><span class="p">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">train_indices</span><span class="p">][</span><span class="s">'class'</span><span class="p">].</span><span class="n">values</span>
+
+    <span class="n">test_text</span> <span class="o">=</span> <span class="n">data</span><span class="p">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">test_indices</span><span class="p">][</span><span class="s">'text'</span><span class="p">].</span><span class="n">values</span>
+    <span class="n">test_y</span> <span class="o">=</span> <span class="n">data</span><span class="p">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">test_indices</span><span class="p">][</span><span class="s">'class'</span><span class="p">].</span><span class="n">values</span>
+
+    <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_text</span><span class="p">,</span> <span class="n">train_y</span><span class="p">)</span>
+    <span class="n">predictions</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">predict</span><span class="p">(</span><span class="n">test_text</span><span class="p">)</span>
+
+    <span class="n">confusion</span> <span class="o">+=</span> <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">test_y</span><span class="p">,</span> <span class="n">predictions</span><span class="p">)</span>
+    <span class="n">score</span> <span class="o">=</span> <span class="n">f1_score</span><span class="p">(</span><span class="n">test_y</span><span class="p">,</span> <span class="n">predictions</span><span class="p">,</span> <span class="n">pos_label</span><span class="o">=</span><span class="n">SPAM</span><span class="p">)</span>
+    <span class="n">scores</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">score</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s">'Total emails classified:'</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="s">'Score:'</span><span class="p">,</span> <span class="nb">sum</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">scores</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="s">'Confusion matrix:'</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">confusion</span><span class="p">)</span>
+
+<span class="c1"># Total emails classified: 55326
+# Score: 0.942661080942
+# Confusion matrix:
+# [[21660   178]
+#  [ 3473 30015]]
+</span></code></pre></div></div>
+
+<p>scikit-learn provides various functions for evaluating the accuracy of a model.
+We’re using the <a href="http://en.wikipedia.org/wiki/F1_score">F1 score</a> for each fold, which we then average
+together for a mean accuracy on the entire set. Using the model we just built
+and the example data sets mentioned in the beginning of this tutorial, we get
+about 0.94. A confusion matrix helps elucidate how the model did for individual
+classes. Out of 55,326 examples, we get about 178 false spams, and 3,473 false
+hams. I say “about” because by shuffling the data as we did, these numbers will
+vary each time we run the model.</p>
+
+<p>That’s really not bad for a first run. Obviously it’s not production-ready even
+if we don’t consider the scaling issues. Consumers demand accuracy, especially
+regarding false spams. Who doesn’t hate to lose something important to the spam
+filter?</p>
+
+<h1 id="improving-results">Improving Results</h1>
+
+<p>In order to get better results, there’s a few things we can change. We can try
+to extract more features from the emails, we can try different kinds of
+features, we can tune the parameters of the naïve Bayes classifier, or try
+another classifier all together.</p>
+
+<p>One way to get more features is to use n-gram counts instead of just word
+counts. So far we’ve relied upon what’s known as “bag of words” features. It’s
+called that because we simply toss all the words of a document into a “bag” and
+count them, disregarding any meaning that could locked up in the <em>ordering</em> of
+words.</p>
+
+<p>An n-gram can be thought of as a phrase that is <em>n</em> words long. For example, in
+the sentence “Don’t tase me, bro” we have the 1-grams, “don’t,” “tase,” “me,”
+and “bro.” The same sentence also has the 2-grams (or bigrams) “don’t tase”,
+“tase me”, and “me bro.” We can tell <code class="language-plaintext highlighter-rouge">CountVectorizer</code> to include any order of
+n-grams by giving it a range. For this data set, unigrams and bigrams seem to
+work well. 3-grams add a tiny bit more accuracy, but for the computation time
+they incur, it’s probably not worth the marginal increase.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([</span>
+    <span class="p">(</span><span class="s">'count_vectorizer'</span><span class="p">,</span> <span class="n">CountVectorizer</span><span class="p">(</span><span class="n">ngram_range</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))),</span>
+    <span class="p">(</span><span class="s">'classifier'</span><span class="p">,</span>       <span class="n">MultinomialNB</span><span class="p">())</span>
+<span class="p">])</span>
+
+<span class="c1"># Total emails classified: 55326
+# Score: 0.978154601119
+# Confusion matrix:
+# [[21745    93]
+#  [ 1343 32145]]
+</span></code></pre></div></div>
+
+<p>That boosts the model up to an F1 score of about 0.98. As before, it’s a good
+idea to keep an eye on how it’s doing for individual classes and not just the
+set as a whole. Luckily this increase represents an increase for both spam and
+ham classification accuracy.</p>
+
+<p>Another way to improve accuracy is to use different kinds of features.
+N-gram counts have the disadvantage of unfairly weighting longer documents. A
+six-word spammy message and a five-page, heartfelt letter with six “spammy”
+words could potentially receive the same “spamminess” probability. To counter
+that, we can use <em>frequencies</em> rather than <em>occurances</em>. That is, focusing on
+how much of the document is made up of a particular word, instead of how many
+times the word appears in the document. This kind of feature set is known as
+<em>term frequencies</em>.</p>
+
+<p>In addition to converting counts to frequencies, we can reduce noise in the
+features by reducing the weight for words that are common across the entire
+corpus. For example, words like “and,” “the,” and “but” probably don’t contain
+a lot of information about the topic of the document, even though they will
+have high counts and frequencies across both ham and spam. To remedy that, we
+can use what’s known as <em>inverse document frequency</em> or IDF.</p>
+
+<p>Adding another vectorizer to the pipeline will convert the term counts to term
+frequencies and apply the IDF transformation:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sklearn.feature_extraction.text</span> <span class="kn">import</span> <span class="n">TfidfTransformer</span>
+
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([</span>
+    <span class="p">(</span><span class="s">'count_vectorizer'</span><span class="p">,</span>   <span class="n">CountVectorizer</span><span class="p">(</span><span class="n">ngram_range</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span>  <span class="mi">2</span><span class="p">))),</span>
+    <span class="p">(</span><span class="s">'tfidf_transformer'</span><span class="p">,</span>  <span class="n">TfidfTransformer</span><span class="p">()),</span>
+    <span class="p">(</span><span class="s">'classifier'</span><span class="p">,</span>         <span class="n">MultinomialNB</span><span class="p">())</span>
+<span class="p">])</span>
+
+<span class="c1"># Total emails classified: 55326
+# Score: 0.992183969741
+# Confusion matrix:
+# [[21338   500]
+#  [   27 33461]]
+</span></code></pre></div></div>
+
+<p>Unfortunately, with this particular data set, using TF-IDF features results in
+a slightly more accurate model in the general sense, but it causes it to have
+considerably higher rates of false spam classification. That would result in a
+larger quantity of legitimate emails being caught in the filter, which in
+practice would be less desirable than having to manually delete the occasional
+spam.</p>
+
+<p>To wrap up this tutorial, let’s try one more thing: using a different
+classifier. The Bernouli naïve Bayes classifier differs in a few ways, but in
+this case, the important difference is that it operates on n-gram occurrences
+rather than counts. Instead of a numeric vector representing n-gram counts, it
+uses a vector a booleans representing the presence of absence of an n-gram. In
+general, this model performs better on shorter documents, so if we wanted to
+filter forum spam or tweets, it would probably be the one to use.</p>
+
+<p>We don’t have to change any of the feature extraction pipeline (except that
+we’re removing the <code class="language-plaintext highlighter-rouge">TfidfTransformer</code> step and just using the <code class="language-plaintext highlighter-rouge">CountVectorizer</code>
+again). BernoulliNB has a <code class="language-plaintext highlighter-rouge">binarize</code> parameter for setting the threshold for
+converting numeric values to booleans. We’ll use 0.0, which will convert words
+which are not present in a document to <code class="language-plaintext highlighter-rouge">False</code> and words which are present any
+number of times to <code class="language-plaintext highlighter-rouge">True</code>.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sklearn.naive_bayes</span> <span class="kn">import</span> <span class="n">BernoulliNB</span>
+
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([</span>
+    <span class="p">(</span><span class="s">'count_vectorizer'</span><span class="p">,</span>   <span class="n">CountVectorizer</span><span class="p">(</span><span class="n">ngram_range</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))),</span>
+    <span class="p">(</span><span class="s">'classifier'</span><span class="p">,</span>         <span class="n">BernoulliNB</span><span class="p">(</span><span class="n">binarize</span><span class="o">=</span><span class="mf">0.0</span><span class="p">))</span> <span class="p">])</span>
+
+<span class="c1"># Total emails classified: 55326
+# Score: 0.965959861719
+# Confusion matrix:
+# [[21785    53]
+#  [ 2155 31333]]
+</span></code></pre></div></div>
+
+<p>This model does pretty poorly, but in a different way than the previous models.
+It allows a lot more spam to slip through, but there’s potential for it to
+improve if we could find the right <code class="language-plaintext highlighter-rouge">binarize</code> threshold.</p>
+
+<p>For anyone keeping count, out of 55,326 emails (21,838 ham, 33,488 spam), the
+models have performed this well so far:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Features</th>
+      <th>Classifier</th>
+      <th>False spams</th>
+      <th>False hams</th>
+      <th>F1 score</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Bag of words counts</td>
+      <td>MultinomialNB</td>
+      <td>178</td>
+      <td>3473</td>
+      <td>0.942661080942</td>
+    </tr>
+    <tr>
+      <td>Bigram counts</td>
+      <td>MultinomialNB</td>
+      <td>93</td>
+      <td>1343</td>
+      <td>0.978154601119</td>
+    </tr>
+    <tr>
+      <td>Bigram frequencies</td>
+      <td>MultinomialNB</td>
+      <td>500</td>
+      <td>27</td>
+      <td>0.992183969741</td>
+    </tr>
+    <tr>
+      <td>Bigram occurrences</td>
+      <td>BernoulliNB</td>
+      <td>53</td>
+      <td>2155</td>
+      <td>0.965959861719</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The best solution we’ve encountered has been to train a <code class="language-plaintext highlighter-rouge">MultinomialNB</code> using
+either bigram counts or frequencies.</p>
+
+<h1 id="final-thoughts">Final Thoughts</h1>
+
+<p>There you have it! In what I hope was minimally painful reading, you’ve seen
+how to build a spam classifier from start to finish. There’s still a lot of
+engineering work to be done if you wanted to put this thing into production,
+but that’s another blog post for another day. Aside from that, there are
+many more avenues to explore, especially regarding improving accuracy.</p>
+
+<p>Something you should be asking yourself by this time is, “Why all the arbitrary
+parameters?” Why did we binarize at a threshold of 0.0? Why unigrams and
+bigrams? We were particular in the way we went about evaluating the accuracy of
+the models, namely k-folding, yet we didn’t really apply the same rigor when we
+configured the classifiers. How do we know if we’re doing the best we can?</p>
+
+<p>The answer is, those parameters are arbitrary are are very likely <em>not</em> the
+optimal configuration. However, considering that the classifier takes several
+minutes to train and validate, it would take forever for us to exhaustively
+fine-tune, re-run, and test each change we could make.</p>
+
+<p>Another thing that might come to mind is that even though the Bernouli model
+performed very poorly, it seemed to have some value in that it got fewer false
+spams than any of the others.</p>
+
+<p>Luckily, there are ways to automate the fine-tuning process as well as combine
+the predictions of multiple classifiers. Grid search <em>hyperparameter tuning</em>
+and multi-model <em>ensemble learning</em> are interesting topics, and maybe I’ll
+write about them in the future. For now, we’ve done a pretty good job at
+classifying some documents. A fun exercise might be to dump your email archives
+into the example data and label it according to the sender and seeing if you
+can accurately identify the authors.</p>
+
+<p>You can get the complete source code for the classifier in <a href="https://gist.github.com/zacstewart/5978000">this gist</a>.</p>
+
+
+  <footer>
+    <aside class="short-bio">
+  <div class="columns alpha two">
+    <img src="http://gravatar.com/avatar/c5e99d5ecfaab30b92d9a7cdb34e0e33?s=64" alt="Zac Stewart" id="avatar">
+  </div>
+  <div class="columns omega eight">
+    <p>
+      I'm a software engineer interested in machine learning, web backends,
+      system software, realtime systems, and much more. I'm looking for
+      consulting work.
+    </p>
+
+    <p>
+      Have an interesting problem? <a href="mailto:work@zacstewart.com?subject=Work">I’d love to hear from you.</a>
+    </p>
+  </div>
+</aside>
+
+  </footer>
+</article>
+
+      </div>
+    </div>
+  </body>
+</html>

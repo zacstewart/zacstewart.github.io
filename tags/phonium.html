@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!-- open graph tags -->
+<meta content="" property="og:site_name">
+
+  <meta content="Zac Stewart" property="og:title">
+
+
+  <meta content="article" property="og:type">
+
+
+  <meta content="" property="og:description">
+
+
+  <meta content="http://zacstewart.com/tags/phonium.html" property="og:url">
+
+
+
+
+
+
+
+    <title>Zac Stewart</title>
+
+    <link rel="alternate" type="application/rss+xml" title="Zac Stewart" href="http://zacstewart.com/feed.xml">
+
+    <link rel="stylesheet" href="/css/base.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="/css/skeleton.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="/css/tables.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="/css/pygment.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="/css/layout.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="/css/components.css" type="text/css" media="screen, projection">
+
+    <script data-goatcounter="https://zacstewart.goatcounter.com/count"
+      async src="//gc.zgo.at/count.js"></script>
+    <noscript>
+      <img src="https://zacstewart.goatcounter.com/count?p=/tags/phonium.html">
+    </noscript>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="sixteen columns">
+        <h1 id="logo" class="remove-bottom">
+          <a href="/">Zac Stewart</a>
+        </h1>
+
+        <nav>
+        </nav>
+      </div>
+
+      <div class="sixteen columns">
+        
+  <div class="row">
+
+    <time class="two columns alpha" datetime="2019-07-04">
+      04 Jul 2019
+    </time>
+
+    <article class="ten columns omega">
+      <h2 class="">
+        <a href="/2019/07/04/making-a-phone-part-6-sharp-memory-display.html" rel="canonical">Making a Phone Part 6: SHARP Memory Display</a>
+      </h2>
+
+      
+        I’m frustrated by my struggles to get an e-paper display that can do partial screen updates, so I’ve decided to give another technology a shot. I ordered a SHARP Memory Display from Adafruit. I also threw in a small mic and a speaker because I was going to need those anyway, sooner or later.
+
+        <p>
+          <a href="/2019/07/04/making-a-phone-part-6-sharp-memory-display.html">
+             Read more 
+          </a>
+        </p>
+      
+    </article>
+
+  </div>
+
+  <div class="row">
+
+    <time class="two columns alpha" datetime="2019-06-23">
+      23 Jun 2019
+    </time>
+
+    <article class="ten columns omega">
+      <h2 class="">
+        <a href="/2019/06/23/making-a-phone-part-5-partial-update-setbacks-navigation-flows.html" rel="canonical">Making a Phone Part 5: Partial Update Setbacks, Navigation Flows</a>
+      </h2>
+
+      
+        I finally ordered a e-paper display capable of partial refresh. A 1.54" display made by Good Display and packaged with a PCB by a supplier called Waveshare. They also publish some drivers and demo code. I needed a higher-RAM microcontroller to handle partial updates, so I upgraded my Teensy LC to a Teensy 3.2.
+
+        <p>
+          <a href="/2019/06/23/making-a-phone-part-5-partial-update-setbacks-navigation-flows.html">
+             Read more 
+          </a>
+        </p>
+      
+    </article>
+
+  </div>
+
+  <div class="row">
+
+    <time class="two columns alpha" datetime="2019-06-18">
+      18 Jun 2019
+    </time>
+
+    <article class="ten columns omega">
+      <h2 class="">
+        <a href="/2019/06/18/making-a-phone-part-4-text-messages.html" rel="canonical">Making a Phone Part 4: Text Messages</a>
+      </h2>
+
+      
+        Sending texts is the next goalpost. The backend of this was pretty easy thanks to the Adafruit FONA library. The hard part was building a frontend for 9-key text entry. After a couple of after-work code sessions I got something complete enough to allow for lower-case text entry including spaces and punctuation.
+
+        <p>
+          <a href="/2019/06/18/making-a-phone-part-4-text-messages.html">
+             Read more 
+          </a>
+        </p>
+      
+    </article>
+
+  </div>
+
+  <div class="row">
+
+    <time class="two columns alpha" datetime="2019-06-18">
+      18 Jun 2019
+    </time>
+
+    <article class="ten columns omega">
+      <h2 class="">
+        <a href="/2019/06/18/making-a-phone-part-3-going-32-bit.html" rel="canonical">Making a Phone Part 3: Going 32-bit</a>
+      </h2>
+
+      
+        Naturally, the next function is answering incoming calls. One way to do that (aka the wrong way) is to poll the cellular module to ask it what its call status is. The microcontroller communicates with the FONA via a serial interface, so doing that every tick of the loop function (16 MHz) is very chatty.
+
+        <p>
+          <a href="/2019/06/18/making-a-phone-part-3-going-32-bit.html">
+             Read more 
+          </a>
+        </p>
+      
+    </article>
+
+  </div>
+
+  <div class="row">
+
+    <time class="two columns alpha" datetime="2019-06-17">
+      17 Jun 2019
+    </time>
+
+    <article class="ten columns omega">
+      <h2 class="">
+        <a href="/2019/06/17/making-a-phone-part-2-getting-started.html" rel="canonical">Making a Phone Part 2: Getting Started</a>
+      </h2>
+
+      
+        I started out with an Arduino Uno-compatible microcontroller board manufactured by OSEPP, a 16-button 4x4 button matrix, a 2G cellular module by Adafruit called a FONA, and a 1.54" monochrome e-paper display from Adafruit. I also grabbed a starter kit from them that contained a soldering iron, a multimeter, a couple breadboards, some wire cutters, a handful of components, solder, and wire.
+
+        <p>
+          <a href="/2019/06/17/making-a-phone-part-2-getting-started.html">
+             Read more 
+          </a>
+        </p>
+      
+    </article>
+
+  </div>
+
+  <div class="row">
+
+    <time class="two columns alpha" datetime="2019-06-17">
+      17 Jun 2019
+    </time>
+
+    <article class="ten columns omega">
+      <h2 class="">
+        <a href="/2019/06/17/im-making-a-phone.html" rel="canonical">I’m Making a Phone</a>
+      </h2>
+
+      
+        Why make a phone? I started down this path after recognizing that I’m struggling with how addictive tech is. Devices are engineered to be as instantly gratifying as possible. I’m not incapable of putting it down, and luckily I’m not hooked on social media, but the devices themselves have a tendency to draw me in and fill up any empty space that I might otherwise use to hear my own thoughts for a minute. This constant presence works to isolate me from other humans. At least, I often feel lonely and disconnected, and then supplement my loneliness with more device usage.
+
+        <p>
+          <a href="/2019/06/17/im-making-a-phone.html">
+             Read more 
+          </a>
+        </p>
+      
+    </article>
+
+  </div>
+
+
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!-- open graph tags -->
+<meta content="" property="og:site_name">
+
+  <meta content="Making a Phone Part 6: SHARP Memory Display" property="og:title">
+
+
+  <meta content="article" property="og:type">
+
+
+  <meta content="I’m frustrated by my struggles to get an e-paper display that can do partial screen updates, so I’ve decided to give another technology a shot. I ordered a SHARP Memory Display from Adafruit. I also threw in a small mic and a speaker because I was going to need those anyway, sooner or later." property="og:description">
+
+
+  <meta content="http://zacstewart.com/2019/07/04/making-a-phone-part-6-sharp-memory-display.html" property="og:url">
+
+
+  <meta content="2019-07-04T16:59:18+00:00" property="article:published_time">
+
+
+  <meta content="http://zacstewart.com/images/making-a-phone-part-5-navigation-flow.jpg" property="og:image">
+
+
+  
+
+
+  
+    <meta content="hardware" property="article:tag">
+  
+    <meta content="phonium" property="article:tag">
+  
+
+
+
+    <title>Making a Phone Part 6: SHARP Memory Display</title>
+
+    <link rel="alternate" type="application/rss+xml" title="Zac Stewart" href="http://zacstewart.com/feed.xml">
+
+    <link rel="stylesheet" href="/css/base.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="/css/skeleton.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="/css/tables.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="/css/pygment.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="/css/layout.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="/css/components.css" type="text/css" media="screen, projection">
+
+    <script data-goatcounter="https://zacstewart.goatcounter.com/count"
+      async src="//gc.zgo.at/count.js"></script>
+    <noscript>
+      <img src="https://zacstewart.goatcounter.com/count?p=/2019/07/04/making-a-phone-part-6-sharp-memory-display.html">
+    </noscript>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="sixteen columns">
+        <h1 id="logo" class="remove-bottom">
+          <a href="/">Making a Phone Part 6: SHARP Memory Display</a>
+        </h1>
+
+        <nav>
+        </nav>
+      </div>
+
+      <div class="sixteen columns">
+        <article>
+  <header>
+    <h2>Making a Phone Part 6: SHARP Memory Display</h2>
+  </header>
+  <hr>
+  <blockquote>
+  <p>This and all my other <a href="/tags/phonium.html">#phonium</a> posts were originally published to <a href="https://scuttlebutt.nz/">Scuttlebutt</a>. After running into some ssb-specific problems with identity continuity I’ve decided to republish them all on my own site at the originally-posted dates. They are in reality showing up on the internet for the first time in August of 2021. <a href="https://viewer.scuttlebot.io/%251%2F57eTqD1nXYbhYUogciGenBAaip9TyhCFxV2YhNHcc%3D.sha256#%251%2F57eTqD1nXYbhYUogciGenBAaip9TyhCFxV2YhNHcc%3D.sha256">original ssb link</a></p>
+</blockquote>
+
+<ul>
+  <li><a href="/2019/06/17/im-making-a-phone.html">Part 1</a> background, motivations</li>
+  <li><a href="/2019/06/17/making-a-phone-part-2-getting-started.html">Part 2</a> getting started, making calls</li>
+  <li><a href="/2019/06/18/making-a-phone-part-3-going-32-bit.html">Part 3</a> answering calls, upgrading to a 32-bit microcontroller</li>
+  <li><a href="/2019/06/18/making-a-phone-part-4-text-messages.html">Part 4</a> sending and receiving text messages</li>
+  <li><a href="/2019/06/23/making-a-phone-part-5-partial-update-setbacks-navigation-flows.html">Part 5</a> EPD partial update, menu navigation flow</li>
+</ul>
+
+<p>I’m frustrated by my struggles to get an e-paper display that can do partial screen updates, so I’ve decided to give another technology a shot. I ordered a <a href="https://www.adafruit.com/product/3502">SHARP Memory Display</a> from Adafruit. I also threw in a small mic and a speaker because I was going to need those anyway, sooner or later.</p>
+
+<p>They arrived last weekend and I’ve had a little time this week to hook up the mem display and try it out. I had to solder header pins to it, as per usual and then figure out the wiring. It’s a write-only SPI device, so actually a little simpler to wire up than the EPD, and used fewer ports. However, lacking it’s own onboard memory buffer, it has to utilize the microcontroller’s memory. Good thing I upgraded to the more powerful Teensy 3.2.</p>
+
+<p><img src="/images/making-a-phone-part-6-sharp-memory-display.jpg" alt="Prototype Phonium cell phone with new SHARP Memory Display beside repurposed EPD display and Teensy microcontroller" /></p>
+
+<p>After wiring it up I uploaded a demo sketch to try it out. I was impressed with the refresh rate it demonstrates. You could actually perform animations with this thing, or build games or whatever. The only complaints I have are that it has really poor viewing angles and it’s pretty low contrast. The whole surface looks metallic and reflective, which makes it very hard to read in low light. Because of that, I think I’ll eventually come back to e-paper, but I really just want to make some progress on the thing without worrying about the display for now.</p>
+
+<p>Side note: what do you do with a disused Teensy LC and a slow-to-refresh e-paper display? I made a little magic 8-ball. I was thinking of loading it up with a bunch of <a href="https://en.wikipedia.org/wiki/Oblique_Strategies">oblique strategies</a> or aphorisms or something so that every time you push a button you get a random one.</p>
+
+<p>I replaced all the EPD code in the Phonium source with the mem display library. They share a similar interface since they both inherit from Adafruit GFX, but there were some slight changes. The OOP programmer in me wants to create my own display object to insulate the rest of the code from this mess should I change again, but the embedded device programmer in me says that would waste a few bytes of ROM and CPU cycles.</p>
+
+<p>It has indeed made entering text messages much more enjoyable. I’ve begun work on an interface to navigate and read text messages. So far, I just have a list of “previews” (the first 9 chars of each message on the SIM). I’m going to tap out a least effort way to navigate up and down that list and then read one of them.</p>
+
+<p>After that, I really need to start thinking about UI design. So far, everything is text-based with no real navigation or interaction signifiers. I’m not really sure how to go about sketching out screen UIs. Should I use pencil and paper, or just pixel art with an image editor? So much to figure out, but until next time, thanks for reading!</p>
+
+
+  <footer>
+    <aside class="short-bio">
+  <div class="columns alpha two">
+    <img src="http://gravatar.com/avatar/c5e99d5ecfaab30b92d9a7cdb34e0e33?s=64" alt="Zac Stewart" id="avatar">
+  </div>
+  <div class="columns omega eight">
+    <p>
+      I'm a software engineer interested in machine learning, web backends,
+      system software, realtime systems, and much more. I'm looking for
+      consulting work.
+    </p>
+
+    <p>
+      Have an interesting problem? <a href="mailto:work@zacstewart.com?subject=Work">I’d love to hear from you.</a>
+    </p>
+  </div>
+</aside>
+
+  </footer>
+</article>
+
+      </div>
+    </div>
+  </body>
+</html>

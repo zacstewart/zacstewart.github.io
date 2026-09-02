@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!-- open graph tags -->
+<meta content="" property="og:site_name">
+
+  <meta content="Kaggle See Click Fix competition postmortem" property="og:title">
+
+
+  <meta content="article" property="og:type">
+
+
+  <meta content="This challenge was to predict the number of votes, comments, and views that
+issues created on See Click Fix would get. The provided datasets included
+the latitude and longitude, summary and description (both text fields), a
+source (mobile client, API, city-initiated, etc…), a created timestamp, and a
+category tag. Of course, the training dataset included the three items to be
+predicted." property="og:description">
+
+
+  <meta content="http://zacstewart.com/2013/11/27/kaggle-see-click-predict-fix-postmortem.html" property="og:url">
+
+
+  <meta content="2013-11-27T00:00:00+00:00" property="article:published_time">
+
+
+
+  
+
+
+  
+
+
+
+    <title>Kaggle See Click Fix competition postmortem</title>
+
+    <link rel="alternate" type="application/rss+xml" title="Zac Stewart" href="http://zacstewart.com/feed.xml">
+
+    <link rel="stylesheet" href="/css/base.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="/css/skeleton.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="/css/tables.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="/css/pygment.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="/css/layout.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="/css/components.css" type="text/css" media="screen, projection">
+
+    <script data-goatcounter="https://zacstewart.goatcounter.com/count"
+      async src="//gc.zgo.at/count.js"></script>
+    <noscript>
+      <img src="https://zacstewart.goatcounter.com/count?p=/2013/11/27/kaggle-see-click-predict-fix-postmortem.html">
+    </noscript>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="sixteen columns">
+        <h1 id="logo" class="remove-bottom">
+          <a href="/">Kaggle See Click Fix competition postmortem</a>
+        </h1>
+
+        <nav>
+        </nav>
+      </div>
+
+      <div class="sixteen columns">
+        <article>
+  <header>
+    <h2>Kaggle See Click Fix competition postmortem</h2>
+  </header>
+  <hr>
+  <h1 id="the-data">The data</h1>
+
+<p>This challenge was to predict the number of votes, comments, and views that
+issues created on <a href="http://en.seeclickfix.com">See Click Fix</a> would get. The provided datasets included
+the latitude and longitude, summary and description (both text fields), a
+source (mobile client, API, city-initiated, etc…), a created timestamp, and a
+category tag. Of course, the training dataset included the three items to be
+predicted.</p>
+
+<h1 id="my-approach">My approach</h1>
+
+<p>In previous competitions, my code has always tended spin out of control as I
+add more and more steps to extract features from the data. At first it goes
+smoothly, just data in data out through a series of steps, but, oh wait, I need
+to preserve the data that came out of this step so I can pass it into the step
+after this next step, and I’d like to use this model to produce features for
+another model, and before you know it, I have a crazy kludge that I limp to the
+end of the competition with, but have no idea how it worked a few months later.</p>
+
+<p>This time, I decided I would make extensive use of scikit-learn’s Pipeline and
+FeatureUnion classes. Pipeline handles flowing the data through all your steps.
+You just build them and add them to the pipeline. FeatureUnion lets you build a
+bunch of feature extractors and use them in unison like one feature extractor.
+It handles flowing the data through each feature extractor and eventually
+merges the resulting feature matrices. Where they get really useful is
+when you composite them. On feature extractor probably involves multiple steps,
+so you can have a FeatureUnion made up of a bunch of feature extractors, each
+one being made up of a Pipeline of several steps.</p>
+
+<p>All that I had to do was adhere to the Transformer interface, which just means
+instead of having my own <code class="language-plaintext highlighter-rouge">for</code> loops or what-have-you, out in the wild, each
+step needed to be an object that implemented the methods <code class="language-plaintext highlighter-rouge">transform</code> and <code class="language-plaintext highlighter-rouge">fit</code>.</p>
+
+<h2 id="feature-extraction">Feature extraction</h2>
+
+<p><a href="/images/kaggle-see-click-fix/Votes and Comments by Tag Type.png"><img src="/images/kaggle-see-click-fix/Votes and Comments by Tag Type.png" alt="Votes and Comments by tag_type" /></a></p>
+
+<p>But enough scikit-learn details. My approach, like always, was to start simple.
+I always try to establish a base submission with the most stupid-simple
+model I can think of. To that end, my first submission was just the mean by
+<em>tag_type</em>, the category value in the dataset. This yielded a very low, but
+better than guessing, score. From there, I started to engineer some features
+from the data, starting with the aforementioned <em>tag_type</em> and the location
+latitude and longitudes. The estimator that I used was a <a href="http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.SGDRegressor.html">SGDRegressor</a>.</p>
+
+<p>Early on, based on tips found in the competition forum, I discoverd that more
+than any features I had engineered, the biggest boost I got was to scale the
+values I was trying to predict. Instead of training for the raw votes, comments,
+and views, I trained on <em>y = log(v+1)</em> where v is the variable to be predicted.
+Then upon making predictions, I scaled them back up using <em>exp(p)-1</em> where p is
+a predicted value.</p>
+
+<p>Eventually my feature set ended up including the tag_type, source, description
+length, description (1-3)-grams, summary (1-3)-grams, and a discrete location.
+Each example came from one of four cities, so just using the continuous values
+probably wouldn’t tell much. Intuition says issues closer to the city-center
+are more likely to get attention, but that intuition isn’t getting used in raw
+in lat+lon pairs from four corners of the country! To squeeze some useful
+information from these numbers, I transformed them to discrete locations using
+a k-nearest neighbors model wrapped in a transformer class. In hindsight, this
+was completely unnecessary and I could have just written some simple
+greater-than/less-than rules, but it worked. I had tried other features along
+the way, like months since created, but ended up dropping several because they
+hurt my score.</p>
+
+<h2 id="estimator">Estimator</h2>
+
+<p>Out of ideas for features, I turned to estimator tuning. I didn’t get a lot out
+of using a grid search to tune the SGDRegressor’s hyperparameters. In the end, I
+just left them at defaults, except for <code class="language-plaintext highlighter-rouge">shuffle = 1</code>. I also tried a couple
+other models. My reason for going with the SGDRegressor was validated pretty
+quickly. Both the PassiveAggressiveRegressor and an SVR were very slow for such
+a large training set. Neither cross validated higher than the SGDRegressor, but
+I included the SVR’s predictions in my final submission with hopes that it
+would complement the SGDRegressor’s predictions and produce some net accuracy.</p>
+
+<p><a href="/images/kaggle-see-click-fix/Votes by date.png"><img src="/images/kaggle-see-click-fix/Votes by date.png" alt="Votes by Date" /></a></p>
+
+<p>One last gain came from ditching the first 10 months of training data.
+Seriously, just throwing data away. Not sure what went on at See Click Fix, but
+there were some crazy highs and lows in their traffic. I tried scaling the
+target values by the  number of months since created, and that didn’t help at
+all, so in the end, I just axed a large portion of the training set.</p>
+
+<h1 id="outcome">Outcome</h1>
+
+<p>I ended up scoring 147/533 on the public leaderboard and 151/533 on the
+private leaderboard. While this isn’t a great score, I feel happy to be in the
+top 70%.  Furthermore, I didn’t drop very far from the public to private
+leaderboards, which means I didn’t horribly overfit. It’s always interesting to
+see people doing really well during the competition who then drop significantly
+on the private leaderboard.</p>
+
+<p>The <a href="https://github.com/zacstewart/kaggle_seeclickfix">code</a> is up on GitHub under MIT license. Feel free to learn from it or
+use it as you see fit. Lastly, I’ve worked solo on every Kaggle competition
+I’ve done, but I’d like to work on a team. If you’re looking for someone to
+work with, I’d love to hear from you!</p>
+
+
+  <footer>
+    <aside class="short-bio">
+  <div class="columns alpha two">
+    <img src="http://gravatar.com/avatar/c5e99d5ecfaab30b92d9a7cdb34e0e33?s=64" alt="Zac Stewart" id="avatar">
+  </div>
+  <div class="columns omega eight">
+    <p>
+      I'm a software engineer interested in machine learning, web backends,
+      system software, realtime systems, and much more. I'm looking for
+      consulting work.
+    </p>
+
+    <p>
+      Have an interesting problem? <a href="mailto:work@zacstewart.com?subject=Work">I’d love to hear from you.</a>
+    </p>
+  </div>
+</aside>
+
+  </footer>
+</article>
+
+      </div>
+    </div>
+  </body>
+</html>

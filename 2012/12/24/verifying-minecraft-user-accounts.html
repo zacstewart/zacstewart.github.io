@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!-- open graph tags -->
+<meta content="" property="og:site_name">
+
+  <meta content="Verifing Minecraft User Accounts" property="og:title">
+
+
+  <meta content="article" property="og:type">
+
+
+  <meta content="When I need to give my brain a rest, I like to play Minecraft on an interesting
+server known as Civcraft. The unique thing about this server is that it is
+an experiment in anarchy of sorts. There are no rules except not to exploit
+software glitches that could give you an unfair advantage. Robbery, murder,
+griefing and trolling of all sorts are completely legal within the rules of the
+server. As a result, there have evolved complex and organic societies complete
+with competing cities, marketplaces and even ad hoc police forces and bounty
+hunters." property="og:description">
+
+
+  <meta content="http://zacstewart.com/2012/12/24/verifying-minecraft-user-accounts.html" property="og:url">
+
+
+  <meta content="2012-12-24T00:00:00+00:00" property="article:published_time">
+
+
+
+  
+
+
+  
+
+
+
+    <title>Verifing Minecraft User Accounts</title>
+
+    <link rel="alternate" type="application/rss+xml" title="Zac Stewart" href="http://zacstewart.com/feed.xml">
+
+    <link rel="stylesheet" href="/css/base.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="/css/skeleton.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="/css/tables.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="/css/pygment.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="/css/layout.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="/css/components.css" type="text/css" media="screen, projection">
+
+    <script data-goatcounter="https://zacstewart.goatcounter.com/count"
+      async src="//gc.zgo.at/count.js"></script>
+    <noscript>
+      <img src="https://zacstewart.goatcounter.com/count?p=/2012/12/24/verifying-minecraft-user-accounts.html">
+    </noscript>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="sixteen columns">
+        <h1 id="logo" class="remove-bottom">
+          <a href="/">Verifing Minecraft User Accounts</a>
+        </h1>
+
+        <nav>
+        </nav>
+      </div>
+
+      <div class="sixteen columns">
+        <article>
+  <header>
+    <h2>Verifing Minecraft User Accounts</h2>
+  </header>
+  <hr>
+  <p>When I need to give my brain a rest, I like to play Minecraft on an interesting
+server known as <a href="http://www.reddit.com/r/Civcraft/">Civcraft</a>. The unique thing about this server is that it is
+an experiment in anarchy of sorts. There are no rules except not to exploit
+software glitches that could give you an unfair advantage. Robbery, murder,
+griefing and trolling of all sorts are completely legal within the rules of the
+server. As a result, there have evolved complex and organic societies complete
+with competing cities, marketplaces and even ad hoc police forces and bounty
+hunters.</p>
+
+<p><img src="/images/prison-pearl.png" alt="Trapped in a Prison Pearl" title="Trapped in The End" /></p>
+
+<p>The server facilitates this with a few custom plugins like <a href="https://github.com/Wolvereness/PhysicalShop">PhysicalShop</a> for
+buying and selling via item chests and <a href="https://github.com/matthewbot/PrisonPearl">PrisonPearl</a>, which serves as the
+server supermax by letting you banish someone to <a href="http://www.minecraftwiki.net/wiki/The_End">The End</a> and keep them as
+a prisoner in an Ender Pearl.</p>
+
+<p>As an amateur compared to the major players, I actually enjoy watching the
+societal developments more than playing the game itself. One thing that is
+interesting to me is the trading. Unless you play constantly and understand
+what items people want and what kind of supply they are in, pricing can be
+confusing. Especially since it’s a barter system with no centralized currency.
+It can also be difficult to find what you’re looking for.</p>
+
+<p>I needed little pet project to keep my skills sharp and decided to build a market
+place app for the game: <a href="https://civtrade.herokuapp.com">Civtrade</a>. At first it was just a place to list
+and search for shops, but I soon decided a bounty system would be useful.</p>
+
+<p>Just listing shops didn’t really need any sort of user accounts. It was all
+anonymous.  Putting a bounty on someone was different. Users would need to be
+able to verify that the person posting the bounty was legit, otherwise someone
+could post as a prominent player, promising a huge reward for the bounty of
+their enemy.</p>
+
+<p>Mojang doesn’t provide OAuth or any other means to link your users’ accounts
+with their in-game identities. This is a shame, and it’s probably holding up a
+few good ideas. Of course, it could be by design.</p>
+
+<p>In any case, I needed to verify that the users of Civtrade are who they say they
+are. One way to do that is to reverse engineer the Minecraft client and mimic it.
+It turns out, that’s pretty easy. There’s a few URLs the client uses to POST
+your login, password and client version number. A successful response includes
+a timestamp, username, and a session id.</p>
+
+<p>For my purposes, I just needed to ensure that they can get a successful
+response and that the username matches the one they’re signing up with.</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">MinecraftAccountVerifier</span>
+  <span class="nb">require</span> <span class="s1">'net/http'</span>
+  <span class="nb">require</span> <span class="s1">'uri'</span>
+
+  <span class="no">AUTH_URI</span> <span class="o">=</span> <span class="no">URI</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s1">'https://login.minecraft.net/'</span><span class="p">).</span><span class="nf">freeze</span>
+  <span class="no">CLIENT_VERSION</span> <span class="o">=</span> <span class="mi">13</span>
+
+  <span class="nb">attr_reader</span> <span class="ss">:error</span>
+
+  <span class="c1"># Public: verify an account as a true Minecraft account this user has access to.</span>
+  <span class="c1">#</span>
+  <span class="c1"># login    - the username or email used to log into the Minecraft client</span>
+  <span class="c1"># username - both the username for this service and their in-game identity</span>
+  <span class="c1"># password - password used to log into the Minecraft client</span>
+  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">login</span><span class="p">,</span> <span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="p">)</span>
+    <span class="vi">@login</span> <span class="o">=</span> <span class="n">login</span>
+    <span class="vi">@username</span> <span class="o">=</span> <span class="n">username</span>
+    <span class="vi">@password</span> <span class="o">=</span> <span class="n">password</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">authentic?</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">login</span><span class="p">.</span><span class="nf">body</span>
+
+    <span class="k">if</span> <span class="n">response</span> <span class="o">=~</span> <span class="n">username_regex</span>
+      <span class="kp">true</span>
+    <span class="k">else</span>
+      <span class="vi">@error</span> <span class="o">=</span> <span class="n">login</span><span class="p">.</span><span class="nf">body</span><span class="p">.</span><span class="nf">chomp</span>
+      <span class="kp">false</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+
+  <span class="kp">private</span>
+  <span class="k">def</span> <span class="nf">username_regex</span>
+    <span class="no">Regexp</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="vi">@username</span><span class="p">,</span> <span class="s1">'i'</span><span class="p">)</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">request_parameters</span>
+    <span class="p">{</span>
+      <span class="s1">'user'</span> <span class="o">=&gt;</span> <span class="vi">@login</span><span class="p">,</span>
+      <span class="s1">'password'</span> <span class="o">=&gt;</span> <span class="vi">@password</span><span class="p">,</span>
+      <span class="s1">'version'</span> <span class="o">=&gt;</span> <span class="no">CLIENT_VERSION</span>
+    <span class="p">}</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">login</span>
+    <span class="n">request</span> <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">HTTP</span><span class="o">::</span><span class="no">Post</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="no">AUTH_URI</span><span class="p">.</span><span class="nf">request_uri</span><span class="p">)</span>
+    <span class="n">request</span><span class="p">.</span><span class="nf">set_form_data</span><span class="p">(</span><span class="n">request_parameters</span><span class="p">)</span>
+
+    <span class="n">http</span> <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">HTTP</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="no">AUTH_URI</span><span class="p">.</span><span class="nf">host</span><span class="p">,</span> <span class="no">AUTH_URI</span><span class="p">.</span><span class="nf">port</span><span class="p">)</span>
+    <span class="n">http</span><span class="p">.</span><span class="nf">use_ssl</span> <span class="o">=</span> <span class="kp">true</span>
+    <span class="n">http</span><span class="p">.</span><span class="nf">verify_mode</span> <span class="o">=</span> <span class="no">OpenSSL</span><span class="o">::</span><span class="no">SSL</span><span class="o">::</span><span class="no">VERIFY_PEER</span>
+
+    <span class="n">http</span><span class="p">.</span><span class="nf">request</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>This has the obvious downside that you’re asking your users for their credentials
+to a third party. They should never have to just trust you. I posted what I had
+on reddit and after about an hour with some interest but no signups I disabled
+it completely for the time being, let people sign up without verifying and
+planned to add a less invasive verification step as soon as I could think of
+one.</p>
+
+<p>Then I started thinking. At the very core of it, I just needed someone to prove
+to me that they are in control of a Minecraft user whose name matches their
+username on Civtrade. Maybe change their Minecraft account email to a generated
+throwaway briefly?  No, that’s just as bad or worse than getting their
+password. How about in-game verification? That would take way too much effort
+to meet and verify people individually. And then it hit me: Minecraft lets you
+customize your character by uploading a skin. A skin is just a tiny,
+66×34px png image. I can have my users temporarily upload a unique
+verification skin to their profile. Then I just have to diff the image against
+the original.</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">MinecraftAccountVerifier</span>
+  <span class="nb">require</span> <span class="s1">'net/http'</span>
+  <span class="nb">require</span> <span class="s1">'uri'</span>
+
+  <span class="no">SKINS_S3_BUCKET</span> <span class="o">=</span> <span class="s1">'s3.amazonaws.com'</span><span class="p">.</span><span class="nf">freeze</span>
+
+  <span class="nb">attr_reader</span> <span class="ss">:error</span>
+
+  <span class="c1"># Public: verify an account as a true Minecraft account this user has access to.</span>
+  <span class="c1">#</span>
+  <span class="c1"># username - both the username for this service and their in-game identity</span>
+  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">username</span><span class="p">)</span>
+    <span class="vi">@username</span> <span class="o">=</span> <span class="n">username</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">authentic?</span>
+    <span class="k">if</span> <span class="n">user_skin</span>
+      <span class="k">return</span> <span class="kp">true</span> <span class="k">if</span> <span class="n">skin_difference</span> <span class="o">==</span> <span class="mf">0.0</span>
+
+      <span class="vi">@error</span> <span class="o">=</span> <span class="s2">"Skin does not match verification skin. Please wait a minute or try uploading the skin again. (</span><span class="si">#{</span><span class="n">skin_difference</span><span class="si">}</span><span class="s2">% different)"</span>
+      <span class="kp">false</span>
+    <span class="k">else</span>
+      <span class="vi">@error</span> <span class="o">=</span> <span class="s1">'Your skin was not found. Please note that your username is case sensitive'</span>
+      <span class="kp">false</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+
+  <span class="kp">private</span>
+  <span class="k">def</span> <span class="nf">skin_difference</span>
+    <span class="n">diffs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">user_skin</span><span class="p">.</span><span class="nf">height</span><span class="p">.</span><span class="nf">times</span> <span class="k">do</span> <span class="o">|</span><span class="n">y</span><span class="o">|</span>
+      <span class="n">user_skin</span><span class="p">.</span><span class="nf">row</span><span class="p">(</span><span class="n">y</span><span class="p">).</span><span class="nf">each_with_index</span> <span class="k">do</span> <span class="o">|</span><span class="n">pixel</span><span class="p">,</span> <span class="n">x</span><span class="o">|</span>
+        <span class="n">diffs</span> <span class="o">&lt;&lt;</span> <span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">]</span> <span class="k">unless</span> <span class="n">pixel</span> <span class="o">==</span> <span class="n">verification_skin</span><span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">]</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+    <span class="n">diffs</span><span class="p">.</span><span class="nf">length</span><span class="p">.</span><span class="nf">to_f</span> <span class="o">/</span> <span class="n">verification_skin</span><span class="p">.</span><span class="nf">pixels</span><span class="p">.</span><span class="nf">length</span> <span class="o">*</span> <span class="mi">100</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">user_skin</span>
+    <span class="vi">@user_skin</span> <span class="o">||=</span>
+      <span class="no">Net</span><span class="o">::</span><span class="no">HTTP</span><span class="p">.</span><span class="nf">start</span><span class="p">(</span><span class="no">SKINS_S3_BUCKET</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">http</span><span class="o">|</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">http</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="s2">"/MinecraftSkins/</span><span class="si">#{</span><span class="vi">@username</span><span class="si">}</span><span class="s2">.png"</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">response</span><span class="p">.</span><span class="nf">code</span> <span class="o">==</span> <span class="s1">'200'</span>
+          <span class="n">datastream</span> <span class="o">=</span> <span class="no">ChunkyPNG</span><span class="o">::</span><span class="no">Datastream</span><span class="p">.</span><span class="nf">from_blob</span><span class="p">(</span><span class="n">response</span><span class="p">.</span><span class="nf">body</span><span class="p">)</span>
+          <span class="no">ChunkyPNG</span><span class="o">::</span><span class="no">Image</span><span class="p">.</span><span class="nf">from_datastream</span><span class="p">(</span><span class="n">datastream</span><span class="p">)</span>
+        <span class="k">end</span>
+      <span class="k">end</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">verification_skin</span>
+    <span class="vi">@verification_skin</span> <span class="o">||=</span>
+      <span class="no">ChunkyPNG</span><span class="o">::</span><span class="no">Image</span><span class="p">.</span><span class="nf">from_file</span><span class="p">(</span><span class="no">Rails</span><span class="p">.</span><span class="nf">root</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="s1">'public/verification_skin.png'</span><span class="p">))</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>Luckily, there’s nothing fancy about getting a player’s skin: they’re just stored in
+an S3 bucket with a filename matching their username. All I have to do is
+download and load it into <a href="https://github.com/wvanbergen/chunky_png">ChunkyPNG</a> to compare it with the original. This
+isn’t incredibly fast, and I’ve considered other ways of doing it, namely, MD5
+hexdigest comparison. However, that would have zero-tolerance of any
+difference, and I wasn’t sure if I could guarantee that the images would be
+absolutely unchanged upon uploading them to Mojang. It’s probably worth a try
+though. The image diff just gives me the benefit of being able to set my own
+tolerance.</p>
+
+<p>So there you have it. With that little service class, I can verify that my users are who
+they say they are and give them a little “verified” badge next to their name.</p>
+
+
+  <footer>
+    <aside class="short-bio">
+  <div class="columns alpha two">
+    <img src="http://gravatar.com/avatar/c5e99d5ecfaab30b92d9a7cdb34e0e33?s=64" alt="Zac Stewart" id="avatar">
+  </div>
+  <div class="columns omega eight">
+    <p>
+      I'm a software engineer interested in machine learning, web backends,
+      system software, realtime systems, and much more. I'm looking for
+      consulting work.
+    </p>
+
+    <p>
+      Have an interesting problem? <a href="mailto:work@zacstewart.com?subject=Work">I’d love to hear from you.</a>
+    </p>
+  </div>
+</aside>
+
+  </footer>
+</article>
+
+      </div>
+    </div>
+  </body>
+</html>

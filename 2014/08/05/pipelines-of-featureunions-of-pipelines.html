@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!-- open graph tags -->
+<meta content="" property="og:site_name">
+
+  <meta content="Using scikit-learn Pipelines and FeatureUnions" property="og:title">
+
+
+  <meta content="article" property="og:type">
+
+
+  <meta content="Since I posted a postmortem of my entry to Kaggle’s See Click Fix competition, I’ve meant to keep sharing things that I learn as I improve my machine learning skills. One that I’ve been meaning to share is scikit-learn’s pipeline module. The following is a moderately detailed explanation and a few examples of how I use pipelining when I work on competitions." property="og:description">
+
+
+  <meta content="http://zacstewart.com/2014/08/05/pipelines-of-featureunions-of-pipelines.html" property="og:url">
+
+
+  <meta content="2014-08-05T00:00:00+00:00" property="article:published_time">
+
+
+
+  
+
+
+  
+
+
+
+    <title>Using scikit-learn Pipelines and FeatureUnions</title>
+
+    <link rel="alternate" type="application/rss+xml" title="Zac Stewart" href="http://zacstewart.com/feed.xml">
+
+    <link rel="stylesheet" href="/css/base.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="/css/skeleton.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="/css/tables.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="/css/pygment.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="/css/layout.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="/css/components.css" type="text/css" media="screen, projection">
+
+    <script data-goatcounter="https://zacstewart.goatcounter.com/count"
+      async src="//gc.zgo.at/count.js"></script>
+    <noscript>
+      <img src="https://zacstewart.goatcounter.com/count?p=/2014/08/05/pipelines-of-featureunions-of-pipelines.html">
+    </noscript>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="sixteen columns">
+        <h1 id="logo" class="remove-bottom">
+          <a href="/">Using scikit-learn Pipelines and FeatureUnions</a>
+        </h1>
+
+        <nav>
+        </nav>
+      </div>
+
+      <div class="sixteen columns">
+        <article>
+  <header>
+    <h2>Using scikit-learn Pipelines and FeatureUnions</h2>
+  </header>
+  <hr>
+  <p>Since I posted a <a href="http://zacstewart.com/2013/11/27/kaggle-see-click-predict-fix-postmortem.html">postmortem</a> of my entry to Kaggle’s See Click Fix competition, I’ve meant to keep sharing things that I learn as I improve my machine learning skills. One that I’ve been meaning to share is <a href="http://scikit-learn.org/stable/">scikit-learn</a>’s pipeline module. The following is a moderately detailed explanation and a few examples of how I use pipelining when I work on competitions.</p>
+
+<p>The pipeline module of scikit-learn allows you to chain transformers and estimators together in such a way that you can use them as a single unit. This comes in very handy when you need to jump through a few hoops of data extraction, transformation, normalization, and finally train your model (or use it to generate predictions).</p>
+
+<p>When I first started participating in Kaggle competitions, I would invariably get started with some code that looked similar to this:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">train</span> <span class="o">=</span> <span class="n">read_file</span><span class="p">(</span><span class="s">'data/train.tsv'</span><span class="p">)</span>
+<span class="n">train_y</span> <span class="o">=</span> <span class="n">extract_targets</span><span class="p">(</span><span class="n">train</span><span class="p">)</span>
+<span class="n">train_essays</span> <span class="o">=</span> <span class="n">extract_essays</span><span class="p">(</span><span class="n">train</span><span class="p">)</span>
+<span class="n">train_tokens</span> <span class="o">=</span> <span class="n">get_tokens</span><span class="p">(</span><span class="n">train_essays</span><span class="p">)</span>
+<span class="n">train_features</span> <span class="o">=</span> <span class="n">extract_feactures</span><span class="p">(</span><span class="n">train</span><span class="p">)</span>
+<span class="n">classifier</span> <span class="o">=</span> <span class="n">MultinomialNB</span><span class="p">()</span>
+
+<span class="n">scores</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">train_idx</span><span class="p">,</span> <span class="n">cv_idx</span> <span class="ow">in</span> <span class="n">KFold</span><span class="p">():</span>
+  <span class="n">classifier</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_features</span><span class="p">[</span><span class="n">train_idx</span><span class="p">],</span> <span class="n">train_y</span><span class="p">[</span><span class="n">train_idx</span><span class="p">])</span>
+  <span class="n">scores</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">model</span><span class="p">.</span><span class="n">score</span><span class="p">(</span><span class="n">train_features</span><span class="p">[</span><span class="n">cv_idx</span><span class="p">],</span> <span class="n">train_y</span><span class="p">[</span><span class="n">cv_idx</span><span class="p">]))</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s">"Score: {}"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">mean</span><span class="p">(</span><span class="n">scores</span><span class="p">)))</span>
+</code></pre></div></div>
+
+<p>Often, this would yield a pretty decent score for a first submission. To improve my ranking on the leaderboard, I would try extracting some more features from the data. Let’s say in instead of text n-gram counts, I wanted <a href="http://en.wikipedia.org/wiki/Tf%E2%80%93idf">tf–idf</a>. In addition, I wanted to include overall essay length. I might as well throw in misspelling counts while I’m at it. Well, I can just tack those into the implementation of <code class="language-plaintext highlighter-rouge">extract_features</code>. I’d extract three matrices of features–one for each of those ideas and then concatenate them along axis 1. Easy.</p>
+
+<p>After exhausting all the ideas I had for extracting features, I’d find myself normalizing or scaling them, and then realizing that I want to scale some features and normalize others. Before long, it would be 2am and I’d be trying to keep track of matrix column indices by hand so that I can try something out real quick. My code would be a big ball of spaghetti, but somehow I could still understand it, so long as it was all loaded into working memory. I’d cross validate my model again, only to realize that it hurt my score, so never mind on that last idea. Maybe I should fiddle with some of the hyperparameters or something, until finally I <code class="language-plaintext highlighter-rouge">git commit -am "WIP going to bed"</code>.</p>
+
+<h1 id="pipelines">Pipelines</h1>
+
+<p>Using a <a href="http://scikit-learn.org/stable/modules/generated/sklearn.pipeline.Pipeline.html">Pipeline</a> simplifies this process. Instead of manually running through each of these steps, and then tediously repeating them on the test set, you get a nice, declarative interface where it’s easy to see the entire model. This example extracts the text documents, tokenizes them, counts the tokens, and then performs a tf–idf transformation before passing the resulting features along to a multinomial naive Bayes classifier:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">model</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([</span>
+  <span class="p">(</span><span class="s">'extract_essays'</span><span class="p">,</span> <span class="n">EssayExractor</span><span class="p">()),</span>
+  <span class="p">(</span><span class="s">'counts'</span><span class="p">,</span> <span class="n">CountVectorizer</span><span class="p">()),</span>
+  <span class="p">(</span><span class="s">'tf_idf'</span><span class="p">,</span> <span class="n">TfidfTransformer</span><span class="p">()),</span>
+  <span class="p">(</span><span class="s">'classifier'</span><span class="p">,</span> <span class="n">MultinomialNB</span><span class="p">())</span>
+<span class="p">])</span>
+
+<span class="n">train</span> <span class="o">=</span> <span class="n">read_file</span><span class="p">(</span><span class="s">'data/train.tsv'</span><span class="p">)</span>
+<span class="n">train_y</span> <span class="o">=</span> <span class="n">extract_targets</span><span class="p">(</span><span class="n">train</span><span class="p">)</span>
+<span class="n">scores</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">train_idx</span><span class="p">,</span> <span class="n">cv_idx</span> <span class="ow">in</span> <span class="n">KFold</span><span class="p">():</span>
+  <span class="n">model</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train</span><span class="p">[</span><span class="n">train_idx</span><span class="p">],</span> <span class="n">train_y</span><span class="p">[</span><span class="n">train_idx</span><span class="p">])</span>
+  <span class="n">scores</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">model</span><span class="p">.</span><span class="n">score</span><span class="p">(</span><span class="n">train</span><span class="p">[</span><span class="n">cv_idx</span><span class="p">],</span> <span class="n">train_y</span><span class="p">[</span><span class="n">cv_idx</span><span class="p">]))</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s">"Score: {}"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">mean</span><span class="p">(</span><span class="n">scores</span><span class="p">)))</span>
+</code></pre></div></div>
+
+<p>This pipeline has what I think of as a linear shape. The data flows straight through each step, until it reaches the classifier.</p>
+
+<p><img src="/images/pipelines-of-featureunions-of-pipelines/simple-pipeline.svg" alt="Simple scikit-learn Pipeline" /></p>
+
+<h1 id="featureunions">FeatureUnions</h1>
+
+<p>Like I said before, I usually want to extract more features, and that means parallel processes that need to be performed with the data before putting the results together. Using a <a href="http://scikit-learn.org/stable/modules/generated/sklearn.pipeline.FeatureUnion.html">FeatureUnion</a>, you can model these parallel processes, which are often Pipelines themselves:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([</span>
+  <span class="p">(</span><span class="s">'extract_essays'</span><span class="p">,</span> <span class="n">EssayExractor</span><span class="p">()),</span>
+  <span class="p">(</span><span class="s">'features'</span><span class="p">,</span> <span class="n">FeatureUnion</span><span class="p">([</span>
+    <span class="p">(</span><span class="s">'ngram_tf_idf'</span><span class="p">,</span> <span class="n">Pipeline</span><span class="p">([</span>
+      <span class="p">(</span><span class="s">'counts'</span><span class="p">,</span> <span class="n">CountVectorizer</span><span class="p">()),</span>
+      <span class="p">(</span><span class="s">'tf_idf'</span><span class="p">,</span> <span class="n">TfidfTransformer</span><span class="p">())</span>
+    <span class="p">])),</span>
+    <span class="p">(</span><span class="s">'essay_length'</span><span class="p">,</span> <span class="n">LengthTransformer</span><span class="p">()),</span>
+    <span class="p">(</span><span class="s">'misspellings'</span><span class="p">,</span> <span class="n">MispellingCountTransformer</span><span class="p">())</span>
+  <span class="p">])),</span>
+  <span class="p">(</span><span class="s">'classifier'</span><span class="p">,</span> <span class="n">MultinomialNB</span><span class="p">())</span>
+<span class="p">])</span>
+</code></pre></div></div>
+
+<p>This example feeds the output of the <code class="language-plaintext highlighter-rouge">extract_essays</code> step into each of the <code class="language-plaintext highlighter-rouge">ngram_tf_idf</code>, <code class="language-plaintext highlighter-rouge">essay_length</code>, and <code class="language-plaintext highlighter-rouge">misspellings</code> steps and concatenates their outputs (along axis 1) before feeding it into the classifier.</p>
+
+<p><img src="/images/pipelines-of-featureunions-of-pipelines/featureunion-pipelines.svg" alt="scikit-learn Pipeline with a FeatureUnion" /></p>
+
+<p>Usually, I end up with several layers of nested Pipelines and FeatureUnions. For example, here’s a crazy Pipeline I pulled from a project I am currently working on:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([</span>
+    <span class="p">(</span><span class="s">'features'</span><span class="p">,</span> <span class="n">FeatureUnion</span><span class="p">([</span>
+        <span class="p">(</span><span class="s">'continuous'</span><span class="p">,</span> <span class="n">Pipeline</span><span class="p">([</span>
+            <span class="p">(</span><span class="s">'extract'</span><span class="p">,</span> <span class="n">ColumnExtractor</span><span class="p">(</span><span class="n">CONTINUOUS_FIELDS</span><span class="p">)),</span>
+            <span class="p">(</span><span class="s">'scale'</span><span class="p">,</span> <span class="n">Normalizer</span><span class="p">())</span>
+        <span class="p">])),</span>
+        <span class="p">(</span><span class="s">'factors'</span><span class="p">,</span> <span class="n">Pipeline</span><span class="p">([</span>
+            <span class="p">(</span><span class="s">'extract'</span><span class="p">,</span> <span class="n">ColumnExtractor</span><span class="p">(</span><span class="n">FACTOR_FIELDS</span><span class="p">)),</span>
+            <span class="p">(</span><span class="s">'one_hot'</span><span class="p">,</span> <span class="n">OneHotEncoder</span><span class="p">(</span><span class="n">n_values</span><span class="o">=</span><span class="mi">5</span><span class="p">)),</span>
+            <span class="p">(</span><span class="s">'to_dense'</span><span class="p">,</span> <span class="n">DenseTransformer</span><span class="p">())</span>
+        <span class="p">])),</span>
+        <span class="p">(</span><span class="s">'weekday'</span><span class="p">,</span> <span class="n">Pipeline</span><span class="p">([</span>
+            <span class="p">(</span><span class="s">'extract'</span><span class="p">,</span> <span class="n">DayOfWeekTransformer</span><span class="p">()),</span>
+            <span class="p">(</span><span class="s">'one_hot'</span><span class="p">,</span> <span class="n">OneHotEncoder</span><span class="p">()),</span>
+            <span class="p">(</span><span class="s">'to_dense'</span><span class="p">,</span> <span class="n">DenseTransformer</span><span class="p">())</span>
+        <span class="p">])),</span>
+        <span class="p">(</span><span class="s">'hour_of_day'</span><span class="p">,</span> <span class="n">HourOfDayTransformer</span><span class="p">()),</span>
+        <span class="p">(</span><span class="s">'month'</span><span class="p">,</span> <span class="n">Pipeline</span><span class="p">([</span>
+            <span class="p">(</span><span class="s">'extract'</span><span class="p">,</span> <span class="n">ColumnExtractor</span><span class="p">([</span><span class="s">'datetime'</span><span class="p">])),</span>
+            <span class="p">(</span><span class="s">'to_month'</span><span class="p">,</span> <span class="n">DateTransformer</span><span class="p">()),</span>
+            <span class="p">(</span><span class="s">'one_hot'</span><span class="p">,</span> <span class="n">OneHotEncoder</span><span class="p">()),</span>
+            <span class="p">(</span><span class="s">'to_dense'</span><span class="p">,</span> <span class="n">DenseTransformer</span><span class="p">())</span>
+        <span class="p">])),</span>
+        <span class="p">(</span><span class="s">'growth'</span><span class="p">,</span> <span class="n">Pipeline</span><span class="p">([</span>
+            <span class="p">(</span><span class="s">'datetime'</span><span class="p">,</span> <span class="n">ColumnExtractor</span><span class="p">([</span><span class="s">'datetime'</span><span class="p">])),</span>
+            <span class="p">(</span><span class="s">'to_numeric'</span><span class="p">,</span> <span class="n">MatrixConversion</span><span class="p">(</span><span class="nb">int</span><span class="p">)),</span>
+            <span class="p">(</span><span class="s">'regression'</span><span class="p">,</span> <span class="n">ModelTransformer</span><span class="p">(</span><span class="n">LinearRegression</span><span class="p">()))</span>
+        <span class="p">]))</span>
+    <span class="p">])),</span>
+    <span class="p">(</span><span class="s">'estimators'</span><span class="p">,</span> <span class="n">FeatureUnion</span><span class="p">([</span>
+        <span class="p">(</span><span class="s">'knn'</span><span class="p">,</span> <span class="n">ModelTransformer</span><span class="p">(</span><span class="n">KNeighborsRegressor</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="mi">5</span><span class="p">))),</span>
+        <span class="p">(</span><span class="s">'gbr'</span><span class="p">,</span> <span class="n">ModelTransformer</span><span class="p">(</span><span class="n">GradientBoostingRegressor</span><span class="p">())),</span>
+        <span class="p">(</span><span class="s">'dtr'</span><span class="p">,</span> <span class="n">ModelTransformer</span><span class="p">(</span><span class="n">DecisionTreeRegressor</span><span class="p">())),</span>
+        <span class="p">(</span><span class="s">'etr'</span><span class="p">,</span> <span class="n">ModelTransformer</span><span class="p">(</span><span class="n">ExtraTreesRegressor</span><span class="p">())),</span>
+        <span class="p">(</span><span class="s">'rfr'</span><span class="p">,</span> <span class="n">ModelTransformer</span><span class="p">(</span><span class="n">RandomForestRegressor</span><span class="p">())),</span>
+        <span class="p">(</span><span class="s">'par'</span><span class="p">,</span> <span class="n">ModelTransformer</span><span class="p">(</span><span class="n">PassiveAggressiveRegressor</span><span class="p">())),</span>
+        <span class="p">(</span><span class="s">'en'</span><span class="p">,</span> <span class="n">ModelTransformer</span><span class="p">(</span><span class="n">ElasticNet</span><span class="p">())),</span>
+        <span class="p">(</span><span class="s">'cluster'</span><span class="p">,</span> <span class="n">ModelTransformer</span><span class="p">(</span><span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="mi">2</span><span class="p">)))</span>
+    <span class="p">])),</span>
+    <span class="p">(</span><span class="s">'estimator'</span><span class="p">,</span> <span class="n">KNeighborsRegressor</span><span class="p">())</span>
+<span class="p">])</span>
+</code></pre></div></div>
+
+<h1 id="custom-transformers">Custom Transformers</h1>
+
+<p>Many of the steps in the previous examples include transformers that don’t come with scikit-learn. The ColumnExtractor, DenseTransformer, and ModelTransformer, to name a few, are all custom transformers that I wrote. A transformer is just an object that responds to <code class="language-plaintext highlighter-rouge">fit</code>, <code class="language-plaintext highlighter-rouge">transform</code>, and <code class="language-plaintext highlighter-rouge">fit_transform</code>. This includes built-in transformers (like MinMaxScaler), Pipelines, FeatureUnions, and of course, plain old Python objects that implement those methods. Inheriting from TransformerMixin is not required, but helps to communicate intent, and gets you <code class="language-plaintext highlighter-rouge">fit_transform</code> for free.</p>
+
+<p>A transformer can be thought of as a data in, data out black box. Generally, they accept a matrix as input and return a matrix of the same shape as output. That makes it easy to reorder and remix them at will. However, I often use <a href="http://pandas.pydata.org">Pandas</a> DataFrames, and expect one as input to a transformer. For example, the ColumnExtractor is for extracting columns from a DataFrame.</p>
+
+<p>Sometimes transformers are very simple, like HourOfDayTransformer, which just extracts the hour components out of a vector of datetime objects. Such transformers are “stateless”–they don’t need to be fitted, so <code class="language-plaintext highlighter-rouge">fit</code> is a no-op:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">HourOfDayTransformer</span><span class="p">(</span><span class="n">TransformerMixin</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="o">**</span><span class="n">transform_params</span><span class="p">):</span>
+        <span class="n">hours</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="s">'datetime'</span><span class="p">].</span><span class="nb">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">.</span><span class="n">hour</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">hours</span>
+
+    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">fit_params</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span>
+</code></pre></div></div>
+
+<p>However, sometimes transformers do need to be fitted. Let’s take a look at my ModelTransformer. I use this one to wrap a scikit-learn model and make it behave like a transformer. I find these useful when I want to use something like a KMeans clustering model to generate features for another model. It needs to be fitted in order to train the model it wraps.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">ModelTransformer</span><span class="p">(</span><span class="n">TransformerMixin</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">):</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span>
+
+    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">model</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="o">**</span><span class="n">transform_params</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">DataFrame</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">model</span><span class="p">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">))</span>
+</code></pre></div></div>
+
+<p>The pipeline treats these objects like any of the built-in transformers and <code class="language-plaintext highlighter-rouge">fit</code>s them during the training phase, and <code class="language-plaintext highlighter-rouge">transform</code>s the data using each one when predicting.</p>
+
+<h1 id="final-thoughts">Final Thoughts</h1>
+
+<p>While the initial investment is higher, designing my projects this way ensures that I can continue to adapt and improve it without pulling my hair out keeping all the steps straight. It really starts to pay off when you get into hyperparameter tuning, but I’ll save that for another post.</p>
+
+<p>Pipelines unfortunately do not support the <code class="language-plaintext highlighter-rouge">fit_partial</code> API for out-of-core training. This makes them less useful for large scale or online learning models. I addressed some of this in <a href="http://zacstewart.com/2014/01/10/building-a-language-identifier.html">my talk on building a language identifier</a>, wherein I trained a model on entire Wikipedia dumps. Unfortunately, it’s not as easy as it sounds to make Pipelines support it. The scikit-learn team will probably have to come up with a different pipelining scheme for incremental learning.</p>
+
+<p>If I could add one enhancement to this design, it would be a way to add post-processing steps to the pipeline. I usually end up needing to take a few final steps like setting all negative predictions to <code class="language-plaintext highlighter-rouge">0.0</code>. The last step in the pipeline is assumed to be the final estimator, and as such the pipeline calls <code class="language-plaintext highlighter-rouge">predict</code> on it instead of <code class="language-plaintext highlighter-rouge">transform</code>. Because of this limitation, I end up having to do my post-processing outside of the pipeline:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">predicted</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">predict</span><span class="p">(</span><span class="n">test</span><span class="p">)</span>
+<span class="n">predicted</span><span class="p">[</span><span class="n">predicted</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+</code></pre></div></div>
+
+<p>This usually isn’t a big problem, but it does make cross-validation a little trickier. Overall, I don’t find this very limiting, and I love using pipelines to organize my models.</p>
+
+
+  <footer>
+    <aside class="short-bio">
+  <div class="columns alpha two">
+    <img src="http://gravatar.com/avatar/c5e99d5ecfaab30b92d9a7cdb34e0e33?s=64" alt="Zac Stewart" id="avatar">
+  </div>
+  <div class="columns omega eight">
+    <p>
+      I'm a software engineer interested in machine learning, web backends,
+      system software, realtime systems, and much more. I'm looking for
+      consulting work.
+    </p>
+
+    <p>
+      Have an interesting problem? <a href="mailto:work@zacstewart.com?subject=Work">I’d love to hear from you.</a>
+    </p>
+  </div>
+</aside>
+
+  </footer>
+</article>
+
+      </div>
+    </div>
+  </body>
+</html>

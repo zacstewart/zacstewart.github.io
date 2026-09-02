@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!-- open graph tags -->
+<meta content="" property="og:site_name">
+
+  <meta content="Simulating the iSight Camera in the iOS Simulator" property="og:title">
+
+
+  <meta content="article" property="og:type">
+
+
+  <meta content="A well-known limitation of the iOS Simulator is that you are unable to test
+code that uses the camera. Unlike some other hardware features (Location
+Services, Touch ID, orientation, gestures), Apple has yet to add a way to
+either link the Simulator’s camera output to a camera on the host device, or
+even allow you to choose a static image to “mock” the input of the camera.
+That’s the goal of this tutorial. I’ll walk you through creating an interface
+around the camera and then mocking it to use on the Simulator. The result will
+be that you can include some static images to represent the front and rear
+cameras when running your app in the Simulator." property="og:description">
+
+
+  <meta content="http://zacstewart.com/2018/10/09/mocking-the-isight-camera-in-the-ios-simulator.html" property="og:url">
+
+
+  <meta content="2018-10-09T00:00:00+00:00" property="article:published_time">
+
+
+
+  
+
+
+  
+
+
+
+    <title>Simulating the iSight Camera in the iOS Simulator</title>
+
+    <link rel="alternate" type="application/rss+xml" title="Zac Stewart" href="http://zacstewart.com/feed.xml">
+
+    <link rel="stylesheet" href="/css/base.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="/css/skeleton.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="/css/tables.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="/css/pygment.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="/css/layout.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="/css/components.css" type="text/css" media="screen, projection">
+
+    <script data-goatcounter="https://zacstewart.goatcounter.com/count"
+      async src="//gc.zgo.at/count.js"></script>
+    <noscript>
+      <img src="https://zacstewart.goatcounter.com/count?p=/2018/10/09/mocking-the-isight-camera-in-the-ios-simulator.html">
+    </noscript>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="sixteen columns">
+        <h1 id="logo" class="remove-bottom">
+          <a href="/">Simulating the iSight Camera in the iOS Simulator</a>
+        </h1>
+
+        <nav>
+        </nav>
+      </div>
+
+      <div class="sixteen columns">
+        <article>
+  <header>
+    <h2>Simulating the iSight Camera in the iOS Simulator</h2>
+  </header>
+  <hr>
+  <p>A well-known limitation of the iOS Simulator is that you are unable to test
+code that uses the camera. Unlike some other hardware features (Location
+Services, Touch ID, orientation, gestures), Apple has yet to add a way to
+either link the Simulator’s camera output to a camera on the host device, or
+even allow you to choose a static image to “mock” the input of the camera.
+That’s the goal of this tutorial. I’ll walk you through creating an interface
+around the camera and then mocking it to use on the Simulator. The result will
+be that you can include some static images to represent the front and rear
+cameras when running your app in the Simulator.</p>
+
+<p>You can check out my example app <a href="https://github.com/zacstewart/Example-Mock-iSight-Camera-Simulator">on GitHub</a> if you want to see
+it in action. When run on your phone, it presents a simple app with a camera
+preview. There’s a button to switch cameras and a button to snap a photo. When
+you snap a photo it will capture the image and then present it in another view
+that includes and “X” button to discard and go back to the preview view. When
+run in the Simulator it behaves the same, except the front and back camera
+previews will display static images that get included with the project. I’m
+using Swift but I imagine you could follow a similar pattern with Objective-C.</p>
+
+<h2 id="using-avfoundation">Using AVFoundation</h2>
+
+<p>To start with, you need to wrap up access to the camera with a clean interface.
+I found <a href="https://www.appcoda.com/avfoundation-swift-guide/">this tutorial</a> to be extremely helpful. I
+recommend you read it, but to briefly sum it up, you create a
+<code class="language-plaintext highlighter-rouge">CameraController</code> class that handles all setup, switching front and back
+cameras, and capturing a photo.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">import</span> <span class="kt">AVFoundation</span>
+<span class="kd">import</span> <span class="kt">UIKit</span>
+
+<span class="kd">class</span> <span class="kt">CameraController</span> <span class="p">{</span>
+
+    <span class="k">var</span> <span class="nv">captureSession</span><span class="p">:</span> <span class="kt">AVCaptureSession</span><span class="p">?</span>
+    <span class="k">var</span> <span class="nv">currentCameraPosition</span><span class="p">:</span> <span class="kt">CameraPosition</span><span class="p">?</span>
+    <span class="k">var</span> <span class="nv">frontCamera</span><span class="p">:</span> <span class="kt">AVCaptureDevice</span><span class="p">?</span>
+    <span class="k">var</span> <span class="nv">frontCameraInput</span><span class="p">:</span> <span class="kt">AVCaptureDeviceInput</span><span class="p">?</span>
+    <span class="k">var</span> <span class="nv">rearCamera</span><span class="p">:</span> <span class="kt">AVCaptureDevice</span><span class="p">?</span>
+    <span class="k">var</span> <span class="nv">rearCameraInput</span><span class="p">:</span> <span class="kt">AVCaptureDeviceInput</span><span class="p">?</span>
+    <span class="k">var</span> <span class="nv">photoOutput</span><span class="p">:</span> <span class="kt">AVCapturePhotoOutput</span><span class="p">?</span>
+    <span class="k">var</span> <span class="nv">previewLayer</span><span class="p">:</span> <span class="kt">AVCaptureVideoPreviewLayer</span><span class="p">?</span>
+    <span class="k">var</span> <span class="nv">photoCaptureCompletionBlock</span><span class="p">:</span> <span class="p">((</span><span class="kt">UIImage</span><span class="p">?,</span> <span class="kt">Error</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)?</span>
+
+    <span class="kd">func</span> <span class="nf">prepare</span><span class="p">(</span><span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Error</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kd">func</span> <span class="nf">createCaptureSession</span><span class="p">()</span> <span class="p">{</span>
+            <span class="k">self</span><span class="o">.</span><span class="n">captureSession</span> <span class="o">=</span> <span class="kt">AVCaptureSession</span><span class="p">()</span>
+        <span class="p">}</span>
+
+        <span class="kd">func</span> <span class="nf">configureCaptureDevices</span><span class="p">()</span> <span class="k">throws</span> <span class="p">{</span>
+            <span class="k">let</span> <span class="nv">session</span> <span class="o">=</span> <span class="kt">AVCaptureDevice</span><span class="o">.</span><span class="kt">DiscoverySession</span><span class="p">(</span>
+                <span class="nv">deviceTypes</span><span class="p">:</span> <span class="p">[</span><span class="o">.</span><span class="n">builtInWideAngleCamera</span><span class="p">],</span>
+                <span class="nv">mediaType</span><span class="p">:</span> <span class="kt">AVMediaType</span><span class="o">.</span><span class="n">video</span><span class="p">,</span>
+                <span class="nv">position</span><span class="p">:</span> <span class="o">.</span><span class="n">unspecified</span><span class="p">)</span>
+            <span class="k">let</span> <span class="nv">cameras</span> <span class="o">=</span> <span class="p">(</span><span class="n">session</span><span class="o">.</span><span class="n">devices</span><span class="o">.</span><span class="n">compactMap</span> <span class="p">{</span> <span class="nv">$0</span> <span class="p">})</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="n">cameras</span><span class="o">.</span><span class="n">isEmpty</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">throw</span> <span class="kt">CameraControllerError</span><span class="o">.</span><span class="n">noCamerasAvailable</span>
+            <span class="p">}</span>
+
+            <span class="k">for</span> <span class="n">camera</span> <span class="k">in</span> <span class="n">cameras</span> <span class="p">{</span>
+                <span class="k">if</span> <span class="n">camera</span><span class="o">.</span><span class="n">position</span> <span class="o">==</span> <span class="o">.</span><span class="n">front</span> <span class="p">{</span>
+                    <span class="k">self</span><span class="o">.</span><span class="n">frontCamera</span> <span class="o">=</span> <span class="n">camera</span>
+                <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">camera</span><span class="o">.</span><span class="n">position</span> <span class="o">==</span> <span class="o">.</span><span class="n">back</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="k">self</span><span class="o">.</span><span class="n">rearCamera</span> <span class="o">=</span> <span class="n">camera</span>
+
+                    <span class="k">try</span> <span class="n">camera</span><span class="o">.</span><span class="nf">lockForConfiguration</span><span class="p">()</span>
+                    <span class="n">camera</span><span class="o">.</span><span class="n">focusMode</span> <span class="o">=</span> <span class="o">.</span><span class="n">continuousAutoFocus</span>
+                    <span class="n">camera</span><span class="o">.</span><span class="nf">unlockForConfiguration</span><span class="p">()</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+
+        <span class="kd">func</span> <span class="nf">configureDeviceInputs</span><span class="p">()</span> <span class="k">throws</span> <span class="p">{</span>
+            <span class="k">guard</span> <span class="k">let</span> <span class="nv">captureSession</span> <span class="o">=</span> <span class="k">self</span><span class="o">.</span><span class="n">captureSession</span> <span class="k">else</span> <span class="p">{</span>
+                <span class="k">throw</span> <span class="kt">CameraControllerError</span><span class="o">.</span><span class="n">captureSessionIsMissing</span>
+            <span class="p">}</span>
+
+            <span class="k">if</span> <span class="k">let</span> <span class="nv">frontCamera</span> <span class="o">=</span> <span class="k">self</span><span class="o">.</span><span class="n">frontCamera</span> <span class="p">{</span>
+                <span class="k">self</span><span class="o">.</span><span class="n">frontCameraInput</span> <span class="o">=</span> <span class="k">try</span> <span class="kt">AVCaptureDeviceInput</span><span class="p">(</span><span class="nv">device</span><span class="p">:</span> <span class="n">frontCamera</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">captureSession</span><span class="o">.</span><span class="nf">canAddInput</span><span class="p">(</span><span class="k">self</span><span class="o">.</span><span class="n">frontCameraInput</span><span class="o">!</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="n">captureSession</span><span class="o">.</span><span class="nf">addInput</span><span class="p">(</span><span class="k">self</span><span class="o">.</span><span class="n">frontCameraInput</span><span class="o">!</span><span class="p">)</span>
+                <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                    <span class="k">throw</span> <span class="kt">CameraControllerError</span><span class="o">.</span><span class="n">inputsAreInvalid</span>
+                <span class="p">}</span>
+                <span class="k">self</span><span class="o">.</span><span class="n">currentCameraPosition</span> <span class="o">=</span> <span class="o">.</span><span class="n">front</span>
+
+            <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="k">let</span> <span class="nv">rearCamera</span> <span class="o">=</span> <span class="k">self</span><span class="o">.</span><span class="n">rearCamera</span> <span class="p">{</span>
+                <span class="k">self</span><span class="o">.</span><span class="n">rearCameraInput</span> <span class="o">=</span> <span class="k">try</span> <span class="kt">AVCaptureDeviceInput</span><span class="p">(</span><span class="nv">device</span><span class="p">:</span> <span class="n">rearCamera</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">captureSession</span><span class="o">.</span><span class="nf">canAddInput</span><span class="p">(</span><span class="k">self</span><span class="o">.</span><span class="n">rearCameraInput</span><span class="o">!</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="n">captureSession</span><span class="o">.</span><span class="nf">addInput</span><span class="p">(</span><span class="k">self</span><span class="o">.</span><span class="n">rearCameraInput</span><span class="o">!</span><span class="p">)</span>
+                <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                    <span class="k">throw</span> <span class="kt">CameraControllerError</span><span class="o">.</span><span class="n">inputsAreInvalid</span>
+                <span class="p">}</span>
+                <span class="k">self</span><span class="o">.</span><span class="n">currentCameraPosition</span> <span class="o">=</span> <span class="o">.</span><span class="n">rear</span>
+
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                <span class="k">throw</span> <span class="kt">CameraControllerError</span><span class="o">.</span><span class="n">noCamerasAvailable</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+
+        <span class="kd">func</span> <span class="nf">configurePhotoOutput</span><span class="p">()</span> <span class="k">throws</span> <span class="p">{</span>
+            <span class="k">guard</span> <span class="k">let</span> <span class="nv">captureSession</span> <span class="o">=</span> <span class="k">self</span><span class="o">.</span><span class="n">captureSession</span> <span class="k">else</span> <span class="p">{</span>
+                <span class="k">throw</span> <span class="kt">CameraControllerError</span><span class="o">.</span><span class="n">captureSessionIsMissing</span>
+            <span class="p">}</span>
+            <span class="k">self</span><span class="o">.</span><span class="n">photoOutput</span> <span class="o">=</span> <span class="kt">AVCapturePhotoOutput</span><span class="p">()</span>
+            <span class="k">self</span><span class="o">.</span><span class="n">photoOutput</span><span class="o">!.</span><span class="nf">setPreparedPhotoSettingsArray</span><span class="p">([</span>
+                <span class="kt">AVCapturePhotoSettings</span><span class="p">(</span><span class="nv">format</span><span class="p">:</span> <span class="p">[</span><span class="kt">AVVideoCodecKey</span><span class="p">:</span> <span class="kt">AVVideoCodecType</span><span class="o">.</span><span class="n">jpeg</span><span class="p">])</span>
+            <span class="p">],</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">captureSession</span><span class="o">.</span><span class="nf">canAddOutput</span><span class="p">(</span><span class="k">self</span><span class="o">.</span><span class="n">photoOutput</span><span class="o">!</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">captureSession</span><span class="o">.</span><span class="nf">addOutput</span><span class="p">(</span><span class="k">self</span><span class="o">.</span><span class="n">photoOutput</span><span class="o">!</span><span class="p">)</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+
+        <span class="kd">func</span> <span class="nf">startCaptureSession</span><span class="p">()</span> <span class="k">throws</span> <span class="p">{</span>
+            <span class="k">guard</span> <span class="k">let</span> <span class="nv">captureSession</span> <span class="o">=</span> <span class="k">self</span><span class="o">.</span><span class="n">captureSession</span> <span class="k">else</span> <span class="p">{</span>
+                <span class="k">throw</span> <span class="kt">CameraControllerError</span><span class="o">.</span><span class="n">captureSessionIsMissing</span>
+            <span class="p">}</span>
+            <span class="n">captureSession</span><span class="o">.</span><span class="nf">startRunning</span><span class="p">()</span>
+        <span class="p">}</span>
+
+        <span class="kt">DispatchQueue</span><span class="p">(</span><span class="nv">label</span><span class="p">:</span> <span class="s">"prepare"</span><span class="p">)</span><span class="o">.</span><span class="k">async</span> <span class="p">{</span>
+            <span class="k">do</span> <span class="p">{</span>
+                <span class="nf">createCaptureSession</span><span class="p">()</span>
+                <span class="k">try</span> <span class="nf">configureCaptureDevices</span><span class="p">()</span>
+                <span class="k">try</span> <span class="nf">configureDeviceInputs</span><span class="p">()</span>
+                <span class="k">try</span> <span class="nf">configurePhotoOutput</span><span class="p">()</span>
+                <span class="k">try</span> <span class="nf">startCaptureSession</span><span class="p">()</span>
+            <span class="p">}</span> <span class="k">catch</span> <span class="p">{</span>
+                <span class="kt">DispatchQueue</span><span class="o">.</span><span class="n">main</span><span class="o">.</span><span class="k">async</span> <span class="p">{</span>
+                    <span class="nf">completionHandler</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
+                <span class="p">}</span>
+
+                <span class="k">return</span>
+            <span class="p">}</span>
+
+            <span class="kt">DispatchQueue</span><span class="o">.</span><span class="n">main</span><span class="o">.</span><span class="k">async</span> <span class="p">{</span>
+                <span class="nf">completionHandler</span><span class="p">(</span><span class="kc">nil</span><span class="p">)</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="kd">func</span> <span class="nf">captureImage</span><span class="p">(</span><span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">UIImage</span><span class="p">?,</span> <span class="kt">Error</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">guard</span> <span class="k">let</span> <span class="nv">captureSession</span> <span class="o">=</span> <span class="k">self</span><span class="o">.</span><span class="n">captureSession</span><span class="p">,</span>
+            <span class="n">captureSession</span><span class="o">.</span><span class="n">isRunning</span> <span class="k">else</span> <span class="p">{</span>
+                <span class="nf">completion</span><span class="p">(</span><span class="kc">nil</span><span class="p">,</span> <span class="kt">CameraControllerError</span><span class="o">.</span><span class="n">captureSessionIsMissing</span><span class="p">)</span>
+                <span class="k">return</span>
+        <span class="p">}</span>
+
+        <span class="k">let</span> <span class="nv">settings</span> <span class="o">=</span> <span class="kt">AVCapturePhotoSettings</span><span class="p">()</span>
+
+        <span class="k">self</span><span class="o">.</span><span class="n">photoCaptureCompletionBlock</span> <span class="o">=</span> <span class="n">completion</span>
+        <span class="k">self</span><span class="o">.</span><span class="n">photoOutput</span><span class="p">?</span><span class="o">.</span><span class="nf">capturePhoto</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="n">settings</span><span class="p">,</span> <span class="nv">delegate</span><span class="p">:</span> <span class="k">self</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="kd">func</span> <span class="nf">displayPreview</span><span class="p">(</span><span class="n">on</span> <span class="nv">view</span><span class="p">:</span> <span class="kt">UIView</span><span class="p">)</span> <span class="k">throws</span> <span class="p">{</span>
+        <span class="k">guard</span> <span class="k">let</span> <span class="nv">captureSession</span> <span class="o">=</span> <span class="k">self</span><span class="o">.</span><span class="n">captureSession</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="k">throw</span> <span class="kt">CameraControllerError</span><span class="o">.</span><span class="n">captureSessionIsMissing</span>
+        <span class="p">}</span>
+
+        <span class="k">self</span><span class="o">.</span><span class="n">previewLayer</span> <span class="o">=</span> <span class="kt">AVCaptureVideoPreviewLayer</span><span class="p">(</span><span class="nv">session</span><span class="p">:</span> <span class="n">captureSession</span><span class="p">)</span>
+        <span class="k">self</span><span class="o">.</span><span class="n">previewLayer</span><span class="p">?</span><span class="o">.</span><span class="n">videoGravity</span> <span class="o">=</span> <span class="o">.</span><span class="n">resizeAspectFill</span>
+        <span class="k">self</span><span class="o">.</span><span class="n">previewLayer</span><span class="p">?</span><span class="o">.</span><span class="n">connection</span><span class="p">?</span><span class="o">.</span><span class="n">videoOrientation</span> <span class="o">=</span> <span class="o">.</span><span class="n">portrait</span>
+
+        <span class="n">view</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="nf">insertSublayer</span><span class="p">(</span><span class="k">self</span><span class="o">.</span><span class="n">previewLayer</span><span class="o">!</span><span class="p">,</span> <span class="nv">at</span><span class="p">:</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">self</span><span class="o">.</span><span class="n">previewLayer</span><span class="p">?</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="n">view</span><span class="o">.</span><span class="n">frame</span>
+    <span class="p">}</span>
+
+    <span class="kd">func</span> <span class="nf">switchCameras</span><span class="p">()</span> <span class="k">throws</span> <span class="p">{</span>
+        <span class="k">guard</span> <span class="k">let</span> <span class="nv">currentCameraPosition</span> <span class="o">=</span> <span class="n">currentCameraPosition</span><span class="p">,</span>
+            <span class="k">let</span> <span class="nv">captureSession</span> <span class="o">=</span> <span class="k">self</span><span class="o">.</span><span class="n">captureSession</span><span class="p">,</span>
+            <span class="n">captureSession</span><span class="o">.</span><span class="n">isRunning</span> <span class="k">else</span> <span class="p">{</span>
+                <span class="k">throw</span> <span class="kt">CameraControllerError</span><span class="o">.</span><span class="n">captureSessionIsMissing</span>
+        <span class="p">}</span>
+
+        <span class="n">captureSession</span><span class="o">.</span><span class="nf">beginConfiguration</span><span class="p">()</span>
+
+        <span class="kd">func</span> <span class="nf">switchToFrontCamera</span><span class="p">()</span> <span class="k">throws</span> <span class="p">{</span>
+            <span class="k">let</span> <span class="nv">inputs</span> <span class="o">=</span> <span class="n">captureSession</span><span class="o">.</span><span class="n">inputs</span> <span class="k">as</span> <span class="p">[</span><span class="kt">AVCaptureInput</span><span class="p">]</span>
+            <span class="k">guard</span> <span class="k">let</span> <span class="nv">rearCameraInput</span> <span class="o">=</span> <span class="k">self</span><span class="o">.</span><span class="n">rearCameraInput</span><span class="p">,</span>
+                <span class="n">inputs</span><span class="o">.</span><span class="nf">contains</span><span class="p">(</span><span class="n">rearCameraInput</span><span class="p">),</span>
+                <span class="k">let</span> <span class="nv">frontCamera</span> <span class="o">=</span> <span class="k">self</span><span class="o">.</span><span class="n">frontCamera</span> <span class="k">else</span> <span class="p">{</span>
+                    <span class="k">throw</span> <span class="kt">CameraControllerError</span><span class="o">.</span><span class="n">invalidOperation</span>
+            <span class="p">}</span>
+
+            <span class="k">self</span><span class="o">.</span><span class="n">frontCameraInput</span> <span class="o">=</span> <span class="k">try</span> <span class="kt">AVCaptureDeviceInput</span><span class="p">(</span><span class="nv">device</span><span class="p">:</span> <span class="n">frontCamera</span><span class="p">)</span>
+            <span class="n">captureSession</span><span class="o">.</span><span class="nf">removeInput</span><span class="p">(</span><span class="n">rearCameraInput</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">captureSession</span><span class="o">.</span><span class="nf">canAddInput</span><span class="p">(</span><span class="k">self</span><span class="o">.</span><span class="n">frontCameraInput</span><span class="o">!</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">captureSession</span><span class="o">.</span><span class="nf">addInput</span><span class="p">(</span><span class="k">self</span><span class="o">.</span><span class="n">frontCameraInput</span><span class="o">!</span><span class="p">)</span>
+            <span class="p">}</span>
+            <span class="k">self</span><span class="o">.</span><span class="n">currentCameraPosition</span> <span class="o">=</span> <span class="o">.</span><span class="n">front</span>
+        <span class="p">}</span>
+
+        <span class="kd">func</span> <span class="nf">switchToRearCamera</span><span class="p">()</span> <span class="k">throws</span> <span class="p">{</span>
+            <span class="k">let</span> <span class="nv">inputs</span> <span class="o">=</span> <span class="n">captureSession</span><span class="o">.</span><span class="n">inputs</span> <span class="k">as</span> <span class="p">[</span><span class="kt">AVCaptureInput</span><span class="p">]</span>
+            <span class="k">guard</span> <span class="k">let</span> <span class="nv">frontCameraInput</span> <span class="o">=</span> <span class="k">self</span><span class="o">.</span><span class="n">frontCameraInput</span><span class="p">,</span>
+                <span class="n">inputs</span><span class="o">.</span><span class="nf">contains</span><span class="p">(</span><span class="n">frontCameraInput</span><span class="p">),</span>
+                <span class="k">let</span> <span class="nv">rearCamera</span> <span class="o">=</span> <span class="k">self</span><span class="o">.</span><span class="n">rearCamera</span> <span class="k">else</span> <span class="p">{</span>
+                    <span class="k">throw</span> <span class="kt">CameraControllerError</span><span class="o">.</span><span class="n">invalidOperation</span>
+            <span class="p">}</span>
+
+            <span class="k">self</span><span class="o">.</span><span class="n">rearCameraInput</span> <span class="o">=</span> <span class="k">try</span> <span class="kt">AVCaptureDeviceInput</span><span class="p">(</span><span class="nv">device</span><span class="p">:</span> <span class="n">rearCamera</span><span class="p">)</span>
+            <span class="n">captureSession</span><span class="o">.</span><span class="nf">removeInput</span><span class="p">(</span><span class="n">frontCameraInput</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">captureSession</span><span class="o">.</span><span class="nf">canAddInput</span><span class="p">(</span><span class="n">rearCameraInput</span><span class="o">!</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">captureSession</span><span class="o">.</span><span class="nf">addInput</span><span class="p">(</span><span class="n">rearCameraInput</span><span class="o">!</span><span class="p">)</span>
+            <span class="p">}</span>
+            <span class="k">self</span><span class="o">.</span><span class="n">currentCameraPosition</span> <span class="o">=</span> <span class="o">.</span><span class="n">rear</span>
+        <span class="p">}</span>
+
+        <span class="k">switch</span> <span class="n">currentCameraPosition</span> <span class="p">{</span>
+        <span class="k">case</span> <span class="o">.</span><span class="nv">front</span><span class="p">:</span>
+            <span class="k">try</span> <span class="nf">switchToRearCamera</span><span class="p">()</span>
+        <span class="k">case</span> <span class="o">.</span><span class="nv">rear</span><span class="p">:</span>
+            <span class="k">try</span> <span class="nf">switchToFrontCamera</span><span class="p">()</span>
+        <span class="p">}</span>
+
+        <span class="n">captureSession</span><span class="o">.</span><span class="nf">commitConfiguration</span><span class="p">()</span>
+    <span class="p">}</span>
+
+<span class="p">}</span>
+
+
+<span class="kd">extension</span> <span class="kt">CameraController</span><span class="p">:</span> <span class="kt">AVCapturePhotoCaptureDelegate</span> <span class="p">{</span>
+
+    <span class="kd">func</span> <span class="nf">photoOutput</span><span class="p">(</span><span class="n">_</span> <span class="nv">output</span><span class="p">:</span> <span class="kt">AVCapturePhotoOutput</span><span class="p">,</span> <span class="n">didFinishProcessingPhoto</span> <span class="nv">photo</span><span class="p">:</span> <span class="kt">AVCapturePhoto</span><span class="p">,</span> <span class="nv">error</span><span class="p">:</span> <span class="kt">Error</span><span class="p">?)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="k">let</span> <span class="nv">error</span> <span class="o">=</span> <span class="n">error</span><span class="p">{</span>
+            <span class="k">self</span><span class="o">.</span><span class="nf">photoCaptureCompletionBlock</span><span class="p">?(</span><span class="kc">nil</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="k">let</span> <span class="nv">data</span> <span class="o">=</span> <span class="n">photo</span><span class="o">.</span><span class="nf">fileDataRepresentation</span><span class="p">(),</span>
+            <span class="k">let</span> <span class="nv">image</span> <span class="o">=</span> <span class="kt">UIImage</span><span class="p">(</span><span class="nv">data</span><span class="p">:</span> <span class="n">data</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">self</span><span class="o">.</span><span class="nf">photoCaptureCompletionBlock</span><span class="p">?(</span><span class="n">image</span><span class="p">,</span> <span class="kc">nil</span><span class="p">)</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="k">self</span><span class="o">.</span><span class="nf">photoCaptureCompletionBlock</span><span class="p">?(</span><span class="kc">nil</span><span class="p">,</span> <span class="kt">CameraControllerError</span><span class="o">.</span><span class="n">unknown</span><span class="p">)</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+<span class="p">}</span>
+
+<span class="kd">enum</span> <span class="kt">CameraControllerError</span><span class="p">:</span> <span class="kt">Swift</span><span class="o">.</span><span class="kt">Error</span> <span class="p">{</span>
+
+    <span class="k">case</span> <span class="n">captureSessionAlreadyRunning</span>
+    <span class="k">case</span> <span class="n">captureSessionIsMissing</span>
+    <span class="k">case</span> <span class="n">inputsAreInvalid</span>
+    <span class="k">case</span> <span class="n">invalidOperation</span>
+    <span class="k">case</span> <span class="n">noCamerasAvailable</span>
+    <span class="k">case</span> <span class="n">unknown</span>
+
+<span class="p">}</span>
+
+<span class="kd">public</span> <span class="kd">enum</span> <span class="kt">CameraPosition</span> <span class="p">{</span>
+
+    <span class="k">case</span> <span class="n">front</span>
+    <span class="k">case</span> <span class="n">rear</span>
+
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="make-a-protocol-for-accessing-the-camera">Make a Protocol for Accessing the Camera</h2>
+
+<p>I found this controller to be extremely helpful, but when running the app in
+the Simulator, it throws a <code class="language-plaintext highlighter-rouge">CameraControllerError.noCamerasAvailable</code> and your
+app has to be able to deal with not having access to a camera. If taking photos
+is integral to your app, like it is mine, that won’t do. To save yourself from
+needing to test in an actual device all the time, turn the <code class="language-plaintext highlighter-rouge">CameraController</code>
+class into a protocol:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">protocol</span> <span class="kt">CameraController</span> <span class="p">{</span>
+
+    <span class="kd">func</span> <span class="nf">prepare</span><span class="p">(</span><span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Error</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span>
+
+    <span class="kd">func</span> <span class="nf">captureImage</span><span class="p">(</span><span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">UIImage</span><span class="p">?,</span> <span class="kt">Error</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span>
+
+    <span class="kd">func</span> <span class="nf">displayPreview</span><span class="p">(</span><span class="n">on</span> <span class="nv">view</span><span class="p">:</span> <span class="kt">UIView</span><span class="p">)</span> <span class="k">throws</span>
+
+    <span class="kd">func</span> <span class="nf">switchCameras</span><span class="p">()</span> <span class="k">throws</span>
+
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Rename your former <code class="language-plaintext highlighter-rouge">CameraController</code> class to <code class="language-plaintext highlighter-rouge">RealCameraController</code>:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="kt">RealCameraController</span><span class="p">:</span> <span class="kt">NSObject</span><span class="p">,</span> <span class="kt">CameraController</span> <span class="p">{</span>
+
+  <span class="c1">// ...</span>
+
+<span class="p">}</span>
+
+<span class="kd">extension</span> <span class="kt">RealCameraController</span><span class="p">:</span> <span class="kt">AVCapturePhotoCaptureDelegate</span> <span class="p">{</span>
+
+  <span class="c1">// ...</span>
+
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="making-a-fake-implementation-of-the-camera-controller">Making a Fake Implementation of the Camera Controller</h2>
+
+<p>Now that you have that done, you can fake out the protocol using some static
+images to simulate the from and back cameras. Add two photos to your
+Assets.xcassets and call them “Front Camera” and “Back Camera.” Note that you
+probably want the dimensions of these images to match whatever dimensions you
+expect the camera to produce.</p>
+
+<p><img src="/images/mocking-the-isight-camera-in-the-ios-simulator/adding-mock-camera-images.png" alt="Fake camera mock photos" /></p>
+
+<p>Implement a <code class="language-plaintext highlighter-rouge">MockCameraController</code> that conforms to the <code class="language-plaintext highlighter-rouge">CameraController</code>
+protocol, making it use those two images in lieu of the actual camera.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="kt">MockCameraController</span><span class="p">:</span> <span class="kt">NSObject</span><span class="p">,</span> <span class="kt">CameraController</span> <span class="p">{</span>
+
+    <span class="k">var</span> <span class="nv">frontImage</span> <span class="o">=</span> <span class="kt">UIImage</span><span class="p">(</span><span class="nv">named</span><span class="p">:</span> <span class="s">"Front Camera"</span><span class="p">)</span><span class="o">!</span>
+    <span class="k">var</span> <span class="nv">rearImage</span> <span class="o">=</span> <span class="kt">UIImage</span><span class="p">(</span><span class="nv">named</span><span class="p">:</span> <span class="s">"Rear Camera"</span><span class="p">)</span><span class="o">!</span>
+    <span class="k">var</span> <span class="nv">cameraPosition</span> <span class="o">=</span> <span class="kt">CameraPosition</span><span class="o">.</span><span class="n">rear</span>
+    <span class="k">var</span> <span class="nv">previewLayer</span> <span class="o">=</span> <span class="kt">CALayer</span><span class="p">()</span>
+
+    <span class="kd">func</span> <span class="nf">prepare</span><span class="p">(</span><span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Error</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nf">setPreviewFrame</span><span class="p">(</span><span class="nv">image</span><span class="p">:</span> <span class="k">self</span><span class="o">.</span><span class="n">rearImage</span><span class="p">)</span>
+        <span class="nf">completionHandler</span><span class="p">(</span><span class="kc">nil</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="kd">func</span> <span class="nf">captureImage</span><span class="p">(</span><span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">UIImage</span><span class="p">?,</span> <span class="kt">Error</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="k">self</span><span class="o">.</span><span class="n">cameraPosition</span> <span class="o">==</span> <span class="kt">CameraPosition</span><span class="o">.</span><span class="n">rear</span> <span class="p">{</span>
+            <span class="nf">completion</span><span class="p">(</span><span class="k">self</span><span class="o">.</span><span class="n">rearImage</span><span class="p">,</span> <span class="kc">nil</span><span class="p">)</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="nf">completion</span><span class="p">(</span><span class="k">self</span><span class="o">.</span><span class="n">frontImage</span><span class="p">,</span> <span class="kc">nil</span><span class="p">)</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="kd">func</span> <span class="nf">displayPreview</span><span class="p">(</span><span class="n">on</span> <span class="nv">view</span><span class="p">:</span> <span class="kt">UIView</span><span class="p">)</span> <span class="k">throws</span> <span class="p">{</span>
+        <span class="k">self</span><span class="o">.</span><span class="n">previewLayer</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="n">view</span><span class="o">.</span><span class="n">bounds</span>
+        <span class="n">view</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="nf">insertSublayer</span><span class="p">(</span><span class="k">self</span><span class="o">.</span><span class="n">previewLayer</span><span class="p">,</span> <span class="nv">at</span><span class="p">:</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="kd">func</span> <span class="nf">switchCameras</span><span class="p">()</span> <span class="k">throws</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="k">self</span><span class="o">.</span><span class="n">cameraPosition</span> <span class="o">==</span> <span class="kt">CameraPosition</span><span class="o">.</span><span class="n">rear</span> <span class="p">{</span>
+            <span class="k">self</span><span class="o">.</span><span class="n">cameraPosition</span> <span class="o">=</span> <span class="kt">CameraPosition</span><span class="o">.</span><span class="n">front</span>
+            <span class="nf">setPreviewFrame</span><span class="p">(</span><span class="nv">image</span><span class="p">:</span> <span class="k">self</span><span class="o">.</span><span class="n">frontImage</span><span class="p">)</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="k">self</span><span class="o">.</span><span class="n">cameraPosition</span> <span class="o">=</span> <span class="kt">CameraPosition</span><span class="o">.</span><span class="n">rear</span>
+            <span class="nf">setPreviewFrame</span><span class="p">(</span><span class="nv">image</span><span class="p">:</span> <span class="k">self</span><span class="o">.</span><span class="n">rearImage</span><span class="p">)</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="kd">private</span> <span class="kd">func</span> <span class="nf">setPreviewFrame</span><span class="p">(</span><span class="nv">image</span><span class="p">:</span> <span class="kt">UIImage</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">self</span><span class="o">.</span><span class="n">previewLayer</span><span class="o">.</span><span class="n">contents</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">cgImage</span><span class="o">!</span>
+    <span class="p">}</span>
+
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>What this <code class="language-plaintext highlighter-rouge">MockCameraController</code> does is pretty simple:</p>
+
+<ul>
+  <li>Keeps track of which camera is selected (front or back)</li>
+  <li>Provides the selected camera’s stand-in image when you call <code class="language-plaintext highlighter-rouge">captureImage</code></li>
+  <li>Creates a <code class="language-plaintext highlighter-rouge">CALayer</code>, inserts it into the preview view’s <code class="language-plaintext highlighter-rouge">layer</code>, and then
+draws the appropriate image onto it whenever you switch cameras.</li>
+</ul>
+
+<h2 id="tying-it-all-together">Tying it all Together</h2>
+
+<p>The last thing we need is to be able tell when to use the
+<code class="language-plaintext highlighter-rouge">RealCameraController</code> and when to use the <code class="language-plaintext highlighter-rouge">MockCameraController</code>. Create a
+<code class="language-plaintext highlighter-rouge">Platform</code> struct to encapsulate this logic:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">import</span> <span class="kt">Foundation</span>
+
+<span class="kd">struct</span> <span class="kt">Platform</span> <span class="p">{</span>
+
+    <span class="kd">static</span> <span class="k">var</span> <span class="nv">isSimulator</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="kt">TARGET_OS_SIMULATOR</span> <span class="o">!=</span> <span class="mi">0</span>
+    <span class="p">}</span>
+
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>To use this in a view controller check to see if <code class="language-plaintext highlighter-rouge">isSimulator</code> is true and use
+the appropriate implementation of <code class="language-plaintext highlighter-rouge">CameraController</code>:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="kt">ViewController</span><span class="p">:</span> <span class="kt">UIViewController</span> <span class="p">{</span>
+
+    <span class="k">let</span> <span class="nv">cameraController</span><span class="p">:</span> <span class="kt">CameraController</span> <span class="o">=</span> <span class="kt">Platform</span><span class="o">.</span><span class="n">isSimulator</span> <span class="p">?</span> <span class="kt">MockCameraController</span><span class="p">()</span> <span class="p">:</span> <span class="kt">RealCameraController</span><span class="p">()</span>
+
+    <span class="kd">@IBOutlet</span> <span class="k">weak</span> <span class="k">var</span> <span class="nv">previewView</span><span class="p">:</span> <span class="kt">UIView</span><span class="o">!</span>
+    <span class="kd">@IBOutlet</span> <span class="k">weak</span> <span class="k">var</span> <span class="nv">previewCanvas</span><span class="p">:</span> <span class="kt">UIView</span><span class="o">!</span>
+    <span class="kd">@IBOutlet</span> <span class="k">weak</span> <span class="k">var</span> <span class="nv">captureView</span><span class="p">:</span> <span class="kt">UIView</span><span class="o">!</span>
+    <span class="kd">@IBOutlet</span> <span class="k">weak</span> <span class="k">var</span> <span class="nv">captureImage</span><span class="p">:</span> <span class="kt">UIImageView</span><span class="o">!</span>
+
+    <span class="kd">@IBAction</span> <span class="kd">func</span> <span class="nf">discardCapture</span><span class="p">(</span><span class="n">_</span> <span class="nv">sender</span><span class="p">:</span> <span class="kt">Any</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">self</span><span class="o">.</span><span class="n">captureImage</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="kc">nil</span>
+        <span class="k">self</span><span class="o">.</span><span class="n">captureView</span><span class="o">.</span><span class="n">isHidden</span> <span class="o">=</span> <span class="kc">true</span>
+        <span class="k">self</span><span class="o">.</span><span class="n">previewView</span><span class="o">.</span><span class="n">isHidden</span> <span class="o">=</span> <span class="kc">false</span>
+    <span class="p">}</span>
+
+    <span class="kd">@IBAction</span> <span class="kd">func</span> <span class="nf">snapPhoto</span><span class="p">(</span><span class="n">_</span> <span class="nv">sender</span><span class="p">:</span> <span class="kt">Any</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">self</span><span class="o">.</span><span class="n">cameraController</span><span class="o">.</span><span class="nf">captureImage</span><span class="p">()</span> <span class="p">{</span> <span class="n">image</span><span class="p">,</span> <span class="n">error</span> <span class="k">in</span>
+            <span class="k">guard</span> <span class="k">let</span> <span class="nv">image</span> <span class="o">=</span> <span class="n">image</span> <span class="k">else</span> <span class="p">{</span>
+                <span class="nf">debugPrint</span><span class="p">(</span><span class="s">"Couldn't capture image: </span><span class="se">\(</span><span class="n">error</span><span class="o">!</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
+                <span class="k">return</span>
+            <span class="p">}</span>
+            <span class="k">self</span><span class="o">.</span><span class="n">captureImage</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">image</span>
+            <span class="k">self</span><span class="o">.</span><span class="n">captureView</span><span class="o">.</span><span class="n">isHidden</span> <span class="o">=</span> <span class="kc">false</span>
+            <span class="k">self</span><span class="o">.</span><span class="n">previewView</span><span class="o">.</span><span class="n">isHidden</span> <span class="o">=</span> <span class="kc">true</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="kd">@IBAction</span> <span class="kd">func</span> <span class="nf">switchCameras</span><span class="p">(</span><span class="n">_</span> <span class="nv">sender</span><span class="p">:</span> <span class="kt">Any</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">do</span> <span class="p">{</span>
+            <span class="k">try</span> <span class="k">self</span><span class="o">.</span><span class="n">cameraController</span><span class="o">.</span><span class="nf">switchCameras</span><span class="p">()</span>
+        <span class="p">}</span> <span class="k">catch</span> <span class="p">{</span>
+            <span class="nf">debugPrint</span><span class="p">(</span><span class="s">"Failed to switch cameras: </span><span class="se">\(</span><span class="n">error</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="k">override</span> <span class="kd">func</span> <span class="nf">viewDidLoad</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">super</span><span class="o">.</span><span class="nf">viewDidLoad</span><span class="p">()</span>
+
+        <span class="k">self</span><span class="o">.</span><span class="n">cameraController</span><span class="o">.</span><span class="n">prepare</span> <span class="p">{(</span><span class="n">error</span><span class="p">)</span> <span class="k">in</span>
+            <span class="k">if</span> <span class="k">let</span> <span class="nv">error</span> <span class="o">=</span> <span class="n">error</span> <span class="p">{</span>
+                <span class="nf">debugPrint</span><span class="p">(</span><span class="s">"Failed to start CameraController: </span><span class="se">\(</span><span class="n">error</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
+            <span class="p">}</span>
+
+            <span class="k">do</span> <span class="p">{</span>
+                <span class="k">try</span> <span class="k">self</span><span class="o">.</span><span class="n">cameraController</span><span class="o">.</span><span class="nf">displayPreview</span><span class="p">(</span><span class="nv">on</span><span class="p">:</span> <span class="k">self</span><span class="o">.</span><span class="n">previewCanvas</span><span class="p">)</span>
+            <span class="p">}</span> <span class="k">catch</span> <span class="p">{</span>
+                <span class="nf">debugPrint</span><span class="p">(</span><span class="s">"Couldn't preview camera: </span><span class="se">\(</span><span class="n">error</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>If you did everything right, you should be able to run your app in the
+Simulator and in your camera UI, you’ll see the mock photo. If you
+<code class="language-plaintext highlighter-rouge">captureImage</code>, your callback should be called with a <code class="language-plaintext highlighter-rouge">UIImage</code>, just like it
+would on a real device.</p>
+
+<p><img src="/images/mocking-the-isight-camera-in-the-ios-simulator/ios-simulator-simulating-isight-camera.png" alt="iPhone Simulator simulating the iSight camera" /></p>
+
+<p>If you found this helpful or have feedback, leave a comment or <a href="https://twitter.com/zacstewart">get in touch
+with me on Twitter</a>. Thanks for reading!</p>
+
+
+  <footer>
+    <aside class="short-bio">
+  <div class="columns alpha two">
+    <img src="http://gravatar.com/avatar/c5e99d5ecfaab30b92d9a7cdb34e0e33?s=64" alt="Zac Stewart" id="avatar">
+  </div>
+  <div class="columns omega eight">
+    <p>
+      I'm a software engineer interested in machine learning, web backends,
+      system software, realtime systems, and much more. I'm looking for
+      consulting work.
+    </p>
+
+    <p>
+      Have an interesting problem? <a href="mailto:work@zacstewart.com?subject=Work">I’d love to hear from you.</a>
+    </p>
+  </div>
+</aside>
+
+  </footer>
+</article>
+
+      </div>
+    </div>
+  </body>
+</html>

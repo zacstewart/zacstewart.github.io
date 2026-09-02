@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!-- open graph tags -->
+<meta content="" property="og:site_name">
+
+  <meta content="The HTTP OPTIONS method and potential for self-describing RESTful APIs" property="og:title">
+
+
+  <meta content="article" property="og:type">
+
+
+  <meta content="The OPTIONS method is a somewhat obscure part of the HTTP standard that could be used today with a strong impact on the interconnectedness of the interwebs while requiring minimal effort. It’s role is well defined in RFC2616, yet no web services that I can find are taking advantage of it." property="og:description">
+
+
+  <meta content="http://zacstewart.com/2012/04/14/http-options-method.html" property="og:url">
+
+
+  <meta content="2012-04-14T00:00:00+00:00" property="article:published_time">
+
+
+
+  
+
+
+  
+
+
+
+    <title>The HTTP OPTIONS method and potential for self-describing RESTful APIs</title>
+
+    <link rel="alternate" type="application/rss+xml" title="Zac Stewart" href="http://zacstewart.com/feed.xml">
+
+    <link rel="stylesheet" href="/css/base.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="/css/skeleton.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="/css/tables.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="/css/pygment.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="/css/layout.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="/css/components.css" type="text/css" media="screen, projection">
+
+    <script data-goatcounter="https://zacstewart.goatcounter.com/count"
+      async src="//gc.zgo.at/count.js"></script>
+    <noscript>
+      <img src="https://zacstewart.goatcounter.com/count?p=/2012/04/14/http-options-method.html">
+    </noscript>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="sixteen columns">
+        <h1 id="logo" class="remove-bottom">
+          <a href="/">The HTTP OPTIONS method and potential for self-describing RESTful APIs</a>
+        </h1>
+
+        <nav>
+        </nav>
+      </div>
+
+      <div class="sixteen columns">
+        <article>
+  <header>
+    <h2>The HTTP OPTIONS method and potential for self-describing RESTful APIs</h2>
+  </header>
+  <hr>
+  <p>The OPTIONS method is a somewhat obscure part of the HTTP standard that could be used today with a strong impact on the interconnectedness of the interwebs while requiring minimal effort. It’s role is well defined in <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html">RFC2616</a>, yet no web services that I can find are taking advantage of it.</p>
+
+<h1 id="what-is-the-http-options-method">What is the HTTP OPTIONS method?</h1>
+
+<p>To quote the spec:</p>
+
+<blockquote>
+  <p>This method allows the client to determine the options and/or requirements associated with a resource, or the capabilities of a server, without implying a resource action or initiating a resource retrieval.</p>
+</blockquote>
+
+<p>Minimally, the response should be a <code class="language-plaintext highlighter-rouge">200 OK</code> and have an <code class="language-plaintext highlighter-rouge">Allow</code> header with a list of HTTP methods that may be used on this resource. As an authorized user on an API, if you were to request <code class="language-plaintext highlighter-rouge">OPTIONS /users/me</code>, you should receive something like…</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>200 OK
+Allow: HEAD,GET,PUT,DELETE,OPTIONS
+</code></pre></div></div>
+
+<h1 id="almost-no-one-uses-it">(Almost) no one uses it</h1>
+
+<p>I’ve tested quite a few sites and APIs and so far, the only resources I’ve found that respond properly are default Apache pages. Specifically, directory indices. If you try it on apache.org/dist/httpd, for example, you’ll get a response like this:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>...
+Server: Apache/2.4.1 (Unix) OpenSSL/1.0.0g
+Allow: GET,HEAD,POST,OPTIONS,TRACE
+Content-Type: httpd/unix-directory
+...
+</code></pre></div></div>
+
+<p>GitHub responds with a 500, Reddit with <code class="language-plaintext highlighter-rouge">501 Not Implemented</code>, Google maps with <code class="language-plaintext highlighter-rouge">405 Method Not Allowed</code>. You get the idea. I’ve tried many others, and the results are usually similar. Sometimes it yields something identical to a GET response. None of these are right.</p>
+
+<p>GitHub (to pick on someone specific. Not because I don’t love you!) could be using this to tell me what I am allowed to do with each resource exposed by their endpoints. And before you tell me “meh, it’s just a list of HTTP verbs you can use on a resource. Who cares?” let me throw some more of the RFC your way.</p>
+
+<h1 id="the-response-body-and-api-documentation">The response body and API documentation</h1>
+
+<blockquote>
+  <p>The response body, if any, SHOULD also include information about the communication options. The format for such a body is not defined by this specification, but might be defined by future extensions to HTTP.</p>
+</blockquote>
+
+<p>It could be an HTML page with documentation, but that’s sort of unpractical because users don’t click the “get options” button in their browsers before visiting a page. Machines may though.</p>
+
+<p>APIs should be taking advantage of this. There are many benefits to be gained from producing machine readable docs at every endpoint. It would be a boon for automatic client generation for web services. Communication between web services could be much more resilient if they had a codified way to check their abilities against each other.</p>
+
+<p>At the very least, services should be responding with a 200 and the Allow header. That’s just correct web server behavior. But there’s really no excuse for JSON APIs not to be returning a documentation object. To use GitHub as example again, on the issues endpoint, a request like <code class="language-plaintext highlighter-rouge">OPTIONS /repos/:user/:repo/issues</code> should respond with a body like…</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"POST"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Create an issue"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"parameters"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"title"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
+        </span><span class="nl">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Issue title."</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"required"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="nl">"body"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Issue body."</span><span class="p">,</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="nl">"assignee"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"description"</span><span class="w"> </span><span class="s2">"Login for the user that this issue should be assigned to."</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="nl">"milestone"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"number"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Milestone to associate this issue with."</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="nl">"labels"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"array/string"</span><span class="w">
+        </span><span class="nl">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Labels to associate with this issue."</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nl">"example"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Found a bug"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"body"</span><span class="p">:</span><span class="w"> </span><span class="s2">"I'm having a problem with this."</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"assignee"</span><span class="p">:</span><span class="w"> </span><span class="s2">"octocat"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"milestone"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"labels"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="s2">"Label1"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"Label2"</span><span class="w">
+      </span><span class="p">]</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Of course, it’d show more than just the paramters for the POST method. I’d like to see a standardized format for documentation like this, but developing that is not the point of this post.</p>
+
+<h1 id="advancing-our-tools">Advancing our tools</h1>
+<p>I’m currently working on a small, one page Sinatra, MongoDB, Backbone.js app. Every endpoint will respond to the OPTIONS method. As I go, I’m extracting it into a gem to make self-explaining Sinatra APIs easy. I’d like to participate in disucssion about this being added to Rails routing. At least responding with a proper Allow header would be a start. I’m also interested in exploring the automatically generated client idea via Backbone apps.</p>
+
+<p>In the mean time, I just want to get the discussion started because I think there’s a lot of potential here and I’m surprised that no one has tapped into it yet. As <a href="http://amzn.to/ZYpK2B" title="RESTful Web Services"><em>RESTful Web Services</em></a> puts it, “OPTIONS is a promising idea that nobody uses.”</p>
+
+
+  <footer>
+    <aside class="short-bio">
+  <div class="columns alpha two">
+    <img src="http://gravatar.com/avatar/c5e99d5ecfaab30b92d9a7cdb34e0e33?s=64" alt="Zac Stewart" id="avatar">
+  </div>
+  <div class="columns omega eight">
+    <p>
+      I'm a software engineer interested in machine learning, web backends,
+      system software, realtime systems, and much more. I'm looking for
+      consulting work.
+    </p>
+
+    <p>
+      Have an interesting problem? <a href="mailto:work@zacstewart.com?subject=Work">I’d love to hear from you.</a>
+    </p>
+  </div>
+</aside>
+
+  </footer>
+</article>
+
+      </div>
+    </div>
+  </body>
+</html>
